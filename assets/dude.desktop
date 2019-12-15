@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=dude
+Comment=d unique desktop manager
+Exec=/usr/bin/dude session
+TryExec=i3
+Type=Application
+X-LightDM-DesktopName=dude
+DesktopNames=dude

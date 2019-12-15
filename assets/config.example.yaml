@@ -1,0 +1,12 @@
+display:
+  wallpapers_dir: .config/dude/wallpapers/
+  compton_conf: .config/dude/compton.conf # ?
+  screensaver:
+    lock: /usr/bin/xsecurelock
+    delay_secs: 300
+  monitors:
+    - a
+terminal:
+  font: Source Code Pro
+  size: 12
+
