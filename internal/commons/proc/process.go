@@ -2,74 +2,58 @@ package proc
 
 import (
 	"errors"
+	"fmt"
 	"github.com/google/logger"
 	"os/exec"
 )
 
-type ProcState string
+type State string
 
 const (
-	NotStarted ProcState = "not_started"
-	Running    ProcState = "running"
-	Success    ProcState = "success"
-	Failed     ProcState = "failed"
+	NotStarted State = "not_started"
+	Running    State = "running"
+	Success    State = "success"
+	Failed     State = "failed"
 )
 
 type Process struct {
-	cmd           string
-	args          []string
-	goCmd         *exec.Cmd
-	output        string
-	processEndChn chan ProcState
-	state         ProcState
+	cmd   string
+	args  []string
+	goCmd *exec.Cmd
+	state State
 }
 
 func NewProcess(cmd string, args ...string) *Process {
 	return &Process{
-		cmd:           cmd,
-		args:          args,
-		goCmd:         nil,
-		output:        "",
-		state:         NotStarted,
-		processEndChn: make(chan ProcState),
+		cmd:   cmd,
+		args:  args,
+		goCmd: nil,
+		state: NotStarted,
 	}
 }
 
-func (p *Process) supervisor() {
-	logger.Infof("Starting process %s %s", p.cmd, p.args)
-	output, err := p.goCmd.CombinedOutput()
-	if err != nil {
-		logger.Errorf("Process %s %s failed: %v", p.cmd, p.args, err)
-		p.state = Failed
-	} else {
-		logger.Infof("Process %s %s ended successfully: %s", p.cmd, p.args, output)
-		p.state = Success
-	}
-	p.output = string(output)
-	p.goCmd = nil
-	p.processEndChn <- p.state
-}
-
-func (p *Process) fireWithSupervisor() error {
-	if p.state != NotStarted {
-		return errors.New("process is already started")
-	}
-	p.state = Running
-	p.goCmd = exec.Command(p.cmd, p.args...)
-	go p.supervisor()
-	return nil
-}
-
-func (p *Process) State() ProcState {
+func (p *Process) State() State {
 	return p.state
 }
 
-func (p *Process) FireAndForget() error {
-	if p.state != NotStarted {
-		return errors.New("process is already started")
+func (p *Process) updateState(newState State) {
+	p.state = newState
+}
+
+func (p *Process) Stop() {
+	if p.State() == Running {
+		if err := p.goCmd.Process.Kill(); err != nil {
+			logger.Errorf("Error killing process %: %v", p.cmd, err)
+		}
 	}
-	p.state = Running
+}
+
+func (p *Process) FireAndForget() error {
+	if p.State() != NotStarted {
+		return errors.New(fmt.Sprintf("Process %s is already started", p.cmd))
+	}
 	p.goCmd = exec.Command(p.cmd, p.args...)
+	p.updateState(Running)
 	return p.goCmd.Start()
 }
 
@@ -79,32 +63,21 @@ func (p *Process) FireAndWait() error {
 }
 
 func (p *Process) FireAndWaitForOutput() (string, error) {
-	if p.state == NotStarted {
-		if err := p.fireWithSupervisor(); err != nil {
-			return "", err
-		}
-	}
-
-	if  p.state == Running {
-		logger.Infof("Waiting process result of %s %s", p.cmd, p.args)
-		<-p.processEndChn
-	}
-
-	if p.state == Success {
-		return p.output, nil
+	if p.State() == Running {
+		logger.Errorf("Process %s is already running", p.cmd)
+		return "", errors.New(fmt.Sprintf("process %s is already running", p.cmd))
 	} else {
-		return p.output, errors.New("process ended with an error")
-	}
-}
-
-func (p *Process) FireAndKeepAlive(maxRestarts int) error {
-	if maxRestarts == 0 {
-		return errors.New("max number of restarted reached")
-	} else if p.state != Running {
-		_ = p.fireWithSupervisor()
+		p.goCmd = exec.Command(p.cmd, p.args...)
+		p.updateState(Running)
 	}
 
-	state := <-p.processEndChn
-	logger.Infof("Process ended with state %v, trying to restart", state)
-	return p.FireAndKeepAlive(maxRestarts - 1)
+	output, err := p.goCmd.CombinedOutput()
+	if err != nil {
+		p.updateState(Failed)
+	} else {
+		p.updateState(Success)
+	}
+
+	p.goCmd = nil
+	return string(output), err
 }

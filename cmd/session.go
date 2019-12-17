@@ -4,21 +4,29 @@ import (
 	"github.com/daniloqueiroz/dude/internal"
 	"github.com/daniloqueiroz/dude/internal/commons/proc"
 	"github.com/daniloqueiroz/dude/internal/commons/system"
+	"github.com/google/logger"
 	"github.com/spf13/cobra"
+	"syscall"
+	"time"
 )
 
 var sessionCmd = &cobra.Command{
 	Use:   "session",
 	Short: "initialize DE session",
 	Run: func(cmd *cobra.Command, args []string) {
-		internal.StartCompositor()
+		wd := proc.NewWatchdog()
+		internal.StartCompositor(wd)
+		internal.StartScreensaver(wd)
+		internal.StartPolkit(wd)
 		internal.SetWallpaper()
-		internal.StartScreensaver()
-		internal.StartPolkit()
 		internal.AutostartApps()
-		proc.DaemonExec("powerd")
-		proc.DaemonExec("trackerd")
+		proc.DaemonExec(wd, "powerd")
+		proc.DaemonExec(wd, "trackerd")
 		system.SimpleNotification("Session started").Show()
-		select { }
+
+		wd.Start(syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
+		time.Sleep(1 * time.Second)
+		logger.Info("Session ended")
+		// TODO IPC -> processes status
 	},
 }

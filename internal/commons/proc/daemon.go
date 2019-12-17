@@ -7,16 +7,14 @@ import (
 	"syscall"
 )
 
-func DaemonExec(name string) {
+func DaemonExec(wd *Watchdog, name string) {
 	dudePath, err := getExecutablePath()
 	if err != nil {
 		logger.Fatal("Unable to locate dude binary", err)
 	}
-	logger.Info("Launching dude daemon %s", name)
-	process := NewProcess(dudePath, "daemon", name)
-	if err := process.FireAndKeepAlive(100); err != nil {
-		logger.Errorf("Daemon %s has died: %v", name, err)
-	}
+	logger.Infof("Launching dude daemon %s", name)
+	cmd := NewProcess(dudePath, "daemon", name)
+	wd.Supervise(cmd)
 }
 
 func getExecutablePath() (string, error) {

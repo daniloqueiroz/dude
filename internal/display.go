@@ -6,24 +6,20 @@ import (
 	"github.com/BurntSushi/xgb/randr"
 	"github.com/BurntSushi/xgb/xproto"
 	"github.com/daniloqueiroz/dude/internal/commons"
-	proc2 "github.com/daniloqueiroz/dude/internal/commons/proc"
+	"github.com/daniloqueiroz/dude/internal/commons/proc"
 	"github.com/google/logger"
 )
 
 func SetWallpaper() {
-	logger.Info("Starting feh wallpapers")
-	proc := proc2.NewProcess(commons.Config.AppFeh, "--bg-fill", "--randomize", "/home/danilo/.config/i3/wallpapers")
-	if err := proc.FireAndKeepAlive(100); err != nil {
-		logger.Errorf("Wallpaper has died: %v", err)
-	}
+	logger.Info("Starting feh wallpaper")
+	cmd := proc.NewProcess(commons.Config.AppFeh, "--bg-fill", "--randomize", "/home/danilo/.config/i3/wallpapers")
+	cmd.FireAndForget()
 }
 
-func StartCompositor() {
+func StartCompositor(wd *proc.Watchdog) {
 	logger.Info("Starting compton compositor")
-	proc := proc2.NewProcess(commons.Config.AppCompton, "-b", "-d", ":0")
-	if err := proc.FireAndKeepAlive(100); err != nil {
-		logger.Errorf("Compositor has died: %v", err)
-	}
+	cmd := proc.NewProcess(commons.Config.AppCompton, "-d", ":0")
+	wd.Supervise(cmd)
 }
 
 func ConnectedOutputs() {
