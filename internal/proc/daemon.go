@@ -2,12 +2,57 @@ package proc
 
 import (
 	"bytes"
+	"errors"
 	"github.com/google/logger"
 	"os"
+	"os/signal"
+	"sync"
 	"syscall"
 )
 
-func DaemonExec(wd *Watchdog, name string) {
+type Daemon interface {
+	Start(signals ...os.Signal) error
+}
+
+type simpled struct {
+	sigChn  chan os.Signal
+	started bool
+	barrier *sync.WaitGroup
+	fn func()
+}
+
+func NewDaemon(fn func()) *simpled {
+	var wg sync.WaitGroup
+	return &simpled{
+		sigChn:  make(chan os.Signal),
+		started: false,
+		barrier: &wg,
+		fn: fn,
+	}
+}
+
+func (d *simpled) Start(signals ...os.Signal) error {
+	if d.started {
+		return errors.New("Daemon is already started")
+	}
+
+	signal.Notify(d.sigChn, signals...)
+	d.barrier.Add(1)
+	d.started = true
+
+	go d.sigHandler()
+	go d.fn()
+	d.barrier.Wait()
+	return nil
+}
+
+func (d *simpled) sigHandler() {
+	sig := <- d.sigChn
+	logger.Infof("Signal %s received, shutting down daemon", sig)
+	d.barrier.Done()
+}
+
+func LaunchDaemon(wd *Watchdog, name string) {
 	dudePath, err := getExecutablePath()
 	if err != nil {
 		logger.Fatal("Unable to locate dude binary", err)

@@ -17,8 +17,8 @@ func Sessiond() {
 	pkg.StartPolkit(wd)
 	pkg.SetWallpaper()
 	pkg.AutostartApps()
-	proc.DaemonExec(wd, "powerd")
-	proc.DaemonExec(wd, "trackerd")
+	proc.LaunchDaemon(wd, "powerd")
+	proc.LaunchDaemon(wd, "trackerd")
 	system.SimpleNotification("Session started").Show()
 
 	wd.Start(syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)

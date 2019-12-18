@@ -2,14 +2,21 @@ package daemons
 
 import (
 	"github.com/daniloqueiroz/dude/internal"
+	"github.com/daniloqueiroz/dude/internal/proc"
 	"github.com/daniloqueiroz/dude/internal/system"
 	"github.com/daniloqueiroz/dude/pkg"
 	"github.com/google/logger"
+	"syscall"
 	"time"
 )
 
 func Powerd() {
-	logger.Info("powerd is running")
+	daemon := proc.NewDaemon(monitorBattery)
+	daemon.Start(syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
+}
+
+func monitorBattery() {
+	logger.Info("Powerd is running")
 	var notifiedLow = false
 	var stateChanged = false
 	var state = pkg.CheckBattery()
