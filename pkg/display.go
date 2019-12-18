@@ -1,24 +1,24 @@
-package internal
+package pkg
 
 import (
 	"fmt"
 	"github.com/BurntSushi/xgb"
 	"github.com/BurntSushi/xgb/randr"
 	"github.com/BurntSushi/xgb/xproto"
-	"github.com/daniloqueiroz/dude/internal/commons"
-	"github.com/daniloqueiroz/dude/internal/commons/proc"
+	"github.com/daniloqueiroz/dude/internal"
+	"github.com/daniloqueiroz/dude/internal/proc"
 	"github.com/google/logger"
 )
 
 func SetWallpaper() {
 	logger.Info("Starting feh wallpaper")
-	cmd := proc.NewProcess(commons.Config.AppFeh, "--bg-fill", "--randomize", "/home/danilo/.config/i3/wallpapers")
+	cmd := proc.NewProcess(internal.Config.AppFeh, "--bg-fill", "--randomize", "/home/danilo/.config/i3/wallpapers")
 	cmd.FireAndForget()
 }
 
 func StartCompositor(wd *proc.Watchdog) {
 	logger.Info("Starting compton compositor")
-	cmd := proc.NewProcess(commons.Config.AppCompton, "-d", ":0")
+	cmd := proc.NewProcess(internal.Config.AppCompton, "-d", ":0")
 	wd.Supervise(cmd)
 }
 

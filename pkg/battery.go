@@ -1,7 +1,7 @@
-package internal
+package pkg
 
 import (
-	"github.com/daniloqueiroz/dude/internal/commons/system"
+	"github.com/daniloqueiroz/dude/internal/system"
 	"math"
 )
 

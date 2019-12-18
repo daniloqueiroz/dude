@@ -1,7 +1,7 @@
 package system
 
 import (
-	"github.com/daniloqueiroz/dude/internal/commons"
+	"github.com/daniloqueiroz/dude/internal"
 	"github.com/godbus/dbus"
 	"github.com/google/logger"
 )
@@ -37,7 +37,7 @@ func SimpleNotification(message string) NotificationEvent {
 	notification := NotificationEvent{}
 	notification.Message = message
 	notification.Title = "dude"
-	notification.Icon = commons.Config.DudeIcon
+	notification.Icon = internal.Config.DudeIcon
 	return notification
 }
 

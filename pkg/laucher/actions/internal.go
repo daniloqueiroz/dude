@@ -2,9 +2,9 @@ package actions
 
 import (
 	"fmt"
-	"github.com/daniloqueiroz/dude/internal"
-	"github.com/daniloqueiroz/dude/internal/commons/system"
-	"github.com/daniloqueiroz/dude/internal/laucher"
+	"github.com/daniloqueiroz/dude/internal/system"
+	"github.com/daniloqueiroz/dude/pkg"
+	"github.com/daniloqueiroz/dude/pkg/laucher"
 )
 
 const (
@@ -69,7 +69,7 @@ func loadInternalActions(actions map[string]laucher.Action) {
 			name:        TERMINAL,
 			description: "Starts a new Terminal Window",
 			exec: func() {
-				internal.NewTmuxTerminal()
+				pkg.NewTmuxTerminal()
 			},
 		},
 	}

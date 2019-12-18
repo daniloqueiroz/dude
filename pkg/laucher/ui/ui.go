@@ -2,8 +2,8 @@ package ui
 
 import (
 	"fmt"
-	"github.com/daniloqueiroz/dude/internal/laucher"
-	"github.com/daniloqueiroz/dude/internal/laucher/actions"
+	"github.com/daniloqueiroz/dude/pkg/laucher"
+	"github.com/daniloqueiroz/dude/pkg/laucher/actions"
 	"github.com/google/logger"
 	"github.com/gotk3/gotk3/gdk"
 	"github.com/gotk3/gotk3/gtk"

@@ -3,8 +3,8 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	"github.com/daniloqueiroz/dude/internal"
-	"github.com/daniloqueiroz/dude/internal/commons/system"
+	"github.com/daniloqueiroz/dude/internal/system"
+	"github.com/daniloqueiroz/dude/pkg"
 	"github.com/google/logger"
 	"github.com/spf13/cobra"
 	"strconv"
@@ -34,7 +34,7 @@ var backlightCmd = &cobra.Command{
 		if err != nil {
 			logger.Fatalf("Unable to adjust backlight %v", err)
 		} else {
-			backlight, err := internal.GetBacklight()
+			backlight, err := pkg.GetBacklight()
 			if err != nil {
 				logger.Errorf("Unable to get backlight info")
 			} else {
@@ -46,7 +46,7 @@ var backlightCmd = &cobra.Command{
 }
 
 func adjust(inc bool) error {
-	return internal.AdjustBacklight(10, inc)
+	return pkg.AdjustBacklight(10, inc)
 }
 
 func setValue(param string) error {
@@ -54,6 +54,6 @@ func setValue(param string) error {
 	if err != nil {
 		return err
 	} else {
-		return internal.SetBacklight(value)
+		return pkg.SetBacklight(value)
 	}
 }

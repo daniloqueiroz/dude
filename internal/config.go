@@ -1,4 +1,4 @@
-package commons
+package internal
 
 import (
 	"github.com/google/logger"

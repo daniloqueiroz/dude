@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/daniloqueiroz/dude/internal/commons"
+	"github.com/daniloqueiroz/dude/internal"
 	"github.com/google/logger"
 	"github.com/spf13/cobra"
 	"io/ioutil"
@@ -28,10 +28,9 @@ func init() {
 	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "verbose mode")
 
 	defer logger.Init("dude", verbose, true, ioutil.Discard).Close()
-	commons.InitConfig()
+	internal.InitConfig()
 
 	rootCmd.AddCommand(daemonCmd)
-	rootCmd.AddCommand(sessionCmd)
 	rootCmd.AddCommand(lockCmd)
 	rootCmd.AddCommand(suspendCmd)
 	rootCmd.AddCommand(terminalCmd)

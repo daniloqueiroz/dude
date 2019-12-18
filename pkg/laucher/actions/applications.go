@@ -1,9 +1,9 @@
 package actions
 
 import (
-	"github.com/daniloqueiroz/dude/internal"
-	"github.com/daniloqueiroz/dude/internal/commons/proc"
-	"github.com/daniloqueiroz/dude/internal/laucher"
+	"github.com/daniloqueiroz/dude/internal/proc"
+	"github.com/daniloqueiroz/dude/pkg"
+	"github.com/daniloqueiroz/dude/pkg/laucher"
 	"github.com/rkoesters/xdg/basedir"
 	"path"
 	"strings"
@@ -37,7 +37,7 @@ func loadApplicationActions(actions map[string]laucher.Action) {
 	dirs = append(dirs, basedir.DataHome)
 	for _, dir := range dirs {
 		dir = path.Join(dir, "applications")
-		share_apps := internal.LoadDesktopEntries(dir)
+		share_apps := pkg.LoadDesktopEntries(dir)
 		for _, app := range share_apps {
 			action := App{
 				name:        strings.ToLower(app.Name),

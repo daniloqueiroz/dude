@@ -2,10 +2,10 @@ package actions
 
 import (
 	"fmt"
-	"github.com/daniloqueiroz/dude/internal/commons"
-	"github.com/daniloqueiroz/dude/internal/commons/proc"
-	"github.com/daniloqueiroz/dude/internal/commons/system"
-	"github.com/daniloqueiroz/dude/internal/laucher"
+	"github.com/daniloqueiroz/dude/internal"
+	"github.com/daniloqueiroz/dude/internal/proc"
+	"github.com/daniloqueiroz/dude/internal/system"
+	"github.com/daniloqueiroz/dude/pkg/laucher"
 	"github.com/google/logger"
 	"io/ioutil"
 	"path"
@@ -32,12 +32,12 @@ func (p Pass) Description() string {
 }
 
 func (p Pass) Exec() {
-	output, err := proc.NewProcess(commons.Config.AppPass, "show", p.name).FireAndWaitForOutput()
+	output, err := proc.NewProcess(internal.Config.AppPass, "show", p.name).FireAndWaitForOutput()
 	if err != nil {
 		logger.Errorf("Failed to run pass to get password for %s", p.name, err)
 	} else {
 		password := strings.Fields(output)[0]
-		proc.NewProcess(commons.Config.AppXdotool, "type", password).FireAndWait()
+		proc.NewProcess(internal.Config.AppXdotool, "type", password).FireAndWait()
 	}
 }
 

@@ -1,9 +1,9 @@
-package internal
+package pkg
 
 import (
 	"fmt"
-	"github.com/daniloqueiroz/dude/internal/commons/proc"
-	"github.com/daniloqueiroz/dude/internal/commons/system"
+	"github.com/daniloqueiroz/dude/internal/proc"
+	"github.com/daniloqueiroz/dude/internal/system"
 	"github.com/google/logger"
 	"github.com/rkoesters/xdg/desktop"
 	"io/ioutil"

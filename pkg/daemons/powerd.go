@@ -2,8 +2,8 @@ package daemons
 
 import (
 	"github.com/daniloqueiroz/dude/internal"
-	"github.com/daniloqueiroz/dude/internal/commons"
-	"github.com/daniloqueiroz/dude/internal/commons/system"
+	"github.com/daniloqueiroz/dude/internal/system"
+	"github.com/daniloqueiroz/dude/pkg"
 	"github.com/google/logger"
 	"time"
 )
@@ -12,40 +12,40 @@ func Powerd() {
 	logger.Info("powerd is running")
 	var notifiedLow = false
 	var stateChanged = false
-	var state = internal.CheckBattery()
+	var state = pkg.CheckBattery()
 
 	for {
-		newstate := internal.CheckBattery()
-		if state != internal.AC_ONLINE && state != internal.DISCHARGING {
+		newstate := pkg.CheckBattery()
+		if state != pkg.AC_ONLINE && state != pkg.DISCHARGING {
 			notify(state, &notifiedLow)
 		}
 		stateChanged = newstate != state
 		if stateChanged {
 			adjustBacklight(newstate)
 		}
-		state = internal.CheckBattery()
+		state = pkg.CheckBattery()
 		time.Sleep(nextCheckDelay(state))
 	}
 }
 
-func adjustBacklight(newState internal.PowerState) {
-	if newState == internal.AC_ONLINE {
-		internal.SetBacklight(commons.Config.BackLightAC)
+func adjustBacklight(newState pkg.PowerState) {
+	if newState == pkg.AC_ONLINE {
+		pkg.SetBacklight(internal.Config.BackLightAC)
 	} else {
-		internal.SetBacklight(commons.Config.BackLightBattery)
+		pkg.SetBacklight(internal.Config.BackLightBattery)
 	}
 }
 
-func notify(level internal.PowerState, notifiedLow *bool) {
+func notify(level pkg.PowerState, notifiedLow *bool) {
 	switch level {
-	case internal.LOW:
+	case pkg.LOW:
 		err := system.TitleNotification("powerd", "Battery level low").Show()
 		if err == nil {
 			*notifiedLow = true
 		}
-	case internal.VERY_LOW:
+	case pkg.VERY_LOW:
 		system.TitleNotification("powerd", "Battery level very low").Show()
-	case internal.CRITICAL:
+	case pkg.CRITICAL:
 		err := system.TitleNotification("powerd", "Computer is going to be suspended").Show()
 		if err == nil {
 			time.Sleep(5 * time.Second)
@@ -54,8 +54,8 @@ func notify(level internal.PowerState, notifiedLow *bool) {
 	}
 }
 
-func nextCheckDelay(state internal.PowerState) time.Duration {
-	if state != internal.AC_ONLINE {
+func nextCheckDelay(state pkg.PowerState) time.Duration {
+	if state != pkg.AC_ONLINE {
 		return 20 * time.Second
 	} else {
 		return 5 * time.Second

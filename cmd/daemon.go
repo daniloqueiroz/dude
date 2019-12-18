@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"errors"
-	"github.com/daniloqueiroz/dude/daemons"
+	"github.com/daniloqueiroz/dude/pkg/daemons"
 	"github.com/spf13/cobra"
 )
 
@@ -21,6 +21,8 @@ var daemonCmd = &cobra.Command{
 			daemons.Powerd()
 		} else if name == "trackerd" {
 			daemons.TimeTrackd()
+		} else if name == "sessiond" {
+			daemons.Sessiond()
 		}
 	},
 }
