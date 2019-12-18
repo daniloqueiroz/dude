@@ -37,4 +37,5 @@ func init() {
 	rootCmd.AddCommand(terminalCmd)
 	rootCmd.AddCommand(backlightCmd)
 	rootCmd.AddCommand(launcherCmd)
+	rootCmd.AddCommand(timereportCmd)
 }

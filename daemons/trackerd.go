@@ -14,7 +14,11 @@ func TimeTrackd() {
 	logger.Info("Starting time track deamon")
 	display := os.Getenv("DISPLAY")
 	timeFile := path.Join(basedir.CacheHome, commons.Config.TimeTrackingFile)
-	gone.StartTracker(display, timeFile)
-	logger.Info("started")
+	tracker, err := gone.NewTracker(display, timeFile)
+	if err != nil {
+		logger.Fatalf("Error starting time trackerd: %v", err)
+	}
+	tracker.Start()
+	logger.Info("Time trackerd started")
 	select { }
 }
