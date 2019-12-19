@@ -40,13 +40,14 @@ func (d *simpled) Start(signals ...os.Signal) error {
 	d.barrier.Add(1)
 	d.started = true
 
-	go d.sigHandler()
 	go d.fn()
+	go d.sigHandler()
 	d.barrier.Wait()
 	return nil
 }
 
 func (d *simpled) sigHandler() {
+	logger.Info("Daemon waiting for signal")
 	sig := <- d.sigChn
 	logger.Infof("Signal %s received, shutting down daemon", sig)
 	d.barrier.Done()

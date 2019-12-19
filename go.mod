@@ -5,7 +5,7 @@ go 1.13
 require (
 	github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802
 	github.com/daniloqueiroz/go-systemd/login1 v0.0.0-20191209015512-b2a510b55785
-	github.com/daniloqueiroz/gone v1.0.6-0.20191218020810-fc3a121b9833
+	github.com/daniloqueiroz/gone v1.0.6-0.20191219001559-29656898e136
 	github.com/godbus/dbus v4.1.0+incompatible
 	github.com/godbus/dbus/v5 v5.0.3 // indirect
 	github.com/google/logger v1.0.1

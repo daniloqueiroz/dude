@@ -21,6 +21,10 @@ github.com/daniloqueiroz/gone v1.0.5 h1:cX/NvBRT9/Ya9e2RiVBHK/MK70Bo9AdZuy/kkmA3
 github.com/daniloqueiroz/gone v1.0.5/go.mod h1:hK8MUlZmFW+C14n8ZkyLs7VZgsH+D35mQQfapOrKvZo=
 github.com/daniloqueiroz/gone v1.0.6-0.20191218020810-fc3a121b9833 h1:2VhXba5xQghkA5uj9SkLNBbWYptEwguXZHGOr1IteTA=
 github.com/daniloqueiroz/gone v1.0.6-0.20191218020810-fc3a121b9833/go.mod h1:hK8MUlZmFW+C14n8ZkyLs7VZgsH+D35mQQfapOrKvZo=
+github.com/daniloqueiroz/gone v1.0.6-0.20191219001111-29129b18b82b h1:p9Yzdwg0Cs5NXxUSeeCAltpe9YwV7PS1PzSjBuZL0AE=
+github.com/daniloqueiroz/gone v1.0.6-0.20191219001111-29129b18b82b/go.mod h1:hK8MUlZmFW+C14n8ZkyLs7VZgsH+D35mQQfapOrKvZo=
+github.com/daniloqueiroz/gone v1.0.6-0.20191219001559-29656898e136 h1:Lmu3sdE3hd9+YX7icKJ3cJ3tDTWJcXtmK+HSaW+qSlg=
+github.com/daniloqueiroz/gone v1.0.6-0.20191219001559-29656898e136/go.mod h1:hK8MUlZmFW+C14n8ZkyLs7VZgsH+D35mQQfapOrKvZo=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
 github.com/dgryski/go-sip13 v0.0.0-20181026042036-e10d5fee7954/go.mod h1:vAd38F8PWV+bWy6jNmig1y/TA+kYO4g3RSRF0IAv0no=
