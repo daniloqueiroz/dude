@@ -4,10 +4,12 @@ import (
 	"github.com/google/logger"
 	"github.com/rkoesters/xdg/basedir"
 	"github.com/spf13/viper"
+	"path"
 )
 
 type config struct {
 	DudeIcon         string
+	WallpaperDir     string
 	AppFeh           string
 	AppCompton       string
 	AppXset          string
@@ -40,10 +42,9 @@ func InitConfig() {
 }
 
 func loadFromFile() {
-	viper.SetConfigName("dude.yaml")
+	viper.SetConfigName("config.yaml")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath(basedir.ConfigHome)
-	viper.AddConfigPath(".") // optionally look for config in the working directory
+	viper.AddConfigPath(path.Join(basedir.ConfigHome, "dude"))
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 			logger.Info("config file not found...")
@@ -55,20 +56,20 @@ func loadFromFile() {
 
 func loadConfig() {
 	Config = config{
-		DudeIcon:         viper.GetString("internal.icon"),
-		AppFeh:           viper.GetString("internal.apps.feh"),
-		AppCompton:       viper.GetString("internal.apps.compton"),
-		AppXset:          viper.GetString("internal.apps.xset"),
-		AppXssLock:       viper.GetString("internal.apps.xss_lock"),
-		AppXsecurelock:   viper.GetString("internal.apps.xsecurelock"),
-		AppAcpi:          viper.GetString("internal.apps.acpi"),
-		AppXdotool:       viper.GetString("internal.apps.xdotool"),
-		AppPass:          viper.GetString("internal.apps.pass"),
-		AppPolkitAgent:   viper.GetString("internal.apps.polkit-agent"),
-		AppTmux:          viper.GetString("internal.apps.tmux"),
-		AppTerminal:      viper.GetString("internal.apps.terminal"),
-		AppBacklight:     viper.GetString("internal.apps.xbacklight"),
-		AppXrandr:        viper.GetString("internal.apps.xrandr"),
+		DudeIcon:         viper.GetString("icon"),
+		AppFeh:           viper.GetString("apps.feh"),
+		AppCompton:       viper.GetString("apps.compton"),
+		AppXset:          viper.GetString("apps.xset"),
+		AppXssLock:       viper.GetString("apps.xss_lock"),
+		AppXsecurelock:   viper.GetString("apps.xsecurelock"),
+		AppAcpi:          viper.GetString("apps.acpi"),
+		AppXdotool:       viper.GetString("apps.xdotool"),
+		AppPass:          viper.GetString("apps.pass"),
+		AppPolkitAgent:   viper.GetString("apps.polkit-agent"),
+		AppTmux:          viper.GetString("apps.tmux"),
+		AppTerminal:      viper.GetString("apps.terminal"),
+		AppBacklight:     viper.GetString("apps.xbacklight"),
+		AppXrandr:        viper.GetString("apps.xrandr"),
 		TerminalFont:     viper.GetString("terminal.font"),
 		TerminalFontSize: viper.GetString("terminal.font_size"),
 		TimeTrackingFile: viper.GetString("time_tracking.file"),
@@ -77,29 +78,31 @@ func loadConfig() {
 		LauncherWidth:    viper.GetInt("launcher.width"),
 		LauncherHeight:   viper.GetInt("launcher.height"),
 		Profiles:         viper.GetStringMap("display.profiles"),
+		WallpaperDir:     viper.GetString("display.wallpapers_dir"),
 	}
 }
 
 func loadDefaults() {
-	viper.SetDefault("internal.icon", "/usr/share/dude/dude.png")
-	viper.SetDefault("internal.apps.feh", "/usr/bin/feh")
-	viper.SetDefault("internal.apps.compton", "/usr/bin/compton")
-	viper.SetDefault("internal.apps.xset", "/usr/bin/xset")
-	viper.SetDefault("internal.apps.xss_lock", "/usr/bin/xss-lock")
-	viper.SetDefault("internal.apps.xsecurelock", "/usr/bin/xsecurelock")
-	viper.SetDefault("internal.apps.acpi", "/usr/bin/acpi")
-	viper.SetDefault("internal.apps.xdotool", "/usr/bin/xdotool")
-	viper.SetDefault("internal.apps.pass", "/usr/bin/pass")
-	viper.SetDefault("internal.apps.polkit-agent", "/usr/bin/lxpolkit")
-	viper.SetDefault("internal.apps.tmux", "/usr/bin/tmux")
-	viper.SetDefault("internal.apps.terminal", "/usr/bin/st")
-	viper.SetDefault("internal.apps.xbacklight", "/usr/bin/xbacklight")
-	viper.SetDefault("internal.apps.xrandr", "/usr/bin/xrandr")
+	viper.SetDefault("icon", "/usr/share/dude/dude.png")
+	viper.SetDefault("apps.feh", "/usr/bin/feh")
+	viper.SetDefault("apps.compton", "/usr/bin/compton")
+	viper.SetDefault("apps.xset", "/usr/bin/xset")
+	viper.SetDefault("apps.xss_lock", "/usr/bin/xss-lock")
+	viper.SetDefault("apps.xsecurelock", "/usr/bin/xsecurelock")
+	viper.SetDefault("apps.acpi", "/usr/bin/acpi")
+	viper.SetDefault("apps.xdotool", "/usr/bin/xdotool")
+	viper.SetDefault("apps.pass", "/usr/bin/pass")
+	viper.SetDefault("apps.polkit-agent", "/usr/bin/lxpolkit")
+	viper.SetDefault("apps.tmux", "/usr/bin/tmux")
+	viper.SetDefault("apps.terminal", "/usr/bin/st")
+	viper.SetDefault("apps.xbacklight", "/usr/bin/xbacklight")
+	viper.SetDefault("apps.xrandr", "/usr/bin/xrandr")
 	viper.SetDefault("terminal.font", "Source Code Pro")
 	viper.SetDefault("terminal.font_size", "12")
-	viper.SetDefault("time_tracking.file", "time-tracking.bin")
+	viper.SetDefault("time_tracking.file", path.Join(basedir.DataHome, "dude-screentime.db"))
 	viper.SetDefault("backlight.ac", "100")
 	viper.SetDefault("backlight.battery", "20")
 	viper.SetDefault("launcher.width", "600")
 	viper.SetDefault("launcher.height", "250")
+	viper.SetDefault("display.wallpapers_dir", path.Join(basedir.ConfigHome, "/dude/wallpapers"))
 }

@@ -56,4 +56,5 @@ func applyProfile(selected *Profile, screens []*Screen) {
 	if err != nil {
 		logger.Errorf("Error applying profile %s: %v", selected.Name, err)
 	}
+	SetWallpaper()
 }

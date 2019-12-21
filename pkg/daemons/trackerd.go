@@ -5,9 +5,7 @@ import (
 	"github.com/daniloqueiroz/dude/internal/proc"
 	"github.com/daniloqueiroz/gone"
 	"github.com/google/logger"
-	"github.com/rkoesters/xdg/basedir"
 	"os"
-	"path"
 	"syscall"
 )
 
@@ -19,7 +17,7 @@ func TimeTrackd() {
 func trackTime() {
 	logger.Info("Starting trackerd")
 	display := os.Getenv("DISPLAY")
-	timeFile := path.Join(basedir.CacheHome, internal.Config.TimeTrackingFile)
+	timeFile := internal.Config.TimeTrackingFile
 	tracker, err := gone.NewTracker(display, timeFile)
 	if err != nil {
 		logger.Fatalf("Error starting time trackerd: %v", err)

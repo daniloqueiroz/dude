@@ -6,6 +6,7 @@ import (
 	"github.com/daniloqueiroz/dude/pkg/display"
 	"github.com/google/logger"
 	"syscall"
+	"time"
 )
 
 func Displayd() {
@@ -15,11 +16,13 @@ func Displayd() {
 
 func displayd() {
 	logger.Info("Starting displayd")
+	// give it a bit of time before configuring output
+	time.Sleep(2 * time.Second)
 	display.AutoConfigureDisplay()
 	chn := make(chan xgb.Event)
 	go func() {
 		for {
-			<- chn
+			<-chn
 			logger.Infof("Xrandr event received, autoconfiguring displays")
 			display.AutoConfigureDisplay()
 		}

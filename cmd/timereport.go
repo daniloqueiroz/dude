@@ -6,10 +6,8 @@ import (
 	"github.com/daniloqueiroz/gone"
 	"github.com/google/logger"
 	"github.com/olekukonko/tablewriter"
-	"github.com/rkoesters/xdg/basedir"
 	"github.com/spf13/cobra"
 	"os"
-	"path"
 	"strconv"
 )
 
@@ -19,7 +17,7 @@ var timereportCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		display := os.Getenv("DISPLAY")
-		timeFile := path.Join(basedir.CacheHome, internal.Config.TimeTrackingFile)
+		timeFile := internal.Config.TimeTrackingFile
 		tracker, err := gone.NewTracker(display, timeFile)
 		if err != nil {
 			logger.Fatalf("Error loading tracking data: %v", err)

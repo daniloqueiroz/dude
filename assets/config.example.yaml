@@ -1,20 +1,16 @@
 display:
   wallpapers_dir: .config/dude/wallpapers/
-  compton_conf: .config/dude/compton.conf # ?
-  screensaver:
-    lock: /usr/bin/xsecurelock
-    delay_secs: 300
   profiles:
     - home-office:
         - eDP1:
           resolution: auto
         - HDMI1:
           resolution: auto
-          extra_args: --left-of eDP1
+          extra_args: --right-of eDP1
     - single:
         - eDP1:
           resolution: auto
 terminal:
   font: Source Code Pro
-  size: 12
+  font_size: 12
 
