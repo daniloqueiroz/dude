@@ -23,6 +23,8 @@ var daemonCmd = &cobra.Command{
 			daemons.TimeTrackd()
 		} else if name == "sessiond" {
 			daemons.Sessiond()
+		} else if name == "displayd" {
+			daemons.Displayd()
 		}
 	},
 }

@@ -4,8 +4,16 @@ display:
   screensaver:
     lock: /usr/bin/xsecurelock
     delay_secs: 300
-  monitors:
-    - a
+  profiles:
+    - home-office:
+        - eDP1:
+          resolution: auto
+        - HDMI1:
+          resolution: auto
+          extra_args: --left-of eDP1
+    - single:
+        - eDP1:
+          resolution: auto
 terminal:
   font: Source Code Pro
   size: 12

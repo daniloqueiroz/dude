@@ -20,6 +20,7 @@ type config struct {
 	AppTmux          string
 	AppTerminal      string
 	AppBacklight     string
+	AppXrandr        string
 	TerminalFont     string
 	TerminalFontSize string
 	TimeTrackingFile string
@@ -27,6 +28,7 @@ type config struct {
 	BackLightBattery int
 	LauncherHeight   int
 	LauncherWidth    int
+	Profiles         map[string]interface{}
 }
 
 var Config config
@@ -66,13 +68,15 @@ func loadConfig() {
 		AppTmux:          viper.GetString("internal.apps.tmux"),
 		AppTerminal:      viper.GetString("internal.apps.terminal"),
 		AppBacklight:     viper.GetString("internal.apps.xbacklight"),
+		AppXrandr:        viper.GetString("internal.apps.xrandr"),
 		TerminalFont:     viper.GetString("terminal.font"),
 		TerminalFontSize: viper.GetString("terminal.font_size"),
 		TimeTrackingFile: viper.GetString("time_tracking.file"),
 		BackLightAC:      viper.GetInt("backlight.ac"),
 		BackLightBattery: viper.GetInt("backlight.battery"),
-		LauncherWidth: viper.GetInt("launcher.width"),
-		LauncherHeight: viper.GetInt("launcher.height"),
+		LauncherWidth:    viper.GetInt("launcher.width"),
+		LauncherHeight:   viper.GetInt("launcher.height"),
+		Profiles:         viper.GetStringMap("display.profiles"),
 	}
 }
 
@@ -90,6 +94,7 @@ func loadDefaults() {
 	viper.SetDefault("internal.apps.tmux", "/usr/bin/tmux")
 	viper.SetDefault("internal.apps.terminal", "/usr/bin/st")
 	viper.SetDefault("internal.apps.xbacklight", "/usr/bin/xbacklight")
+	viper.SetDefault("internal.apps.xrandr", "/usr/bin/xrandr")
 	viper.SetDefault("terminal.font", "Source Code Pro")
 	viper.SetDefault("terminal.font_size", "12")
 	viper.SetDefault("time_tracking.file", "time-tracking.bin")

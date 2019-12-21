@@ -19,6 +19,7 @@ func Sessiond() {
 	pkg.AutostartApps()
 	proc.LaunchDaemon(wd, "powerd")
 	proc.LaunchDaemon(wd, "trackerd")
+	proc.LaunchDaemon(wd, "displayd")
 	system.SimpleNotification("Session started").Show()
 
 	wd.Start(syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)

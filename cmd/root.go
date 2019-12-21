@@ -5,6 +5,7 @@ import (
 	"github.com/google/logger"
 	"github.com/spf13/cobra"
 	"io/ioutil"
+
 	//"github.com/spf13/viper"
 )
 
@@ -26,8 +27,9 @@ func Execute() error {
 
 func init() {
 	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "verbose mode")
+	logger := logger.Init("dude", verbose, true, ioutil.Discard)
+	defer logger.Close()
 
-	defer logger.Init("dude", verbose, true, ioutil.Discard).Close()
 	internal.InitConfig()
 
 	rootCmd.AddCommand(daemonCmd)
@@ -37,4 +39,7 @@ func init() {
 	rootCmd.AddCommand(backlightCmd)
 	rootCmd.AddCommand(launcherCmd)
 	rootCmd.AddCommand(timereportCmd)
+
+	displayCmd.Flags().StringVarP(&selectedProfile, "profile", "p", "", "Display profile to activate")
+	rootCmd.AddCommand(displayCmd)
 }

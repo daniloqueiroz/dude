@@ -7,7 +7,7 @@
     * ~wallpaper -> feh
     * ~compositor -> compton
     * ~screensaver -> xss-lock + xsecurelock
-    * !!monitor
+    * ~display/output config
   * ~powerd -> daemon for battery, backlight and cpu
   * ?input config
   * !!time-tracker -> gone (https://github.com/dim13/gone)
