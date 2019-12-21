@@ -77,7 +77,7 @@ func loadConfig() {
 }
 
 func loadDefaults() {
-	viper.SetDefault("internal.icon", "/usr/share/dude/fire-fist-colored.png")
+	viper.SetDefault("internal.icon", "/usr/share/dude/dude.png")
 	viper.SetDefault("internal.apps.feh", "/usr/bin/feh")
 	viper.SetDefault("internal.apps.compton", "/usr/bin/compton")
 	viper.SetDefault("internal.apps.xset", "/usr/bin/xset")

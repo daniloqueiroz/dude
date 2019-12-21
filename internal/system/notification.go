@@ -45,6 +45,6 @@ func TitleNotification(title, message string) NotificationEvent {
 	notification := NotificationEvent{}
 	notification.Message = message
 	notification.Title = title
-	notification.Icon = ""
+	notification.Icon = internal.Config.DudeIcon
 	return notification
 }

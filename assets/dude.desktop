@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=dude
-Comment=d unique desktop manager
+Comment=dan's ultimate desktop manager
 Exec=/usr/bin/dude session
 TryExec=i3
 Type=Application
