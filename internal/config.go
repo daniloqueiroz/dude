@@ -91,7 +91,7 @@ func loadDefaults() {
 	viper.SetDefault("apps.xsecurelock", "/usr/bin/xsecurelock")
 	viper.SetDefault("apps.acpi", "/usr/bin/acpi")
 	viper.SetDefault("apps.xdotool", "/usr/bin/xdotool")
-	viper.SetDefault("apps.pass", "/usr/bin/pass")
+	viper.SetDefault("apps.pass", "/usr/share/dude/passtype.sh")
 	viper.SetDefault("apps.polkit-agent", "/usr/bin/lxpolkit")
 	viper.SetDefault("apps.tmux", "/usr/bin/tmux")
 	viper.SetDefault("apps.terminal", "/usr/bin/st")

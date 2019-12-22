@@ -32,12 +32,9 @@ func (p Pass) Description() string {
 }
 
 func (p Pass) Exec() {
-	output, err := proc.NewProcess(internal.Config.AppPass, "show", p.name).FireAndWaitForOutput()
+	err := proc.NewProcess(internal.Config.AppPass, p.name).FireAndForget()
 	if err != nil {
-		logger.Errorf("Failed to run pass to get password for %s", p.name, err)
-	} else {
-		password := strings.Fields(output)[0]
-		proc.NewProcess(internal.Config.AppXdotool, "type", password).FireAndWait()
+		logger.Errorf("Error launching passtype")
 	}
 }
 

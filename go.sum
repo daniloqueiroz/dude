@@ -17,12 +17,6 @@ github.com/coreos/go-systemd v0.0.0-20190321100706-95778dfbb74e/go.mod h1:F5haX7
 github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f/go.mod h1:E3G3o1h8I7cfcXa63jLwjI0eiQQMgzzUDFVpN/nH/eA=
 github.com/cpuguy83/go-md2man v1.0.10/go.mod h1:SmD6nW6nTyfqj6ABTjUi3V3JVMnlJmwcJI5acqYI6dE=
 github.com/daniloqueiroz/go-systemd/login1 v0.0.0-20191209015512-b2a510b55785/go.mod h1:7HeDdDZn3ghGx3ZzHdV1NWKknke1U+SCh6E9QYmNjio=
-github.com/daniloqueiroz/gone v1.0.5 h1:cX/NvBRT9/Ya9e2RiVBHK/MK70Bo9AdZuy/kkmA3e6g=
-github.com/daniloqueiroz/gone v1.0.5/go.mod h1:hK8MUlZmFW+C14n8ZkyLs7VZgsH+D35mQQfapOrKvZo=
-github.com/daniloqueiroz/gone v1.0.6-0.20191218020810-fc3a121b9833 h1:2VhXba5xQghkA5uj9SkLNBbWYptEwguXZHGOr1IteTA=
-github.com/daniloqueiroz/gone v1.0.6-0.20191218020810-fc3a121b9833/go.mod h1:hK8MUlZmFW+C14n8ZkyLs7VZgsH+D35mQQfapOrKvZo=
-github.com/daniloqueiroz/gone v1.0.6-0.20191219001111-29129b18b82b h1:p9Yzdwg0Cs5NXxUSeeCAltpe9YwV7PS1PzSjBuZL0AE=
-github.com/daniloqueiroz/gone v1.0.6-0.20191219001111-29129b18b82b/go.mod h1:hK8MUlZmFW+C14n8ZkyLs7VZgsH+D35mQQfapOrKvZo=
 github.com/daniloqueiroz/gone v1.0.6-0.20191219001559-29656898e136 h1:Lmu3sdE3hd9+YX7icKJ3cJ3tDTWJcXtmK+HSaW+qSlg=
 github.com/daniloqueiroz/gone v1.0.6-0.20191219001559-29656898e136/go.mod h1:hK8MUlZmFW+C14n8ZkyLs7VZgsH+D35mQQfapOrKvZo=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
