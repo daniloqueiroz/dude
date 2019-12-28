@@ -10,6 +10,7 @@ import (
 )
 
 func Displayd() {
+	proc.CreatePidFile("displayd")
 	daemon := proc.NewDaemon(displayd)
 	daemon.Start(syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
 }

@@ -10,6 +10,7 @@ import (
 )
 
 func TimeTrackd() {
+	proc.CreatePidFile("trackerd")
 	daemon := proc.NewDaemon(trackTime)
 	daemon.Start(syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
 }

@@ -4,7 +4,13 @@ import (
 	"errors"
 	"fmt"
 	"github.com/google/logger"
+	"github.com/rkoesters/xdg/basedir"
+	"io/ioutil"
+	"os"
 	"os/exec"
+	"path"
+	"strconv"
+	"syscall"
 )
 
 type State string
@@ -80,4 +86,23 @@ func (p *Process) FireAndWaitForOutput() (string, error) {
 
 	p.goCmd = nil
 	return string(output), err
+}
+
+func CreatePidFile(name string) {
+	pidFile := path.Join(basedir.RuntimeDir, fmt.Sprintf("%s.pid", name))
+	logger.Infof("%s pid file %s", name, pidFile)
+	if piddata, err := ioutil.ReadFile(pidFile); err == nil {
+		if pid, err := strconv.Atoi(string(piddata)); err == nil {
+			if process, err := os.FindProcess(pid); err == nil {
+				if err := process.Signal(syscall.Signal(0)); err == nil {
+					logger.Fatalf("pid already running: %d", pid)
+				}
+			}
+		}
+	}
+
+	err := ioutil.WriteFile(pidFile, []byte(fmt.Sprintf("%d", os.Getpid())), 0664)
+	if err != nil {
+		logger.Fatalf("Unable to write pid file")
+	}
 }

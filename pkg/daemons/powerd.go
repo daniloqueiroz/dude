@@ -11,6 +11,7 @@ import (
 )
 
 func Powerd() {
+	proc.CreatePidFile("powerd")
 	daemon := proc.NewDaemon(monitorBattery)
 	daemon.Start(syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
 }
