@@ -17,8 +17,7 @@ func TimeTrackd() {
 func trackTime() {
 	logger.Info("Starting trackerd")
 	display := os.Getenv("DISPLAY")
-	timeFile := internal.Config.TimeTrackingFile
-	tracker, err := gone.NewTracker(display, timeFile)
+	tracker, err := gone.NewTracker(display, internal.Config.ScreenTimeDataDir)
 	if err != nil {
 		logger.Fatalf("Error starting time trackerd: %v", err)
 	}

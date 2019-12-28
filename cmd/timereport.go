@@ -17,7 +17,7 @@ var timereportCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		display := os.Getenv("DISPLAY")
-		timeFile := internal.Config.TimeTrackingFile
+		timeFile := internal.Config.ScreenTimeDataDir
 		tracker, err := gone.NewTracker(display, timeFile)
 		if err != nil {
 			logger.Fatalf("Error loading tracking data: %v", err)

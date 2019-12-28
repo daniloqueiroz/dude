@@ -8,29 +8,30 @@ import (
 )
 
 type config struct {
-	DudeIcon         string
-	WallpaperDir     string
-	AppFeh           string
-	AppCompton       string
-	AppXset          string
-	AppXssLock       string
-	AppXsecurelock   string
-	AppAcpi          string
-	AppXdotool       string
-	AppPass          string
-	AppPolkitAgent   string
-	AppTmux          string
-	AppTerminal      string
-	AppBacklight     string
-	AppXrandr        string
-	TerminalFont     string
-	TerminalFontSize string
-	TimeTrackingFile string
-	BackLightAC      int
-	BackLightBattery int
-	LauncherHeight   int
-	LauncherWidth    int
-	Profiles         map[string]interface{}
+	DudeIcon          string
+	WallpaperDir      string
+	AppFeh            string
+	AppCompton        string
+	AppXset           string
+	AppXssLock        string
+	AppXsecurelock    string
+	AppAcpi           string
+	AppXdotool        string
+	AppPass           string
+	AppPolkitAgent    string
+	AppTmux           string
+	AppTerminal       string
+	AppBacklight      string
+	AppXrandr         string
+	TerminalFont      string
+	TerminalFontSize  string
+	ScreenTimeDataDir string
+	BackLightAC       int
+	BackLightBattery  int
+	LauncherHeight    int
+	LauncherWidth     int
+	Profiles          map[string]interface{}
+	ScreenTimeEnabled bool
 }
 
 var Config config
@@ -56,29 +57,30 @@ func loadFromFile() {
 
 func loadConfig() {
 	Config = config{
-		DudeIcon:         viper.GetString("icon"),
-		AppFeh:           viper.GetString("apps.feh"),
-		AppCompton:       viper.GetString("apps.compton"),
-		AppXset:          viper.GetString("apps.xset"),
-		AppXssLock:       viper.GetString("apps.xss_lock"),
-		AppXsecurelock:   viper.GetString("apps.xsecurelock"),
-		AppAcpi:          viper.GetString("apps.acpi"),
-		AppXdotool:       viper.GetString("apps.xdotool"),
-		AppPass:          viper.GetString("apps.pass"),
-		AppPolkitAgent:   viper.GetString("apps.polkit-agent"),
-		AppTmux:          viper.GetString("apps.tmux"),
-		AppTerminal:      viper.GetString("apps.terminal"),
-		AppBacklight:     viper.GetString("apps.xbacklight"),
-		AppXrandr:        viper.GetString("apps.xrandr"),
-		TerminalFont:     viper.GetString("terminal.font"),
-		TerminalFontSize: viper.GetString("terminal.font_size"),
-		TimeTrackingFile: viper.GetString("time_tracking.file"),
-		BackLightAC:      viper.GetInt("backlight.ac"),
-		BackLightBattery: viper.GetInt("backlight.battery"),
-		LauncherWidth:    viper.GetInt("launcher.width"),
-		LauncherHeight:   viper.GetInt("launcher.height"),
-		Profiles:         viper.GetStringMap("display.profiles"),
-		WallpaperDir:     viper.GetString("display.wallpapers_dir"),
+		DudeIcon:          viper.GetString("icon"),
+		AppFeh:            viper.GetString("apps.feh"),
+		AppCompton:        viper.GetString("apps.compton"),
+		AppXset:           viper.GetString("apps.xset"),
+		AppXssLock:        viper.GetString("apps.xss_lock"),
+		AppXsecurelock:    viper.GetString("apps.xsecurelock"),
+		AppAcpi:           viper.GetString("apps.acpi"),
+		AppXdotool:        viper.GetString("apps.xdotool"),
+		AppPass:           viper.GetString("apps.pass"),
+		AppPolkitAgent:    viper.GetString("apps.polkit-agent"),
+		AppTmux:           viper.GetString("apps.tmux"),
+		AppTerminal:       viper.GetString("apps.terminal"),
+		AppBacklight:      viper.GetString("apps.xbacklight"),
+		AppXrandr:         viper.GetString("apps.xrandr"),
+		TerminalFont:      viper.GetString("terminal.font"),
+		TerminalFontSize:  viper.GetString("terminal.font_size"),
+		ScreenTimeDataDir: viper.GetString("screen_time.data_dir"),
+		ScreenTimeEnabled: viper.GetBool("screen_time.enabled"),
+		BackLightAC:       viper.GetInt("backlight.ac"),
+		BackLightBattery:  viper.GetInt("backlight.battery"),
+		LauncherWidth:     viper.GetInt("launcher.width"),
+		LauncherHeight:    viper.GetInt("launcher.height"),
+		Profiles:          viper.GetStringMap("display.profiles"),
+		WallpaperDir:      viper.GetString("display.wallpapers_dir"),
 	}
 }
 
@@ -99,7 +101,8 @@ func loadDefaults() {
 	viper.SetDefault("apps.xrandr", "/usr/bin/xrandr")
 	viper.SetDefault("terminal.font", "Source Code Pro")
 	viper.SetDefault("terminal.font_size", "12")
-	viper.SetDefault("time_tracking.file", path.Join(basedir.DataHome, "dude-screentime.db"))
+	viper.SetDefault("screen_time.data_dir", path.Join(basedir.DataHome, "screen-time"))
+	viper.SetDefault("screen_time.enabled", "true")
 	viper.SetDefault("backlight.ac", "100")
 	viper.SetDefault("backlight.battery", "20")
 	viper.SetDefault("launcher.width", "600")
