@@ -58,6 +58,14 @@ func (ui *UI) Show() {
 func (ui *UI) keyPressed(keyVal uint) {
 	if keyVal == gdk.KEY_Escape {
 		gtk.MainQuit()
+	} else if keyVal == gdk.KEY_Down && ui.search.IsFocus() {
+		ui.win.SetFocusChild(ui.list)
+	} else if keyVal == gdk.KEY_Tab {
+		if ui.search.IsFocus() {
+			ui.win.SetFocusChild(ui.list)
+		} else {
+			ui.win.SetFocusChild(ui.search)
+		}
 	} else if keyVal == gdk.KEY_Return {
 		var action laucher.Action = nil
 		if ui.items != nil && len(ui.items) == 1 {
