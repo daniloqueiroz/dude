@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/daniloqueiroz/dude/internal/system"
 	"github.com/daniloqueiroz/dude/pkg"
+	"github.com/daniloqueiroz/dude/pkg/display"
 	"github.com/daniloqueiroz/dude/pkg/laucher"
 )
 
@@ -12,6 +13,7 @@ const (
 	LOCK_SCREEN     = "lock-screen"
 	SUSPEND         = "suspend"
 	TERMINAL        = "terminal"
+	DISPLAY         = "display"
 )
 
 type Internal struct {
@@ -42,7 +44,6 @@ func loadInternalActions(actions map[string]laucher.Action) {
 	// :volume [up, down, mute, mic(?)]
 	// :brightness [up, down]
 	// :keyboard <layout> -> modifies keyboard layout
-	// :terminal -> launches st
 	// launcher only operations
 	// :kill <program>
 	// :pass
@@ -70,6 +71,14 @@ func loadInternalActions(actions map[string]laucher.Action) {
 			description: "Starts a new Terminal Window",
 			exec: func() {
 				pkg.NewTmuxTerminal()
+			},
+		},
+		{
+			name:        DISPLAY,
+			description: "Load display profile",
+			exec: func() {
+				profile := display.AutoConfigureDisplay()
+				system.SimpleNotification(fmt.Sprintf("Profile %s applied", profile)).Show()
 			},
 		},
 	}
