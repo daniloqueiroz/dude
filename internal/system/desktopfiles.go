@@ -1,9 +1,7 @@
-package pkg
+package system
 
 import (
 	"fmt"
-	"github.com/daniloqueiroz/dude/internal/proc"
-	"github.com/daniloqueiroz/dude/internal/system"
 	"github.com/google/logger"
 	"github.com/rkoesters/xdg/desktop"
 	"io/ioutil"
@@ -33,12 +31,4 @@ func LoadDesktopEntries(dirname string) []desktop.Entry {
 		entries = append(entries, *entry)
 	}
 	return entries
-}
-
-func AutostartApps() {
-	entries := LoadDesktopEntries(filepath.Join(system.HomeDir(), "/.config/autostart"))
-	for _, entry := range entries {
-		logger.Info(fmt.Sprintf("Autostarting %s", entry.Exec))
-		proc.NewProcess(entry.Exec).FireAndForget()
-	}
 }
