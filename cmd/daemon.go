@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"errors"
-	"github.com/daniloqueiroz/dude/pkg/daemons"
+	"github.com/daniloqueiroz/dude/cmd/daemons"
 	"github.com/spf13/cobra"
 )
 
