@@ -103,7 +103,7 @@ func loadDefaults() {
 	viper.SetDefault("apps.xrandr", "/usr/bin/xrandr")
 	viper.SetDefault("terminal.font", "Source Code Pro")
 	viper.SetDefault("terminal.font_size", "12")
-	viper.SetDefault("screen_time.data_dir", path.Join(basedir.DataHome, "screen-time"))
+	viper.SetDefault("screen_time.data_dir", path.Join(basedir.DataHome, "trackerd"))
 	viper.SetDefault("screen_time.enabled", "true")
 	viper.SetDefault("backlight.ac", "100")
 	viper.SetDefault("backlight.battery", "20")
