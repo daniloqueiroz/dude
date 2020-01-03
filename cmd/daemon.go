@@ -20,7 +20,7 @@ var daemonCmd = &cobra.Command{
 		if name == "powerd" {
 			daemons.Powerd()
 		} else if name == "trackerd" {
-			daemons.TimeTrackd()
+			daemons.TimeTrackerd()
 		} else if name == "sessiond" {
 			daemons.Sessiond()
 		} else if name == "displayd" {
