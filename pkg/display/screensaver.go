@@ -1,4 +1,4 @@
-package pkg
+package display
 
 import (
 	"github.com/daniloqueiroz/dude/internal"
@@ -8,7 +8,7 @@ import (
 
 func StartScreensaver(wd *proc.Watchdog) {
 	logger.Info("Configuring screensaver timeout and starting xss-lock")
-	if err := proc.NewProcess(internal.Config.AppXset, "s", "300").FireAndWait(); err != nil {
+	if err := proc.NewProcess(internal.Config.AppXset, "s", string(internal.Config.ScreenSaverTimeoutSecs)).FireAndWait(); err != nil {
 		logger.Errorf("Unable to set screensaver timeout: %v", err)
 	}
 

@@ -33,6 +33,7 @@ type config struct {
 	Profiles                 map[string]interface{}
 	ScreenTimeEnabled        bool
 	DisplayAutoConfigEnabled bool
+	ScreenSaverTimeoutSecs   int
 }
 
 var Config config
@@ -83,6 +84,7 @@ func loadConfig() {
 		Profiles:                 viper.GetStringMap("display.profiles"),
 		WallpaperDir:             viper.GetString("display.wallpapers_dir"),
 		DisplayAutoConfigEnabled: viper.GetBool("display.autoconfig_enabled"),
+		ScreenSaverTimeoutSecs:   viper.GetInt("display.screensaver_secs"),
 	}
 }
 
@@ -103,12 +105,14 @@ func loadDefaults() {
 	viper.SetDefault("apps.xrandr", "/usr/bin/xrandr")
 	viper.SetDefault("terminal.font", "Source Code Pro")
 	viper.SetDefault("terminal.font_size", "12")
-	viper.SetDefault("screen_time.data_dir", path.Join(basedir.DataHome, "trackerd"))
+	viper.SetDefault("screen_time.data_dir", "trackerd")
 	viper.SetDefault("screen_time.enabled", "true")
-	viper.SetDefault("backlight.ac", "100")
-	viper.SetDefault("backlight.battery", "20")
 	viper.SetDefault("launcher.width", "600")
 	viper.SetDefault("launcher.height", "250")
 	viper.SetDefault("display.wallpapers_dir", path.Join(basedir.ConfigHome, "/dude/wallpapers"))
 	viper.SetDefault("display.autoconfig_enabled", "true")
+	viper.SetDefault("display.screensaver_timeout_secs", "300")
+	viper.SetDefault("display.brightness.ac", "100")
+	viper.SetDefault("display.brightness.battery", "20")
+
 }

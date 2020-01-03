@@ -5,6 +5,7 @@ import (
 	"github.com/daniloqueiroz/dude/internal/proc"
 	"github.com/daniloqueiroz/dude/internal/system"
 	"github.com/daniloqueiroz/dude/pkg"
+	"github.com/daniloqueiroz/dude/pkg/display"
 	"github.com/google/logger"
 	"syscall"
 	"time"
@@ -38,9 +39,9 @@ func monitorBattery() {
 
 func adjustBacklight(newState pkg.PowerState) {
 	if newState == pkg.AC_ONLINE {
-		pkg.SetBacklight(internal.Config.BackLightAC)
+		display.SetBrightness(internal.Config.BackLightAC)
 	} else {
-		pkg.SetBacklight(internal.Config.BackLightBattery)
+		display.SetBrightness(internal.Config.BackLightBattery)
 	}
 }
 

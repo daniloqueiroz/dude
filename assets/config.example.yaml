@@ -1,5 +1,9 @@
 display:
   wallpapers_dir: .config/dude/wallpapers/
+  screensaver_timeout_secs: 300
+  brightness:
+    ac: 100
+    battery: 20
   profiles:
     - home-office:
         - eDP1:

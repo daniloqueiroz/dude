@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/daniloqueiroz/dude/internal/system"
-	"github.com/daniloqueiroz/dude/pkg"
+	"github.com/daniloqueiroz/dude/pkg/display"
 	"github.com/google/logger"
 	"github.com/spf13/cobra"
 	"strconv"
@@ -12,8 +12,8 @@ import (
 )
 
 var backlightCmd = &cobra.Command{
-	Use:   "backlight",
-	Short: "Change backlight",
+	Use:   "brightness",
+	Short: "Change brightness",
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
 			return errors.New("[up|down]")
@@ -32,9 +32,9 @@ var backlightCmd = &cobra.Command{
 		}
 
 		if err != nil {
-			logger.Fatalf("Unable to adjust backlight %v", err)
+			logger.Fatalf("Unable to adjust brightness %v", err)
 		} else {
-			backlight, err := pkg.GetBacklight()
+			backlight, err := display.GetBrightness()
 			if err != nil {
 				logger.Errorf("Unable to get backlight info")
 			} else {
@@ -46,7 +46,7 @@ var backlightCmd = &cobra.Command{
 }
 
 func adjust(inc bool) error {
-	return pkg.AdjustBacklight(10, inc)
+	return display.AdjustBrightness(10, inc)
 }
 
 func setValue(param string) error {
@@ -54,6 +54,6 @@ func setValue(param string) error {
 	if err != nil {
 		return err
 	} else {
-		return pkg.SetBacklight(value)
+		return display.SetBrightness(value)
 	}
 }

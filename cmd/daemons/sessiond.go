@@ -16,7 +16,7 @@ func Sessiond() {
 	proc.CreatePidFile("sessiond")
 	wd := proc.NewWatchdog()
 	display.StartCompositor(wd)
-	pkg.StartScreensaver(wd)
+	display.StartScreensaver(wd)
 	pkg.StartPolkit(wd)
 	pkg.AutostartApps()
 	proc.LaunchDaemon(wd, "powerd")

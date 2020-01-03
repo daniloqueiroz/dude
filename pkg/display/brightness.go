@@ -1,4 +1,4 @@
-package pkg
+package display
 
 import (
 	"github.com/daniloqueiroz/dude/internal"
@@ -6,17 +6,17 @@ import (
 	"strconv"
 )
 
-func GetBacklight() (string, error) {
+func GetBrightness() (string, error) {
 	process := proc.NewProcess(internal.Config.AppBacklight, "-get")
 	return process.FireAndWaitForOutput()
 }
 
-func SetBacklight(value int) error {
+func SetBrightness(value int) error {
 	process := proc.NewProcess(internal.Config.AppBacklight, "-set", strconv.Itoa(value))
 	return process.FireAndWait()
 }
 
-func AdjustBacklight(delta int, inc bool) error {
+func AdjustBrightness(delta int, inc bool) error {
 	var param string
 	if inc {
 		param = "+"
