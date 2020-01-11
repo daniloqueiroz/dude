@@ -23,6 +23,7 @@ type config struct {
 	AppTerminal              string
 	AppBacklight             string
 	AppXrandr                string
+	AppPactl                 string
 	TerminalFont             string
 	TerminalFontSize         string
 	ScreenTimeDataDir        string
@@ -73,6 +74,7 @@ func loadConfig() {
 		AppTerminal:              viper.GetString("apps.terminal"),
 		AppBacklight:             viper.GetString("apps.xbacklight"),
 		AppXrandr:                viper.GetString("apps.xrandr"),
+		AppPactl: 				  viper.GetString("apps.pactl"),
 		TerminalFont:             viper.GetString("terminal.font"),
 		TerminalFontSize:         viper.GetString("terminal.font_size"),
 		ScreenTimeDataDir:        viper.GetString("screen_time.data_dir"),
@@ -103,6 +105,7 @@ func loadDefaults() {
 	viper.SetDefault("apps.terminal", "/usr/bin/st")
 	viper.SetDefault("apps.xbacklight", "/usr/bin/xbacklight")
 	viper.SetDefault("apps.xrandr", "/usr/bin/xrandr")
+	viper.SetDefault("apps.pactl", "/usr/bin/pactl")
 	viper.SetDefault("terminal.font", "Source Code Pro")
 	viper.SetDefault("terminal.font_size", "12")
 	viper.SetDefault("screen_time.data_dir", "trackerd")

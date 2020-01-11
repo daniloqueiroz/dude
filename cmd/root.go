@@ -42,4 +42,5 @@ func init() {
 
 	displayCmd.Flags().StringVarP(&selectedProfile, "profile", "p", "", "Display profile to activate")
 	rootCmd.AddCommand(displayCmd)
+	rootCmd.AddCommand(audioCmd)
 }
