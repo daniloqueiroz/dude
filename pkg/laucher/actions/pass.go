@@ -2,7 +2,6 @@ package actions
 
 import (
 	"fmt"
-	"github.com/daniloqueiroz/dude/internal"
 	"github.com/daniloqueiroz/dude/internal/proc"
 	"github.com/daniloqueiroz/dude/internal/system"
 	"github.com/daniloqueiroz/dude/pkg/laucher"
@@ -16,6 +15,7 @@ import (
 const (
 	PASS_DIR    = ".password-store"
 	PASS_PREFIX = "@"
+	PASS_SCRIPT = "/usr/share/dude/scripts/passtype.sh"
 )
 
 type Pass struct {
@@ -32,7 +32,7 @@ func (p Pass) Description() string {
 }
 
 func (p Pass) Exec() {
-	err := proc.NewProcess(internal.Config.AppPass, p.name).FireAndForget()
+	err := proc.NewProcess(PASS_SCRIPT, p.name).FireAndForget()
 	if err != nil {
 		logger.Errorf("Error launching passtype")
 	}
