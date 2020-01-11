@@ -42,5 +42,9 @@ func init() {
 
 	displayCmd.Flags().StringVarP(&selectedProfile, "profile", "p", "", "Display profile to activate")
 	rootCmd.AddCommand(displayCmd)
+
+	inputCmd.Flags().StringVarP(&selectedKeyboard, "keyboard", "k", "", "Display profile to activate")
+	rootCmd.AddCommand(inputCmd)
+
 	rootCmd.AddCommand(audioCmd)
 }

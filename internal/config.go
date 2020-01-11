@@ -16,13 +16,12 @@ type config struct {
 	AppXssLock               string
 	AppXsecurelock           string
 	AppAcpi                  string
-	AppXdotool               string
-	AppPass                  string
 	AppPolkitAgent           string
 	AppTmux                  string
 	AppTerminal              string
 	AppBacklight             string
 	AppXrandr                string
+	AppSetxkbmap             string
 	AppPactl                 string
 	TerminalFont             string
 	TerminalFontSize         string
@@ -32,6 +31,7 @@ type config struct {
 	LauncherHeight           int
 	LauncherWidth            int
 	Profiles                 map[string]interface{}
+	Keyboards                map[string]interface{}
 	ScreenTimeEnabled        bool
 	DisplayAutoConfigEnabled bool
 	ScreenSaverTimeoutSecs   int
@@ -67,13 +67,12 @@ func loadConfig() {
 		AppXssLock:               viper.GetString("apps.xss_lock"),
 		AppXsecurelock:           viper.GetString("apps.xsecurelock"),
 		AppAcpi:                  viper.GetString("apps.acpi"),
-		AppXdotool:               viper.GetString("apps.xdotool"),
-		AppPass:                  viper.GetString("apps.pass"),
 		AppPolkitAgent:           viper.GetString("apps.polkit-agent"),
 		AppTmux:                  viper.GetString("apps.tmux"),
 		AppTerminal:              viper.GetString("apps.terminal"),
 		AppBacklight:             viper.GetString("apps.xbacklight"),
 		AppXrandr:                viper.GetString("apps.xrandr"),
+		AppSetxkbmap:             viper.GetString("apps.setxkbmap"),
 		AppPactl: 				  viper.GetString("apps.pactl"),
 		TerminalFont:             viper.GetString("terminal.font"),
 		TerminalFontSize:         viper.GetString("terminal.font_size"),
@@ -87,6 +86,7 @@ func loadConfig() {
 		WallpaperDir:             viper.GetString("display.wallpapers_dir"),
 		DisplayAutoConfigEnabled: viper.GetBool("display.autoconfig_enabled"),
 		ScreenSaverTimeoutSecs:   viper.GetInt("display.screensaver_secs"),
+		Keyboards:                viper.GetStringMap("input.keyboards"),
 	}
 }
 
@@ -98,13 +98,12 @@ func loadDefaults() {
 	viper.SetDefault("apps.xss_lock", "/usr/bin/xss-lock")
 	viper.SetDefault("apps.xsecurelock", "/usr/bin/xsecurelock")
 	viper.SetDefault("apps.acpi", "/usr/bin/acpi")
-	viper.SetDefault("apps.xdotool", "/usr/bin/xdotool")
-	viper.SetDefault("apps.pass", "/usr/share/dude/passtype.sh")
 	viper.SetDefault("apps.polkit-agent", "/usr/bin/lxpolkit")
 	viper.SetDefault("apps.tmux", "/usr/bin/tmux")
 	viper.SetDefault("apps.terminal", "/usr/bin/st")
 	viper.SetDefault("apps.xbacklight", "/usr/bin/xbacklight")
 	viper.SetDefault("apps.xrandr", "/usr/bin/xrandr")
+	viper.SetDefault("apps.setxkbmap", "/usr/bin/setxkbmap")
 	viper.SetDefault("apps.pactl", "/usr/bin/pactl")
 	viper.SetDefault("terminal.font", "Source Code Pro")
 	viper.SetDefault("terminal.font_size", "12")
