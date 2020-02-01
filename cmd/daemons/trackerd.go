@@ -1,9 +1,8 @@
 package daemons
 
 import (
-	"github.com/daniloqueiroz/dude/internal"
 	"github.com/daniloqueiroz/dude/internal/proc"
-	"github.com/daniloqueiroz/dude/pkg"
+	"github.com/daniloqueiroz/dude/pkg/appusage"
 	"github.com/google/logger"
 	"syscall"
 )
@@ -16,7 +15,6 @@ func TimeTrackerd() {
 
 func trackTime() {
 	logger.Info("Starting trackerd")
-	tracker := pkg.NewTracker(internal.Config.ScreenTimeDataDir)
-	tracker.Track()
+	appusage.TrackAppUsage()
 	logger.Info("Trackerd is running")
 }

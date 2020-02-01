@@ -25,7 +25,7 @@ func Sessiond() {
 		proc.LaunchDaemon(wd, "displayd")
 	}
 
-	if internal.Config.ScreenTimeEnabled {
+	if internal.Config.AppUsageTrackEnable {
 		proc.LaunchDaemon(wd, "trackerd")
 	}
 	system.SimpleNotification("Session started").Show()

@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/daniloqueiroz/dude/pkg"
+	"github.com/daniloqueiroz/dude/pkg/appusage"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 	"os"
@@ -18,7 +18,7 @@ var timereportCmd = &cobra.Command{
 		year, wk_num := time_now.ISOWeek()
 		currentWeek := fmt.Sprintf("%d-w%d", year, wk_num)
 
-		report := pkg.LoadReport(currentWeek)
+		report := appusage.LoadReport(currentWeek)
 
 		table := tablewriter.NewWriter(os.Stdout)
 		table.SetHeader([]string{"#", "App", "Time Spent", "Percentage"})

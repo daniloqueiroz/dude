@@ -24,6 +24,7 @@ func monitorBattery() {
 	var state = pkg.CheckBattery()
 
 	for {
+		logger.Info("Checking battery status")
 		newstate := pkg.CheckBattery()
 		if state != pkg.AC_ONLINE && state != pkg.DISCHARGING {
 			notify(state, &notifiedLow)

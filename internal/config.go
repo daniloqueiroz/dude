@@ -25,14 +25,14 @@ type config struct {
 	AppPactl                 string
 	TerminalFont             string
 	TerminalFontSize         string
-	ScreenTimeDataDir        string
+	AppUsageDataDir          string
 	BackLightAC              int
 	BackLightBattery         int
 	LauncherHeight           int
 	LauncherWidth            int
 	Profiles                 map[string]interface{}
 	Keyboards                map[string]interface{}
-	ScreenTimeEnabled        bool
+	AppUsageTrackEnable      bool
 	DisplayAutoConfigEnabled bool
 	ScreenSaverTimeoutSecs   int
 }
@@ -73,11 +73,11 @@ func loadConfig() {
 		AppBacklight:             viper.GetString("apps.xbacklight"),
 		AppXrandr:                viper.GetString("apps.xrandr"),
 		AppSetxkbmap:             viper.GetString("apps.setxkbmap"),
-		AppPactl: 				  viper.GetString("apps.pactl"),
+		AppPactl:                 viper.GetString("apps.pactl"),
 		TerminalFont:             viper.GetString("terminal.font"),
 		TerminalFontSize:         viper.GetString("terminal.font_size"),
-		ScreenTimeDataDir:        viper.GetString("screen_time.data_dir"),
-		ScreenTimeEnabled:        viper.GetBool("screen_time.enabled"),
+		AppUsageDataDir:          viper.GetString("app_usage.data_dir"),
+		AppUsageTrackEnable:      viper.GetBool("app_usage.enabled"),
 		BackLightAC:              viper.GetInt("backlight.ac"),
 		BackLightBattery:         viper.GetInt("backlight.battery"),
 		LauncherWidth:            viper.GetInt("launcher.width"),
@@ -107,8 +107,8 @@ func loadDefaults() {
 	viper.SetDefault("apps.pactl", "/usr/bin/pactl")
 	viper.SetDefault("terminal.font", "Source Code Pro")
 	viper.SetDefault("terminal.font_size", "12")
-	viper.SetDefault("screen_time.data_dir", "trackerd")
-	viper.SetDefault("screen_time.enabled", "true")
+	viper.SetDefault("app_usage.data_dir", "app_usage")
+	viper.SetDefault("app_usage.enabled", "true")
 	viper.SetDefault("launcher.width", "600")
 	viper.SetDefault("launcher.height", "250")
 	viper.SetDefault("display.wallpapers_dir", path.Join(basedir.ConfigHome, "/dude/wallpapers"))
