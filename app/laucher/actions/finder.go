@@ -1,7 +1,7 @@
 package actions
 
 import (
-	"github.com/daniloqueiroz/dude/pkg/laucher"
+	"github.com/daniloqueiroz/dude/app/laucher"
 	"github.com/google/logger"
 	"github.com/sahilm/fuzzy"
 )

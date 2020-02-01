@@ -2,15 +2,15 @@ package display
 
 import (
 	"errors"
-	"github.com/daniloqueiroz/dude/internal"
-	"github.com/daniloqueiroz/dude/internal/proc"
+	"github.com/daniloqueiroz/dude/app/system"
+	"github.com/daniloqueiroz/dude/app/system/proc"
 	"github.com/google/logger"
 	"strings"
 )
 
 func ApplyProfile(profileName string) error {
 	screens := DetectOutputs()
-	profile := LoadProfiles(internal.Config.Profiles).GetProfile(profileName)
+	profile := LoadProfiles(system.Config.Profiles).GetProfile(profileName)
 	if profile == nil {
 		return errors.New("no profile found")
 	}
@@ -26,7 +26,7 @@ func AutoConfigureDisplay() string {
 			screenNames = append(screenNames, s.Name)
 		}
 	}
-	profiles := LoadProfiles(internal.Config.Profiles)
+	profiles := LoadProfiles(system.Config.Profiles)
 	selected := profiles.SelectProfile(screenNames...)
 	applyProfile(selected, screens)
 	return selected.Name
@@ -52,7 +52,7 @@ func applyProfile(selected *Profile, screens []*Screen) {
 	}
 
 	logger.Infof("Applying profile %s -> xrandr params %v", selected.Name, params)
-	err := proc.NewProcess(internal.Config.AppXrandr, params...).FireAndWait()
+	err := proc.NewProcess(system.Config.AppXrandr, params...).FireAndWait()
 	if err != nil {
 		logger.Errorf("Error applying profile %s: %v", selected.Name, err)
 	}

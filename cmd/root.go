@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/daniloqueiroz/dude/internal"
+	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/google/logger"
 	"github.com/spf13/cobra"
 	"io/ioutil"
@@ -30,7 +30,7 @@ func init() {
 	logger := logger.Init("dude", verbose, true, ioutil.Discard)
 	defer logger.Close()
 
-	internal.InitConfig()
+	system.InitConfig()
 
 	rootCmd.AddCommand(daemonCmd)
 	rootCmd.AddCommand(lockCmd)

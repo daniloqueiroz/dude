@@ -3,8 +3,8 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	"github.com/daniloqueiroz/dude/internal/system"
-	"github.com/daniloqueiroz/dude/pkg"
+	"github.com/daniloqueiroz/dude/app"
+	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/google/logger"
 	"github.com/spf13/cobra"
 	"strings"
@@ -21,16 +21,16 @@ var audioCmd = &cobra.Command{
 		switch op :=  strings.ToLower(args[0]); op {
 		case "vol-up":
 			notification = system.SimpleNotification("Volume Up")
-			err = pkg.VolumeUp()
+			err = app.VolumeUp()
 		case "vol-down":
 			notification = system.SimpleNotification("Volume Down")
-			err = pkg.VolumeDown()
+			err = app.VolumeDown()
 		case "vol-mute":
 			notification = system.SimpleNotification("Volume mute toggled")
-			err = pkg.VolumeMuteToggle()
+			err = app.VolumeMuteToggle()
 		case "mic-mute":
 			notification = system.SimpleNotification("Mic mute toggled")
-			err = pkg.MicMuteToggle()
+			err = app.MicMuteToggle()
 		default:
 			err =  errors.New(fmt.Sprintf("invalid operation %s", op))
 		}

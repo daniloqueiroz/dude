@@ -3,7 +3,7 @@ package appusage
 
 import (
 	"fmt"
-	"github.com/daniloqueiroz/dude/internal"
+	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/google/logger"
 	"path"
 	"time"
@@ -86,7 +86,7 @@ func (r *Recorder) Update(win Window) {
 
 func (r *Recorder) backgroundTasks() {
 	go func() {
-		defer internal.OnPanic("compacter")
+		defer system.OnPanic("compacter")
 		logger.Info("Starting compact task")
 		cTick := time.NewTicker(30 * time.Minute)
 		defer cTick.Stop()
@@ -96,7 +96,7 @@ func (r *Recorder) backgroundTasks() {
 		}
 	}()
 	go func() {
-		defer internal.OnPanic("report writer")
+		defer system.OnPanic("report writer")
 		logger.Info("Starting report writer task")
 		cTick := time.NewTicker(1 * time.Minute)
 		defer cTick.Stop()
@@ -112,7 +112,7 @@ func (r *Recorder) backgroundTasks() {
 		}
 	}()
 	go func() {
-		defer internal.OnPanic("app_usage update")
+		defer system.OnPanic("app_usage update")
 		logger.Info("Starting update task")
 		cTick := time.NewTicker(30 * time.Second)
 		defer cTick.Stop()

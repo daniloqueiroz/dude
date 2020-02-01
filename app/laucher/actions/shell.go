@@ -2,8 +2,8 @@ package actions
 
 import (
 	"fmt"
-	"github.com/daniloqueiroz/dude/pkg"
-	"github.com/daniloqueiroz/dude/pkg/laucher"
+	"github.com/daniloqueiroz/dude/app"
+	"github.com/daniloqueiroz/dude/app/laucher"
 	"github.com/google/logger"
 	"io/ioutil"
 	"path/filepath"
@@ -28,7 +28,7 @@ func (p Shell) Description() string {
 }
 
 func (p Shell) Exec() {
-	pkg.NewTerminalApp(p.fullpath)
+	app.NewTerminalApp(p.fullpath)
 }
 
 func (p Shell) String() string {

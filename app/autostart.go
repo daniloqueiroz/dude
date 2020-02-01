@@ -1,9 +1,9 @@
-package pkg
+package app
 
 import (
 	"fmt"
-	"github.com/daniloqueiroz/dude/internal/proc"
-	"github.com/daniloqueiroz/dude/internal/system"
+	"github.com/daniloqueiroz/dude/app/system"
+	"github.com/daniloqueiroz/dude/app/system/proc"
 	"github.com/google/logger"
 	"path/filepath"
 )

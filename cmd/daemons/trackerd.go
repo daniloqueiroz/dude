@@ -1,8 +1,8 @@
 package daemons
 
 import (
-	"github.com/daniloqueiroz/dude/internal/proc"
-	"github.com/daniloqueiroz/dude/pkg/appusage"
+	"github.com/daniloqueiroz/dude/app/appusage"
+	"github.com/daniloqueiroz/dude/app/system/proc"
 	"github.com/google/logger"
 	"syscall"
 )

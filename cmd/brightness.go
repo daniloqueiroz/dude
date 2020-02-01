@@ -3,8 +3,8 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	"github.com/daniloqueiroz/dude/internal/system"
-	"github.com/daniloqueiroz/dude/pkg/display"
+	"github.com/daniloqueiroz/dude/app/display"
+	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/google/logger"
 	"github.com/spf13/cobra"
 	"strconv"

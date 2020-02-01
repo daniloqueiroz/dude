@@ -3,8 +3,8 @@ package input
 import (
 	"errors"
 	"fmt"
-	"github.com/daniloqueiroz/dude/internal"
-	"github.com/daniloqueiroz/dude/internal/proc"
+	"github.com/daniloqueiroz/dude/app/system"
+	"github.com/daniloqueiroz/dude/app/system/proc"
 )
 
 type Keyboard struct {
@@ -78,7 +78,7 @@ func LoadKeyboards(config map[string]interface{}) Keyboards {
 }
 
 func SetKeyboard(kbName string) error {
-	kbs := LoadKeyboards(internal.Config.Keyboards)
+	kbs := LoadKeyboards(system.Config.Keyboards)
 	kb := kbs.GetKeyboard(kbName)
 	if kb == nil {
 		return errors.New(fmt.Sprintf("no keyboard %s found", kbName))
@@ -87,7 +87,7 @@ func SetKeyboard(kbName string) error {
 }
 
 func SetDefaultKeyboard() (*Keyboard, error) {
-	kbs := LoadKeyboards(internal.Config.Keyboards)
+	kbs := LoadKeyboards(system.Config.Keyboards)
 	kb := kbs.GetDefaultKeyboard()
 	if kb == nil {
 		return nil, errors.New("no default keyboard found")
@@ -97,5 +97,5 @@ func SetDefaultKeyboard() (*Keyboard, error) {
 }
 
 func setxkbmap(kb *Keyboard) error {
-	return proc.NewProcess(internal.Config.AppSetxkbmap, kb.setxkbmapParams()...).FireAndWait()
+	return proc.NewProcess(system.Config.AppSetxkbmap, kb.setxkbmapParams()...).FireAndWait()
 }

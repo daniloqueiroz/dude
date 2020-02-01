@@ -4,8 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"github.com/daniloqueiroz/dude/internal"
-	"github.com/daniloqueiroz/dude/internal/proc"
+	"github.com/daniloqueiroz/dude/app/system/proc"
 	"github.com/google/logger"
 	"regexp"
 	"strconv"
@@ -32,7 +31,7 @@ func (b Battery) String() string {
 }
 
 func GetBatteries() []Battery {
-	output, err := proc.NewProcess(internal.Config.AppAcpi, "-b").FireAndWaitForOutput()
+	output, err := proc.NewProcess(Config.AppAcpi, "-b").FireAndWaitForOutput()
 	if err != nil {
 		logger.Errorf("Unable get battery status using acpi: %v", err)
 		return nil
@@ -58,7 +57,7 @@ func GetBatteries() []Battery {
 }
 
 func IsOnAC() bool {
-	output, err := proc.NewProcess(internal.Config.AppAcpi, "-a").FireAndWaitForOutput()
+	output, err := proc.NewProcess(Config.AppAcpi, "-a").FireAndWaitForOutput()
 	if err != nil {
 		logger.Error("Unable to get ac-adapter status", err)
 		return false

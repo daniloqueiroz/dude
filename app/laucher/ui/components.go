@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"github.com/daniloqueiroz/dude/internal"
+	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/google/logger"
 	"github.com/gotk3/gotk3/gtk"
 )
@@ -54,7 +54,7 @@ func createWindow(pane *gtk.Paned) *gtk.Window {
 		logger.Fatalf("Unable to create Window: %v", err)
 	}
 	win.SetDecorated(false)
-	win.SetSizeRequest(internal.Config.LauncherWidth, internal.Config.LauncherHeight)
+	win.SetSizeRequest(system.Config.LauncherWidth, system.Config.LauncherHeight)
 	win.SetSkipTaskbarHint(true)
 	win.SetPosition(gtk.WIN_POS_CENTER)
 	win.Add(pane)

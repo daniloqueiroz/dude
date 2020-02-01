@@ -2,8 +2,8 @@ package daemons
 
 import (
 	"github.com/BurntSushi/xgb"
-	"github.com/daniloqueiroz/dude/internal/proc"
-	"github.com/daniloqueiroz/dude/pkg/display"
+	"github.com/daniloqueiroz/dude/app/display"
+	"github.com/daniloqueiroz/dude/app/system/proc"
 	"github.com/google/logger"
 	"syscall"
 	"time"

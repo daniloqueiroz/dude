@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/daniloqueiroz/dude/pkg/appusage"
+	"github.com/daniloqueiroz/dude/app/appusage"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 	"os"

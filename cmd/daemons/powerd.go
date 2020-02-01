@@ -1,11 +1,10 @@
 package daemons
 
 import (
-	"github.com/daniloqueiroz/dude/internal"
-	"github.com/daniloqueiroz/dude/internal/proc"
-	"github.com/daniloqueiroz/dude/internal/system"
-	"github.com/daniloqueiroz/dude/pkg"
-	"github.com/daniloqueiroz/dude/pkg/display"
+	"github.com/daniloqueiroz/dude/app"
+	"github.com/daniloqueiroz/dude/app/display"
+	"github.com/daniloqueiroz/dude/app/system"
+	"github.com/daniloqueiroz/dude/app/system/proc"
 	"github.com/google/logger"
 	"syscall"
 	"time"
@@ -21,41 +20,41 @@ func monitorBattery() {
 	logger.Info("Powerd is running")
 	var notifiedLow = false
 	var stateChanged = false
-	var state = pkg.CheckBattery()
+	var state = app.CheckBattery()
 
 	for {
 		logger.Info("Checking battery status")
-		newstate := pkg.CheckBattery()
-		if state != pkg.AC_ONLINE && state != pkg.DISCHARGING {
+		newstate := app.CheckBattery()
+		if state != app.AC_ONLINE && state != app.DISCHARGING {
 			notify(state, &notifiedLow)
 		}
 		stateChanged = newstate != state
 		if stateChanged {
 			adjustBacklight(newstate)
 		}
-		state = pkg.CheckBattery()
+		state = app.CheckBattery()
 		time.Sleep(nextCheckDelay(state))
 	}
 }
 
-func adjustBacklight(newState pkg.PowerState) {
-	if newState == pkg.AC_ONLINE {
-		display.SetBrightness(internal.Config.BackLightAC)
+func adjustBacklight(newState app.PowerState) {
+	if newState == app.AC_ONLINE {
+		display.SetBrightness(system.Config.BackLightAC)
 	} else {
-		display.SetBrightness(internal.Config.BackLightBattery)
+		display.SetBrightness(system.Config.BackLightBattery)
 	}
 }
 
-func notify(level pkg.PowerState, notifiedLow *bool) {
+func notify(level app.PowerState, notifiedLow *bool) {
 	switch level {
-	case pkg.LOW:
+	case app.LOW:
 		err := system.TitleNotification("powerd", "Battery level low").Show()
 		if err == nil {
 			*notifiedLow = true
 		}
-	case pkg.VERY_LOW:
+	case app.VERY_LOW:
 		system.TitleNotification("powerd", "Battery level very low").Show()
-	case pkg.CRITICAL:
+	case app.CRITICAL:
 		err := system.TitleNotification("powerd", "Computer is going to be suspended").Show()
 		if err == nil {
 			time.Sleep(5 * time.Second)
@@ -64,8 +63,8 @@ func notify(level pkg.PowerState, notifiedLow *bool) {
 	}
 }
 
-func nextCheckDelay(state pkg.PowerState) time.Duration {
-	if state != pkg.AC_ONLINE {
+func nextCheckDelay(state app.PowerState) time.Duration {
+	if state != app.AC_ONLINE {
 		return 20 * time.Second
 	} else {
 		return 5 * time.Second

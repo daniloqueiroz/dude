@@ -2,7 +2,7 @@ package appusage
 
 import (
 	"encoding/json"
-	"github.com/daniloqueiroz/dude/internal"
+	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/google/logger"
 	"github.com/rkoesters/xdg/basedir"
 	"io/ioutil"
@@ -11,7 +11,7 @@ import (
 )
 
 func TrackAppUsage() {
-	trackingDir := path.Join(basedir.DataHome, internal.Config.AppUsageDataDir)
+	trackingDir := path.Join(basedir.DataHome, system.Config.AppUsageDataDir)
 	display := os.Getenv("DISPLAY")
 	recorder, err := NewRecorder(display, trackingDir)
 	if err != nil {
@@ -21,7 +21,7 @@ func TrackAppUsage() {
 }
 
 func LoadReport(week string) *Report {
-	reportFile := ReportFileName(path.Join(basedir.DataHome, internal.Config.AppUsageDataDir), week)
+	reportFile := ReportFileName(path.Join(basedir.DataHome, system.Config.AppUsageDataDir), week)
 
 	byteValue, err := ioutil.ReadFile(reportFile)
 	if err != nil {
