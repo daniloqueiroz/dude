@@ -51,7 +51,6 @@ func GetBatteries() []Battery {
 			State: BatteryState(details[2]),
 			Level: level,
 		}
-		logger.Info("Battery information retrieved: %v", entry)
 		entries = append(entries, *entry)
 
 	}

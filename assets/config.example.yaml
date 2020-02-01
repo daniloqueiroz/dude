@@ -16,11 +16,10 @@ display:
         resolution: auto
 input:
   keyboards:
-    mechanical:
-      default: true
+    CM Storm QuickFire Rapid keyboard:
       model: pc105
       layout: us
-    builtin:
+    AT Translated Set 2 keyboard:
       model: thinkpad60
       layout: br
   mouse:

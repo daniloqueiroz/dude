@@ -1,34 +1,40 @@
 > dude: danilo's unique desktop environment
 
-* I3 as WM
-* DE
-  * session management
-    * WindowManager?
-    * ~wallpaper -> feh
-    * ~compositor -> compton
-    * ~screensaver -> xss-lock + xsecurelock
-    * ~display/output config
-  * ~powerd -> daemon for battery, backlight and cpu
-  * ?input config
-  * !!time-tracker -> gone (https://github.com/dim13/gone)
-  * launcher -> lighthouse
-    * DE commands -> prefix ":"
-      * :display [single, mirror, auto] 
-      * :shutdown 
-      * ~:suspend 
-      * ~:lock-screen
-      * :volume [up, down, mute, mic(?)]
-      * :brightness [up, down]
-      * :keyboard <layout> -> modifies keyboard layout
-      * ~:terminal -> launches st
-      > launcher only operations
-      * :kill <program> 
-      * ~:pass
-      * ::-> window switch
-      * :o <whatever> -> xdg-open 
-      * :e <file> -> howl <file>
-      * :! <cmd> -> execute command on terminal
-    * ~applications -> desktop entries
-    * ~command line apps
-    * ?files -> file path
-    * ?network-manager
+# v1 
+  * Session
+      * wallpaper
+      * compositor
+      * screensaver
+      * autostart
+      * display daemon
+      * power daemon
+      * time tracker daemon
+  * lock-screen
+  * display profile 
+  * brightness
+  * terminal
+  * !input
+    * keyboard layout
+    * !mouse settings
+  * volume
+  * !time tracker report
+  * launcher
+    * desktop files
+    * console commands
+    * pass store
+    * internal
+      * suspend
+      * !shutdown
+      * ?display
+      * !brightness
+      * lock-screen
+      * !volume
+      * !input/keyboard
+# v2
+  * Google assistant
+  * NetworkManager/connman ?
+  * File search
+  * launcher xdg-open
+# v3
+  * Notification Server
+  * Polkit
