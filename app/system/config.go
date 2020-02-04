@@ -78,14 +78,14 @@ func loadConfig() {
 		TerminalFontSize:         viper.GetString("terminal.font_size"),
 		AppUsageDataDir:          viper.GetString("app_usage.data_dir"),
 		AppUsageTrackEnable:      viper.GetBool("app_usage.enabled"),
-		BackLightAC:              viper.GetInt("backlight.ac"),
-		BackLightBattery:         viper.GetInt("backlight.battery"),
 		LauncherWidth:            viper.GetInt("launcher.width"),
 		LauncherHeight:           viper.GetInt("launcher.height"),
 		Profiles:                 viper.GetStringMap("display.profiles"),
 		WallpaperDir:             viper.GetString("display.wallpapers_dir"),
 		DisplayAutoConfigEnabled: viper.GetBool("display.autoconfig_enabled"),
-		ScreenSaverTimeoutSecs:   viper.GetInt("display.screensaver_secs"),
+		ScreenSaverTimeoutSecs:   viper.GetInt("display.screensaver_timeout_secs"),
+		BackLightAC:              viper.GetInt("display.brightness.ac"),
+		BackLightBattery:         viper.GetInt("display.brightness.battery"),
 		Keyboards:                viper.GetStringMap("input.keyboards"),
 	}
 }
@@ -115,6 +115,6 @@ func loadDefaults() {
 	viper.SetDefault("display.autoconfig_enabled", "true")
 	viper.SetDefault("display.screensaver_timeout_secs", "300")
 	viper.SetDefault("display.brightness.ac", "100")
-	viper.SetDefault("display.brightness.battery", "20")
+	viper.SetDefault("display.brightness.battery", "45")
 
 }
