@@ -101,7 +101,3 @@ func (j *Journal) Read(receiver chan interface{}) error {
 
 	return nil
 }
-
-func (j *Journal) Compact() {
-	// TODO implement it
-}
