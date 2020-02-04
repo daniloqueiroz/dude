@@ -1,11 +1,7 @@
 package appusage
 
 import (
-	"encoding/json"
-	"fmt"
 	"github.com/google/logger"
-	"io/ioutil"
-	"path"
 	"sort"
 	"time"
 )
@@ -13,9 +9,8 @@ import (
 const ReportSuffix = "report.json"
 
 type Report struct {
-	ClassRecords  Classes
-	Total         time.Duration
-	Idle          time.Duration
+	ClassRecords Classes
+	Total        time.Duration
 }
 
 type ClassRecord struct {
@@ -25,40 +20,36 @@ type ClassRecord struct {
 }
 
 type Classes []ClassRecord
+
 func (c Classes) Len() int           { return len(c) }
 func (c Classes) Swap(i, j int)      { c[i], c[j] = c[j], c[i] }
 func (c Classes) Less(i, j int) bool { return c[i].Spent < c[j].Spent }
 
-func NewReport(recorder *Recorder) *Report {
+func NewReport(journal *Journal) (*Report, error) {
 	var report Report
 	classes := make(map[string]time.Duration)
-
-	for track := range recorder.tracks.Tracks() {
-		classes[track.Window.Class] += track.Spent
-		report.Total += track.Spent
-		report.Idle += track.Idle
+	receiver := make(chan interface{})
+	err := journal.Read(receiver)
+	if err != nil {
+		return nil, err
 	}
+
+	for entry := range receiver {
+		event := entry.(Event)
+		logger.Infof("Track received: %v", event)
+		classes[event.AppName] += event.Spent
+		report.Total += event.Spent
+	}
+
+	logger.Infof("Classes")
 	for k, v := range classes {
 		report.ClassRecords = append(report.ClassRecords, ClassRecord{
 			Class:   k,
 			Spent:   v,
 			Percent: 100.0 * float64(v) / float64(report.Total)})
 	}
+	logger.Infof("Sort")
 	sort.Sort(sort.Reverse(report.ClassRecords))
-	return &report
-}
-
-func (r *Report) WriteToFile(reportFile string) error {
-	logger.Infof("Writing report to %s", reportFile)
-	data, err := json.MarshalIndent(r, "", " ")
-	if err != nil {
-		return err
-	}
-
-	return ioutil.WriteFile(reportFile, data, 0644)
-}
-
-
-func ReportFileName(destDir, prefix string) string {
-	return path.Join(destDir, fmt.Sprintf("%s-%s", prefix, ReportSuffix))
+	logger.Infof("Done")
+	return &report, nil
 }

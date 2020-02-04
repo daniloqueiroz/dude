@@ -107,7 +107,7 @@ func loadDefaults() {
 	viper.SetDefault("apps.pactl", "/usr/bin/pactl")
 	viper.SetDefault("terminal.font", "Source Code Pro")
 	viper.SetDefault("terminal.font_size", "12")
-	viper.SetDefault("app_usage.data_dir", "app_usage")
+	viper.SetDefault("app_usage.data_dir", "appusage")
 	viper.SetDefault("app_usage.enabled", "true")
 	viper.SetDefault("launcher.width", "600")
 	viper.SetDefault("launcher.height", "250")

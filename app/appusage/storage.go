@@ -1,103 +1,107 @@
 package appusage
 
 import (
-	"crypto/sha256"
-	"encoding/json"
-	"fmt"
+	"bufio"
+	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/google/logger"
-	"github.com/prologic/bitcask"
+	"os"
 )
 
-const (
-	separator = "=::="
-)
-
-type TrackStore struct {
-	db *bitcask.Bitcask
+type Serializer interface {
+	serialize(entry interface{}) ([]byte, error)
+	deserialize(data []byte) (interface{}, error)
 }
 
-func NewTrackStore(storageDir string) (*TrackStore, error) {
-	opts := []bitcask.Option{
-		bitcask.WithMaxDatafileSize(10 << 20),
-		bitcask.WithSync(true),
-		bitcask.WithMaxKeySize(256),
+type Journal struct {
+	path       string
+	serializer Serializer
+	rwFile     *os.File
+}
+
+func NewJornal(filename string, serializer Serializer) *Journal {
+	return &Journal{
+		path:       filename,
+		serializer: serializer,
+		rwFile:     nil,
 	}
-	bc, err := bitcask.Open(storageDir, opts...)
+}
+
+func (j *Journal) Close() error {
+	if j.rwFile != nil {
+		_ = j.rwFile.Sync()
+		return j.rwFile.Close()
+	}
+	return nil
+}
+
+func (j *Journal) Add(entry interface{}) error {
+	data, err := j.serializer.serialize(entry)
 	if err != nil {
-		logger.Fatalf("Unable to open bitcask: %v", err)
-		return nil, err
-	}
-	store := &TrackStore{db: bc}
-	return store, nil
-}
-
-func (t *TrackStore) compact() {
-	logger.Infof("Compacting TrackStore")
-	t.db.Merge()
-}
-
-func (t *TrackStore) getKey(win Window) []byte {
-	bytes := make([]byte, 32)
-	hash := sha256.Sum256([]byte(fmt.Sprint(win.Class, win.Name)))
-	for i, b := range hash {
-		bytes[i] = b
-	}
-	return bytes
-}
-
-func (t *TrackStore) Get(win Window) (*Track, error) {
-	data, err := t.db.Get(t.getKey(win))
-	if err != nil {
-		logger.Errorf("Unable to retrieve track %s: %v", t.getKey(win), err)
-		return nil, err
-	}
-	return deserialize(data)
-}
-
-func (t *TrackStore) Put(rec *Track) error {
-	data, err := serialize(rec)
-	if err != nil {
+		logger.Errorf("Error serializing entry: %v", err)
 		return err
 	}
-	return t.db.Put(t.getKey(rec.Window), data)
+	if j.rwFile == nil {
+		file, err := os.OpenFile(j.path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		if err != nil {
+			logger.Errorf("Error opening file: %v", err)
+			return err
+		}
+		j.rwFile = file
+	}
+	writer := bufio.NewWriter(j.rwFile)
+	_, err = writer.Write(data)
+	if err != nil {
+		logger.Errorf("Error writing to file: %v", err)
+		return err
+	}
+	_, err = writer.WriteString("\n")
+	if err != nil {
+		logger.Errorf("Error writing to file: %v", err)
+		return err
+	}
+	err = writer.Flush()
+	if err != nil {
+		logger.Errorf("Error writing file: %v", err)
+		return err
+	}
+	err = j.rwFile.Sync()
+	if err != nil {
+		logger.Errorf("Error syncing file: %v", err)
+		return err
+	}
+	return nil
 }
 
-func (t *TrackStore) Has(win Window) bool {
-	return t.db.Has(t.getKey(win))
-}
-
-func (t *TrackStore) Tracks() chan *Track {
-	chn := make(chan *Track)
+func (j *Journal) Read(receiver chan interface{}) error {
+	file, err := os.OpenFile(j.path, os.O_RDONLY, 0644)
+	if err != nil {
+		logger.Errorf("Error opening file: %v", err)
+		return err
+	}
 	go func() {
-		defer close(chn)
-		for key := range t.db.Keys() {
-			data, _ := t.db.Get(key)
-			track, _ := deserialize(data)
-			chn <- track
+		logger.Infof("Reading journal file %v", file)
+		defer system.OnPanic("Journal:Read")
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			data := scanner.Bytes()
+			entry, err := j.serializer.deserialize(data)
+			if err != nil {
+				logger.Errorf("Error deserializing entry: %v", err)
+				continue
+			}
+			logger.Infof("Entry: %v", file)
+			receiver <- entry
+		}
+		close(receiver)
+		err := file.Close()
+		if err != nil {
+			logger.Errorf("Error closing file: %v", err)
 		}
 	}()
-	return chn
+
+	return nil
 }
 
-func (t *TrackStore) Len() int {
-	return t.db.Len()
-}
-
-func serialize(track *Track) ([]byte, error) {
-	data, err := json.Marshal(track)
-	if err != nil {
-		logger.Errorf("Unable to serialize track: %v", err)
-		return nil, err
-	}
-	return data, nil
-}
-
-func deserialize(data []byte) (*Track, error) {
-	var track Track
-	err := json.Unmarshal(data, &track)
-	if err != nil {
-		logger.Errorf("Unable to deserialize track: %v", err)
-		return nil, err
-	}
-	return &track, nil
+func (j *Journal) Compact() {
+	// TODO implement it
 }

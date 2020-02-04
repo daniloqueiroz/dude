@@ -3,22 +3,22 @@ package cmd
 import (
 	"fmt"
 	"github.com/daniloqueiroz/dude/app/appusage"
+	"github.com/google/logger"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
+	"github.com/hako/durafmt"
 	"os"
 	"strconv"
-	"time"
 )
 
-var timereportCmd = &cobra.Command{
-	Use:   "time-report",
-	Short: "Show time report",
+var appUsageCmd = &cobra.Command{
+	Use:   "app-usage",
+	Short: "Show app usage report",
 	Run: func(cmd *cobra.Command, args []string) {
-		time_now := time.Now()
-		year, wk_num := time_now.ISOWeek()
-		currentWeek := fmt.Sprintf("%d-w%d", year, wk_num)
-
-		report := appusage.LoadReport(currentWeek)
+		report, err := appusage.LoadReport()
+		if err != nil {
+			logger.Fatalf("Unable to load report: %v", err)
+		}
 
 		table := tablewriter.NewWriter(os.Stdout)
 		table.SetHeader([]string{"#", "App", "Time Spent", "Percentage"})
@@ -26,7 +26,8 @@ var timereportCmd = &cobra.Command{
 			table.Append([]string{
 				strconv.Itoa(idx + 1),
 				rec.Class,
-				fmt.Sprintf("%s", rec.Spent),
+
+				fmt.Sprintf("%s", durafmt.Parse(rec.Spent).LimitFirstN(2)),
 				fmt.Sprintf("%.2f%%", rec.Percent),
 			})
 		}

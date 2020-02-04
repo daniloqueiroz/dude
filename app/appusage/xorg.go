@@ -13,7 +13,7 @@ import (
 )
 
 type WindowTracker interface {
-	Snooze(time.Duration)
+	Snooze()
 	Wakeup()
 	Update(w Window)
 }
@@ -182,13 +182,13 @@ func (x Xorg) Collect(t WindowTracker, timeout time.Duration) {
 			case screensaver.NotifyEvent:
 				switch e.State {
 				case screensaver.StateOn:
-					t.Snooze(x.queryIdle())
+					t.Snooze()
 				default:
 					t.Wakeup()
 				}
 			}
 		case <-time.After(timeout):
-			t.Snooze(x.queryIdle())
+			t.Snooze()
 		}
 	}
 }
