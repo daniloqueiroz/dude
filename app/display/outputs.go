@@ -7,6 +7,8 @@ import (
 	"github.com/BurntSushi/xgb/xproto"
 	"github.com/google/logger"
 	"log"
+	"strings"
+	"time"
 )
 
 type Screen struct {
@@ -63,20 +65,25 @@ func DetectOutputs() []*Screen {
 
 func ListenOutputEvents(notifyChn chan xgb.Event) {
 	X, root := getConnAndWindow()
-	err := randr.SelectInputChecked(X, root,
-		randr.NotifyMaskScreenChange|
-			randr.NotifyMaskCrtcChange|
-			randr.NotifyMaskOutputChange|
-			randr.NotifyMaskOutputProperty).Check()
+	eventMask := randr.NotifyMaskScreenChange |
+		randr.NotifyMaskCrtcChange |
+		randr.NotifyMaskOutputChange |
+		randr.NotifyMaskOutputProperty
+	err := randr.SelectInputChecked(X, root, uint16(eventMask)).Check()
 	if err != nil {
 		logger.Fatalf("Unable to register for randr events: %v", err)
 	}
 
+	var lastEvent int64
 	for {
 		ev, err := X.WaitForEvent()
+		now := time.Now().Unix()
+		timeSinceLast := now - lastEvent
 		if err != nil {
 			logger.Errorf("Error on Event from X11 %v", err)
+		} else if !strings.HasPrefix(ev.String(), "MappingNotify") &&  timeSinceLast > 5 {
+			notifyChn <- ev
 		}
-		notifyChn <- ev
+		lastEvent = now
 	}
 }
