@@ -1,7 +1,6 @@
 package appusage
 
 import (
-	"github.com/google/logger"
 	"sort"
 	"time"
 )
@@ -36,20 +35,16 @@ func NewReport(journal *Journal) (*Report, error) {
 
 	for entry := range receiver {
 		event := entry.(Event)
-		logger.Infof("Track received: %v", event)
 		classes[event.AppName] += event.Spent
 		report.Total += event.Spent
 	}
 
-	logger.Infof("Classes")
 	for k, v := range classes {
 		report.ClassRecords = append(report.ClassRecords, ClassRecord{
 			Class:   k,
 			Spent:   v,
 			Percent: 100.0 * float64(v) / float64(report.Total)})
 	}
-	logger.Infof("Sort")
 	sort.Sort(sort.Reverse(report.ClassRecords))
-	logger.Infof("Done")
 	return &report, nil
 }
