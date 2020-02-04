@@ -22,10 +22,10 @@ func (EventSerializer) serialize(entry interface{}) ([]byte, error) {
 }
 
 func (EventSerializer) deserialize(data []byte) (interface{}, error) {
-	var track Track
-	err := json.Unmarshal(data, &track)
+	var event Event
+	err := json.Unmarshal(data, &event)
 	if err != nil {
 		return nil, err
 	}
-	return track, nil
+	return event, nil
 }
