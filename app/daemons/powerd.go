@@ -23,13 +23,13 @@ func monitorBattery() {
 	var state = app.CheckBattery()
 
 	for {
-		logger.Info("Checking battery status")
 		newstate := app.CheckBattery()
 		if state != app.AC_ONLINE && state != app.DISCHARGING {
 			notify(state, &notifiedLow)
 		}
 		stateChanged = newstate != state
 		if stateChanged {
+			logger.Infof("Power state changed to %#v", newstate)
 			adjustBacklight(newstate)
 		}
 		state = app.CheckBattery()

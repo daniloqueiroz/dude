@@ -21,10 +21,11 @@ func displayd() {
 	time.Sleep(2 * time.Second)
 	display.AutoConfigureDisplay()
 	chn := make(chan xgb.Event)
+	var event xgb.Event
 	go func() {
 		for {
-			<-chn
-			logger.Infof("Xrandr event received, autoconfiguring displays")
+			event = <- chn
+			logger.Infof("Xrandr event received: %#v", event.String())
 			display.AutoConfigureDisplay()
 		}
 	}()
