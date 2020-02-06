@@ -2,7 +2,6 @@ package actions
 
 import (
 	"fmt"
-	"github.com/daniloqueiroz/dude/app/laucher"
 	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/daniloqueiroz/dude/app/system/proc"
 	"github.com/google/logger"
@@ -42,7 +41,7 @@ func (p Pass) String() string {
 	return p.Input()
 }
 
-func loadPasswordsActions(actions map[string]laucher.Action) {
+func loadPasswordsActions(actions map[string]Action) {
 	var entries []Pass
 
 	dirname := filepath.Join(system.HomeDir(), PASS_DIR)

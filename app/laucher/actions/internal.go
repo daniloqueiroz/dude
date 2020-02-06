@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/daniloqueiroz/dude/app"
 	"github.com/daniloqueiroz/dude/app/display"
-	"github.com/daniloqueiroz/dude/app/laucher"
 	"github.com/daniloqueiroz/dude/app/system"
 )
 
@@ -38,7 +37,7 @@ func (p Internal) String() string {
 	return p.Input()
 }
 
-func loadInternalActions(actions map[string]laucher.Action) {
+func loadInternalActions(actions map[string]Action) {
 	// :display [single, mirror, auto]
 	// :shutdown
 	// :volume [up, down, mute, mic(?)]

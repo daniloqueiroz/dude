@@ -1,7 +1,6 @@
 package actions
 
 import (
-	"github.com/daniloqueiroz/dude/app/laucher"
 	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/daniloqueiroz/dude/app/system/proc"
 	"github.com/rkoesters/xdg/basedir"
@@ -32,7 +31,7 @@ func (p App) String() string {
 }
 
 
-func loadApplicationActions(actions map[string]laucher.Action) {
+func loadApplicationActions(actions map[string]Action) {
 	dirs := append([]string(nil), basedir.DataDirs...)
 	dirs = append(dirs, basedir.DataHome)
 	for _, dir := range dirs {

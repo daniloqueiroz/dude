@@ -1,23 +1,22 @@
 package actions
 
 import (
-	"github.com/daniloqueiroz/dude/app/laucher"
 	"github.com/google/logger"
 	"github.com/sahilm/fuzzy"
 )
 
 
-type finder struct {
-	actions map[string]laucher.Action
+type Finder struct {
+	actions map[string]Action
 	symbols []string
 }
 
-func (f finder) All() []string {
+func (f *Finder) All() []string {
 	return f.symbols
 }
 
-func (f finder) Suggest(input string) []laucher.Action {
-	var results []laucher.Action // an empty list
+func (f *Finder) Suggest(input string) []Action {
+	var results []Action // an empty list
 
 	matches := fuzzy.Find(input, f.symbols)
 	for _, match := range matches {
@@ -27,14 +26,14 @@ func (f finder) Suggest(input string) []laucher.Action {
 	return results
 }
 
-func (f finder) Do(name string) {
+func (f *Finder) Do(name string) {
 	logger.Infof("Selected action: %s", name)
 	action := f.actions[name]
 	action.Exec()
 }
 
-func FinderNew() laucher.Finder {
-	actions := make(map[string]laucher.Action)
+func FinderNew() *Finder {
+	actions := make(map[string]Action)
 
 	loadShellActions(actions)
 	loadApplicationActions(actions)
@@ -45,7 +44,7 @@ func FinderNew() laucher.Finder {
 	for k, _ := range actions {
 		symbols = append(symbols, k)
 	}
-	return finder{
+	return &Finder{
 		actions: actions,
 		symbols: symbols,
 	}

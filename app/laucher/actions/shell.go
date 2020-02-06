@@ -3,7 +3,6 @@ package actions
 import (
 	"fmt"
 	"github.com/daniloqueiroz/dude/app"
-	"github.com/daniloqueiroz/dude/app/laucher"
 	"github.com/google/logger"
 	"io/ioutil"
 	"path/filepath"
@@ -35,7 +34,7 @@ func (p Shell) String() string {
 	return p.Input()
 }
 
-func loadShellActions(actions map[string]laucher.Action) {
+func loadShellActions(actions map[string]Action) {
 	dirname := "/usr/bin"
 	files, err := ioutil.ReadDir(dirname)
 	if err != nil {

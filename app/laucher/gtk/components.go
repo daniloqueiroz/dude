@@ -1,9 +1,12 @@
-package ui
+package gtk
 
 import (
+	"fmt"
+	"github.com/daniloqueiroz/dude/app/laucher"
 	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/google/logger"
 	"github.com/gotk3/gotk3/gtk"
+	"strings"
 )
 
 func createSearch() *gtk.SearchEntry {
@@ -11,7 +14,7 @@ func createSearch() *gtk.SearchEntry {
 	if err != nil {
 		logger.Fatalf("Unable to create search: %v", err)
 	}
-	search.SetPlaceholderText(">>")
+	//search.SetPlaceholderText(">>")
 	search.SetHExpand(true)
 	search.SetActivatesDefault(true)
 	return search
@@ -60,4 +63,25 @@ func createWindow(pane *gtk.Paned) *gtk.Window {
 	win.Add(pane)
 
 	return win
+}
+
+func createLabel(option laucher.Option, keyword string) *gtk.Label {
+	label, err := gtk.LabelNew("")
+	if err != nil {
+		logger.Fatalf("Unable to create label: %v", err)
+	}
+
+	name := option.Name
+	startIdx := strings.Index(name, keyword)
+	if startIdx >= 0 {
+		endIdx := startIdx + len(keyword)
+		highlighted := name[:startIdx] + "<b><u>" + name[startIdx:endIdx] + "</u></b>" + name[endIdx:]
+		name = highlighted
+	}
+
+	title := fmt.Sprintf(
+		"<tt><big>%s</big></tt> <small>%s</small>", name, option.Description)
+	label.SetMarkup(title)
+	label.SetHAlign(gtk.ALIGN_START)
+	return label
 }
