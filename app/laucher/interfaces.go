@@ -7,6 +7,7 @@ const (
 	ShellCommand      Category = "shellCmd"
 	Application       Category = "app"
 	System            Category = "system"
+	File		  Category = "file"
 	PersonalAssistant Category = "assistant"
 	// ...
 )
