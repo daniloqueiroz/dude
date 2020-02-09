@@ -25,6 +25,7 @@ func (a *Applications) loadApplicationActions() {
 	dirs = append(dirs, basedir.DataHome)
 	var apps laucher.Actions
 	for _, dir := range dirs {
+
 		dir = path.Join(dir, "applications")
 		share_apps := system.LoadDesktopEntries(dir)
 		for _, app := range share_apps {
@@ -34,13 +35,17 @@ func (a *Applications) loadApplicationActions() {
 					Description: strings.TrimSpace(app.GenericName),
 					Category:laucher.Application,
 				},
-				Exec: func (){
-					command := strings.Fields(app.Exec)
-					proc.NewProcess(command[0], command[1:]...).FireAndForget()
-				},
+				Exec: wrapApp(app.Exec),
 			}
 			apps = append(apps, action)
 		}
 	}
 	a.desktopApps = apps
+}
+
+func wrapApp(cmd string) (func()) {
+	return func () {
+		command := strings.Fields(cmd)
+		proc.NewProcess(command[0], command[1:]...).FireAndForget()
+	}
 }

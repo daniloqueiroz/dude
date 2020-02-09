@@ -59,15 +59,19 @@ func loadPassFromDir(dirname string, isRootDir bool) laucher.Actions {
 						Description: fmt.Sprintf("Password for %s", pass),
 						Category:    laucher.Password,
 					},
-					Exec: func() {
-						err := proc.NewProcess(PASS_SCRIPT, pass).FireAndForget()
-						if err != nil {
-							logger.Errorf("Error launching passtype")
-						}
-					},
+					Exec: wrapPass(pass),
 				})
 			}
 		}
 	}
 	return entries
+}
+
+func wrapPass(pass string) (func ()) {
+	return func ()  {
+		err := proc.NewProcess(PASS_SCRIPT, pass).FireAndForget()
+		if err != nil {
+			logger.Errorf("Error launching passtype")
+		}
+	}
 }

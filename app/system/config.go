@@ -9,6 +9,7 @@ import (
 
 type config struct {
 	DudeIcon                 string
+	LauncherIconsFolder      string
 	WallpaperDir             string
 	AppFeh                   string
 	AppCompton               string
@@ -61,6 +62,7 @@ func loadFromFile() {
 func loadConfig() {
 	Config = config{
 		DudeIcon:                 viper.GetString("icon"),
+		LauncherIconsFolder:      viper.GetString("launcher.icons_folder"),
 		AppFeh:                   viper.GetString("apps.feh"),
 		AppCompton:               viper.GetString("apps.compton"),
 		AppXset:                  viper.GetString("apps.xset"),
@@ -111,6 +113,7 @@ func loadDefaults() {
 	viper.SetDefault("app_usage.enabled", "true")
 	viper.SetDefault("launcher.width", "600")
 	viper.SetDefault("launcher.height", "250")
+	viper.SetDefault("launcher.icons_folder", "/usr/share/dude/launcher")
 	viper.SetDefault("display.wallpapers_dir", path.Join(basedir.ConfigHome, "/dude/wallpapers"))
 	viper.SetDefault("display.autoconfig_enabled", "true")
 	viper.SetDefault("display.screensaver_timeout_secs", "300")

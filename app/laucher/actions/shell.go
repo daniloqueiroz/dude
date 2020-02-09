@@ -37,11 +37,15 @@ func (s *Shell) loadShellActions() {
 					Description: fmt.Sprintf("Execute '%s' in terminal", f.Name()),
 					Category:    laucher.ShellCommand,
 				},
-				Exec: func() {
-					app.NewTerminalApp(fullFilepath)
-				},
+				Exec: wrapShell(fullFilepath),
 			})
 		}
 	}
 	s.shellApps = actions
+}
+
+func wrapShell(cmd string) (func()) {
+	return func() {
+		app.NewTerminalApp(cmd)
+	}
 }

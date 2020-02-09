@@ -6,6 +6,7 @@ import (
 	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/google/logger"
 	"github.com/gotk3/gotk3/gtk"
+	"path/filepath"
 	"strings"
 )
 
@@ -14,7 +15,6 @@ func createSearch() *gtk.SearchEntry {
 	if err != nil {
 		logger.Fatalf("Unable to create search: %v", err)
 	}
-	//search.SetPlaceholderText(">>")
 	search.SetHExpand(true)
 	search.SetActivatesDefault(true)
 	return search
@@ -65,11 +65,32 @@ func createWindow(pane *gtk.Paned) *gtk.Window {
 	return win
 }
 
-func createLabel(option laucher.ActionMeta, keyword string) *gtk.Label {
+func getIconFile(category laucher.Category) string {
+	var icons = map[laucher.Category]string{
+		laucher.Application:       "application.png",
+		laucher.Password:          "password.png",
+		laucher.File:              "file.png",
+		laucher.PersonalAssistant: "assistant.png",
+		laucher.System:            "settings.png",
+		laucher.ShellCommand:      "shell.png",
+	}
+	return filepath.Join(system.Config.LauncherIconsFolder, icons[category])
+}
+
+func createLabel(option laucher.ActionMeta, keyword string) *gtk.Box {
+	labelWithImage, err := gtk.BoxNew(gtk.ORIENTATION_HORIZONTAL, 2)
+
+	icon, err := gtk.ImageNewFromFile(getIconFile(option.Category))
+	if err != nil {
+		logger.Fatalf("Unable to load image: %#v", err)
+	}
+	labelWithImage.PackStart(icon, false, false, 5)
+
 	label, err := gtk.LabelNew("")
 	if err != nil {
 		logger.Fatalf("Unable to create label: %v", err)
 	}
+	labelWithImage.PackStart(label, false, false, 0)
 
 	name := option.Name
 	startIdx := strings.Index(name, keyword)
@@ -83,5 +104,5 @@ func createLabel(option laucher.ActionMeta, keyword string) *gtk.Label {
 		"<tt><big>%s</big></tt> <small>%s</small>", name, option.Description)
 	label.SetMarkup(title)
 	label.SetHAlign(gtk.ALIGN_START)
-	return label
+	return labelWithImage
 }
