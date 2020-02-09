@@ -8,8 +8,8 @@ import (
 )
 
 type config struct {
-	DudeIcon                 string
-	LauncherIconsFolder      string
+	DudeIcon string
+
 	WallpaperDir             string
 	AppFeh                   string
 	AppCompton               string
@@ -31,6 +31,8 @@ type config struct {
 	BackLightBattery         int
 	LauncherHeight           int
 	LauncherWidth            int
+	LauncherIconsFolder      string
+	LauncherDefaultFinders   []string
 	Profiles                 map[string]interface{}
 	Keyboards                map[string]interface{}
 	AppUsageTrackEnable      bool
@@ -82,6 +84,7 @@ func loadConfig() {
 		AppUsageTrackEnable:      viper.GetBool("app_usage.enabled"),
 		LauncherWidth:            viper.GetInt("launcher.width"),
 		LauncherHeight:           viper.GetInt("launcher.height"),
+		LauncherDefaultFinders:   viper.GetStringSlice("launcher.default_categories"),
 		Profiles:                 viper.GetStringMap("display.profiles"),
 		WallpaperDir:             viper.GetString("display.wallpapers_dir"),
 		DisplayAutoConfigEnabled: viper.GetBool("display.autoconfig_enabled"),
@@ -114,6 +117,7 @@ func loadDefaults() {
 	viper.SetDefault("launcher.width", "600")
 	viper.SetDefault("launcher.height", "250")
 	viper.SetDefault("launcher.icons_folder", "/usr/share/dude/launcher")
+	viper.SetDefault("launcher.default_categories", []string{"applications", "passwords", "system"})
 	viper.SetDefault("display.wallpapers_dir", path.Join(basedir.ConfigHome, "/dude/wallpapers"))
 	viper.SetDefault("display.autoconfig_enabled", "true")
 	viper.SetDefault("display.screensaver_timeout_secs", "300")

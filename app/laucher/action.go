@@ -7,12 +7,12 @@ import (
 type Category string
 
 const (
-	Application       Category = "app"
-	Password          Category = "password"
-	File              Category = "file"
+	Application       Category = "applications"
+	Password          Category = "passwords"
+	File              Category = "files"
 	PersonalAssistant Category = "assistant"
 	System            Category = "system"
-	ShellCommand      Category = "shellCmd"
+	ShellCommand      Category = "shellCmds"
 	// ...
 )
 
