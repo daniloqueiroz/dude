@@ -65,7 +65,7 @@ func createWindow(pane *gtk.Paned) *gtk.Window {
 	return win
 }
 
-func createLabel(option laucher.Option, keyword string) *gtk.Label {
+func createLabel(option laucher.ActionMeta, keyword string) *gtk.Label {
 	label, err := gtk.LabelNew("")
 	if err != nil {
 		logger.Fatalf("Unable to create label: %v", err)

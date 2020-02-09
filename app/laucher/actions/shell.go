@@ -3,53 +3,45 @@ package actions
 import (
 	"fmt"
 	"github.com/daniloqueiroz/dude/app"
+	"github.com/daniloqueiroz/dude/app/laucher"
 	"github.com/google/logger"
 	"io/ioutil"
 	"path/filepath"
 )
 
-const (
-	ShellPrefix = "!"
-)
-
 type Shell struct {
-	name        string
-	fullpath    string
-	description string
+	shellApps laucher.Actions
 }
 
-func (p Shell) Input() string {
-	return fmt.Sprintf("%s%s", ShellPrefix, p.name)
+func (s *Shell) Find(input string) laucher.Actions {
+	if s.shellApps == nil {
+		s.loadShellActions()
+	}
+	return laucher.FilterAction(input, s.shellApps)
 }
 
-func (p Shell) Description() string {
-	return p.description
-}
-
-func (p Shell) Exec() {
-	app.NewTerminalApp(p.fullpath)
-}
-
-func (p Shell) String() string {
-	return p.Input()
-}
-
-func loadShellActions(actions map[string]Action) {
+func (s *Shell) loadShellActions() {
 	dirname := "/usr/bin"
 	files, err := ioutil.ReadDir(dirname)
 	if err != nil {
 		logger.Error("Unable to load commands")
 		return
 	}
+	var actions laucher.Actions
 	for _, f := range files {
 		if !f.IsDir() {
 			fullFilepath := filepath.Join(dirname, f.Name())
-			action := Shell{
-				name:        f.Name(),
-				fullpath:    fullFilepath,
-				description: fmt.Sprintf("Execute '%s' in terminal", f.Name()),
-			}
-			actions[action.Input()] = action
+			actions = append(actions, laucher.Action{
+				Details: laucher.ActionMeta{
+					Name:        f.Name(),
+					Description: fmt.Sprintf("Execute '%s' in terminal", f.Name()),
+					Category:    laucher.ShellCommand,
+				},
+				Exec: func() {
+					app.NewTerminalApp(fullFilepath)
+				},
+			})
 		}
 	}
+	s.shellApps = actions
 }

@@ -7,34 +7,29 @@ import (
 )
 
 type Launcher struct {
-	finder           *actions.Finder
-	availableOptions []actions.Action
+	finder           *actions.Loader
+	availableOptions laucher.Actions
 	selectedOption   int
 }
 
 func (l *Launcher) Start(v laucher.View) {
 	l.finder = actions.FinderNew()
-	l.availableOptions = make([]actions.Action, 0)
+	l.availableOptions = make(laucher.Actions, 0)
 	l.selectedOption = -1
 	v.ShowUI()
 }
 
 func (l *Launcher) InputChanged(keyword string, view laucher.View) {
-	l.availableOptions = make([]actions.Action, 0)
+	l.availableOptions = make(laucher.Actions, 0)
 	suggestions := l.finder.Suggest(keyword)
-	options := make([]laucher.Option, len(suggestions))
+	options := make([]laucher.ActionMeta, len(suggestions))
 	for idx, action := range suggestions {
 		l.availableOptions = append(l.availableOptions, action)
-		options[idx] = laucher.Option{
-			Id:          idx,
-			Name:        action.Input(),
-			Description: action.Description(),
-			Category:    laucher.System, // TODO fix it
-		}
+		options[idx] = action.Details
 	}
 	view.UpdateOptions(options, keyword)
 }
-func (l *Launcher) SelectedOption(id int, view laucher.View) {
+func (l *Launcher) OptionSelected(id int, view laucher.View) {
 	if len(l.availableOptions) > id  {
 		l.selectedOption = id
 		action := l.availableOptions[l.selectedOption]

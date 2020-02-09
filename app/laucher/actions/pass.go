@@ -2,6 +2,7 @@ package actions
 
 import (
 	"fmt"
+	"github.com/daniloqueiroz/dude/app/laucher"
 	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/daniloqueiroz/dude/app/system/proc"
 	"github.com/google/logger"
@@ -13,46 +14,27 @@ import (
 
 const (
 	PASS_DIR    = ".password-store"
-	PASS_PREFIX = "@"
 	PASS_SCRIPT = "/usr/share/dude/scripts/passtype.sh"
 )
 
 type Pass struct {
-	name        string
-	description string
+	passwords laucher.Actions
 }
 
-func (p Pass) Input() string {
-	return fmt.Sprintf("%s%s", PASS_PREFIX, p.name)
-}
-
-func (p Pass) Description() string {
-	return p.description
-}
-
-func (p Pass) Exec() {
-	err := proc.NewProcess(PASS_SCRIPT, p.name).FireAndForget()
-	if err != nil {
-		logger.Errorf("Error launching passtype")
+func (p *Pass) Find(input string) laucher.Actions {
+	if p.passwords == nil {
+		p.loadPasswordsActions()
 	}
+	return laucher.FilterAction(input, p.passwords)
 }
 
-func (p Pass) String() string {
-	return p.Input()
-}
-
-func loadPasswordsActions(actions map[string]Action) {
-	var entries []Pass
-
+func (p *Pass) loadPasswordsActions() {
 	dirname := filepath.Join(system.HomeDir(), PASS_DIR)
-	entries = append(entries, loadPassFromDir(dirname, true)...)
-	for _, pass := range entries {
-		actions[pass.Input()] = pass
-	}
+	p.passwords = loadPassFromDir(dirname, true)
 }
 
-func loadPassFromDir(dirname string, isRootDir bool) []Pass {
-	var entries []Pass
+func loadPassFromDir(dirname string, isRootDir bool) laucher.Actions {
+	var entries laucher.Actions
 	if strings.HasSuffix(dirname, ".git") {
 		return entries
 	}
@@ -71,9 +53,18 @@ func loadPassFromDir(dirname string, isRootDir bool) []Pass {
 				if !isRootDir {
 					pass = filepath.Join(path.Base(dirname), pass)
 				}
-				entries = append(entries, Pass{
-					name:        pass,
-					description: fmt.Sprintf("Password for %s", pass),
+				entries = append(entries, laucher.Action{
+					Details: laucher.ActionMeta{
+						Name:        pass,
+						Description: fmt.Sprintf("Password for %s", pass),
+						Category:    laucher.Password,
+					},
+					Exec: func() {
+						err := proc.NewProcess(PASS_SCRIPT, pass).FireAndForget()
+						if err != nil {
+							logger.Errorf("Error launching passtype")
+						}
+					},
 				})
 			}
 		}

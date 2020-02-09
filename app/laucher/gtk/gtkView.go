@@ -28,7 +28,7 @@ func NewGtkView(control laucher.Controller) laucher.View {
 	}
 }
 
-func (v *GtkView) UpdateOptions(options []laucher.Option, keyword string) {
+func (v *GtkView) UpdateOptions(options []laucher.ActionMeta, keyword string) {
 	list := createListBox()
 	for _, option := range options {
 		label := createLabel(option, keyword)
@@ -89,7 +89,7 @@ func (v *GtkView) keyPressed(keyVal uint) {
 			selected := v.list.GetSelectedRow()
 			pos = selected.GetIndex()
 		}
-		v.control.SelectedOption(pos, v)
+		v.control.OptionSelected(pos, v)
 		v.control.ExecuteSelected(v)
 	}
 }

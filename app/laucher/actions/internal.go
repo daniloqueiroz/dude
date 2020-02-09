@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"github.com/daniloqueiroz/dude/app"
 	"github.com/daniloqueiroz/dude/app/display"
+	"github.com/daniloqueiroz/dude/app/laucher"
 	"github.com/daniloqueiroz/dude/app/system"
 )
 
 const (
-	INTERNAL_PREFIX = ":"
 	LOCK_SCREEN     = "lock-screen"
 	SUSPEND         = "suspend"
 	TERMINAL        = "terminal"
@@ -16,28 +16,17 @@ const (
 )
 
 type Internal struct {
-	name        string
-	description string
-	exec        func()
+	internalCmds laucher.Actions
 }
 
-func (p Internal) Input() string {
-	return fmt.Sprintf("%s%s", INTERNAL_PREFIX, p.name)
+func (i *Internal) Find(input string) laucher.Actions {
+	if i.internalCmds == nil {
+		i.loadInternalActions()
+	}
+	return laucher.FilterAction(input, i.internalCmds)
 }
 
-func (p Internal) Description() string {
-	return p.description
-}
-
-func (p Internal) Exec() {
-	p.exec()
-}
-
-func (p Internal) String() string {
-	return p.Input()
-}
-
-func loadInternalActions(actions map[string]Action) {
+func (i *Internal) loadInternalActions() {
 	// :display [single, mirror, auto]
 	// :shutdown
 	// :volume [up, down, mute, mic(?)]
@@ -50,38 +39,47 @@ func loadInternalActions(actions map[string]Action) {
 	// :o <whatever> -> xdg-open
 	// :e <file> -> howl <file>
 	// :! <cmd> -> execute command on terminal
-	commands := []Internal{
+	i.internalCmds = laucher.Actions{
 		{
-			name:        LOCK_SCREEN,
-			description: "Locks the screen",
-			exec: func() {
+			Details: laucher.ActionMeta{
+				Name:       LOCK_SCREEN,
+				Description: "Locks the screen",
+				Category:    laucher.System,
+			},
+			Exec:  func() {
 				system.LockScreen()
 			},
 		},
 		{
-			name:        SUSPEND,
-			description: "Suspends the computer",
-			exec: func() {
+			Details: laucher.ActionMeta{
+				Name:       SUSPEND,
+				Description: "Suspends the computer",
+				Category:    laucher.System,
+			},
+			Exec:  func() {
 				system.Suspend()
 			},
 		},
 		{
-			name:        TERMINAL,
-			description: "Starts a new Terminal Window",
-			exec: func() {
+			Details: laucher.ActionMeta{
+				Name:       TERMINAL,
+				Description: "Starts a new Terminal Window",
+				Category:    laucher.System,
+			},
+			Exec:  func() {
 				app.NewTmuxTerminal()
 			},
 		},
 		{
-			name:        DISPLAY,
-			description: "Load display profile",
-			exec: func() {
+			Details: laucher.ActionMeta{
+				Name:       DISPLAY,
+				Description: "Load display profile",
+				Category:    laucher.System,
+			},
+			Exec:  func() {
 				profile := display.AutoConfigureDisplay()
 				system.SimpleNotification(fmt.Sprintf("Profile %s applied", profile)).Show()
 			},
 		},
-	}
-	for _, action := range commands {
-		actions[action.Input()] = action
 	}
 }

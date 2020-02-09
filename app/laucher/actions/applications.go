@@ -1,6 +1,7 @@
 package actions
 
 import (
+	"github.com/daniloqueiroz/dude/app/laucher"
 	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/daniloqueiroz/dude/app/system/proc"
 	"github.com/rkoesters/xdg/basedir"
@@ -8,42 +9,38 @@ import (
 	"strings"
 )
 
-type App struct {
-	name        string
-	command     []string
-	description string
+type Applications struct {
+	desktopApps laucher.Actions
 }
 
-func (p App) Input() string {
-	return p.name
+func (a *Applications) Find(input string) laucher.Actions {
+	if a.desktopApps == nil {
+		a.loadApplicationActions()
+	}
+	return laucher.FilterAction(input, a.desktopApps)
 }
 
-func (p App) Description() string {
-	return p.description
-}
-
-func (p App) Exec() {
-	proc.NewProcess(p.command[0], p.command[1:]...).FireAndForget()
-}
-
-func (p App) String() string {
-	return p.Input()
-}
-
-
-func loadApplicationActions(actions map[string]Action) {
+func (a *Applications) loadApplicationActions() {
 	dirs := append([]string(nil), basedir.DataDirs...)
 	dirs = append(dirs, basedir.DataHome)
+	var apps laucher.Actions
 	for _, dir := range dirs {
 		dir = path.Join(dir, "applications")
 		share_apps := system.LoadDesktopEntries(dir)
 		for _, app := range share_apps {
-			action := App{
-				name:        strings.ToLower(app.Name),
-				command:     strings.Fields(app.Exec),
-				description: strings.TrimSpace(app.GenericName),
+			action := laucher.Action{
+				Details: laucher.ActionMeta{
+					Name: strings.ToLower(app.Name),
+					Description: strings.TrimSpace(app.GenericName),
+					Category:laucher.Application,
+				},
+				Exec: func (){
+					command := strings.Fields(app.Exec)
+					proc.NewProcess(command[0], command[1:]...).FireAndForget()
+				},
 			}
-			actions[action.Input()] = action
+			apps = append(apps, action)
 		}
 	}
+	a.desktopApps = apps
 }
