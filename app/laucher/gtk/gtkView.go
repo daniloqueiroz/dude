@@ -8,21 +8,18 @@ import (
 
 type GtkView struct {
 	win     *gtk.Window
-	search  *gtk.SearchEntry
-	pane    *gtk.Paned
-	list    *gtk.ListBox
+	pane    *LauncherPane
 	control laucher.Controller
 }
 
 func NewGtkView(control laucher.Controller) laucher.View {
 	gtk.Init(nil)
-	search := createSearch()
-	pane := createPane(search)
-	window := createWindow(pane)
+	pane := NewLauncherPane()
+	window := createWindow()
+	window.Add(pane.GetWidget())
 
 	return &GtkView{
 		win:     window,
-		search:  search,
 		pane:    pane,
 		control: control,
 	}
@@ -34,12 +31,19 @@ func (v *GtkView) UpdateOptions(options []laucher.ActionMeta, keyword string) {
 		label := createLabel(option, keyword)
 		list.Add(label)
 	}
-	v.refresh(list)
+	v.pane.Refresh(list)
+	v.win.ShowAll()
+}
+
+func (v *GtkView) SetStatusMessage(message string) {
+	//v.pane.Status.Pop(0)
+	v.pane.Status.Push(0, message)
+	v.pane.Status.ShowAll()
 }
 
 func (v *GtkView) ShowUI() {
-	v.refresh(createListBox())
-	v.win.SetFocusChild(v.search)
+	v.pane.Refresh(createListBox())
+	v.win.SetFocusChild(v.pane.Search)
 	v.win.Connect("destroy", func() {
 		v.control.Quit(v)
 	})
@@ -47,10 +51,11 @@ func (v *GtkView) ShowUI() {
 		keyEvent := &gdk.EventKey{ev}
 		v.keyPressed(keyEvent.KeyVal())
 	})
-	v.search.Connect("changed", func(search *gtk.SearchEntry) {
+	v.pane.Search.Connect("changed", func(search *gtk.SearchEntry) {
 		input, _ := search.GetText()
 		v.control.InputChanged(input, v)
 	})
+	v.win.ShowAll()
 	gtk.Main()
 }
 func (v *GtkView) HideUI() {
@@ -60,33 +65,21 @@ func (v *GtkView) Destroy() {
 	gtk.MainQuit()
 }
 
-func (v *GtkView) refresh(list *gtk.ListBox) {
-	w, err := v.pane.GetChild2()
-	if err == nil {
-		w.Hide()
-		v.pane.Remove(w)
-	}
-	v.list = list
-	v.list.SetSelectionMode(gtk.SELECTION_SINGLE)
-	v.pane.Add2(createScroll(v.list))
-	v.win.ShowAll()
-}
-
 func (v *GtkView) keyPressed(keyVal uint) {
 	if keyVal == gdk.KEY_Escape {
 		v.control.Quit(v)
-	} else if keyVal == gdk.KEY_Down && v.search.IsFocus() {
-		v.win.SetFocusChild(v.list)
+	} else if keyVal == gdk.KEY_Down && v.pane.Search.IsFocus() {
+		v.win.SetFocusChild(v.pane.List)
 	} else if keyVal == gdk.KEY_Tab {
-		if v.search.IsFocus() {
-			v.win.SetFocusChild(v.list)
+		if v.pane.Search.IsFocus() {
+			v.win.SetFocusChild(v.pane.List)
 		} else {
-			v.win.SetFocusChild(v.search)
+			v.win.SetFocusChild(v.pane.Search)
 		}
 	} else if keyVal == gdk.KEY_Return {
 		pos := 0
-		if v.list != nil && v.list.GetSelectedRow() != nil {
-			selected := v.list.GetSelectedRow()
+		if v.pane.List != nil && v.pane.List.GetSelectedRow() != nil {
+			selected := v.pane.List.GetSelectedRow()
 			pos = selected.GetIndex()
 		}
 		v.control.OptionSelected(pos, v)

@@ -28,25 +28,46 @@ func createListBox() *gtk.ListBox {
 	return list
 }
 
-func createScroll(list *gtk.ListBox) *gtk.ScrolledWindow {
+func createScroll() *gtk.ScrolledWindow {
 	vA, _ := gtk.AdjustmentNew(1, 0, 10, 1, 1, 10)
 	hA, _ := gtk.AdjustmentNew(1, 1, 1, 0, 0, 1)
 	scroll, _ := gtk.ScrolledWindowNew(hA, vA)
-	scroll.Add(list)
 	return scroll
 }
 
-func createPane(search *gtk.SearchEntry) *gtk.Paned {
+func createBox() *gtk.Box {
+	box, err := gtk.BoxNew(gtk.ORIENTATION_VERTICAL, 0)
+	if err != nil {
+		logger.Fatalf("Unable to create Box:", err)
+	}
+	return box
+}
+
+func createPane() *gtk.Paned {
 	pane, err := gtk.PanedNew(gtk.ORIENTATION_VERTICAL)
 	if err != nil {
 		logger.Fatalf("Unable to create Pane:", err)
 	}
 
-	pane.Add(search)
 	return pane
 }
 
-func createWindow(pane *gtk.Paned) *gtk.Window {
+func createStatus() *gtk.Statusbar {
+	status, err := gtk.StatusbarNew()
+	if err != nil {
+		logger.Fatalf("Unable to create StatusBar:", err)
+	}
+	status.SetOpacity(0.20)
+	status.SetBorderWidth(0)
+	status.SetMarginTop(0)
+	status.SetMarginBottom(0)
+	status.SetMarginStart(0)
+	status.SetMarginEnd(0)
+	status.SetCanFocus(false)
+	return status
+}
+
+func createWindow() *gtk.Window {
 	win, err := gtk.WindowNew(gtk.WINDOW_TOPLEVEL)
 	if err != nil {
 		logger.Fatalf("Unable to create window: %v", err)
@@ -60,8 +81,6 @@ func createWindow(pane *gtk.Paned) *gtk.Window {
 	win.SetSizeRequest(system.Config.LauncherWidth, system.Config.LauncherHeight)
 	win.SetSkipTaskbarHint(true)
 	win.SetPosition(gtk.WIN_POS_CENTER)
-	win.Add(pane)
-
 	return win
 }
 

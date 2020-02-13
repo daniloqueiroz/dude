@@ -22,22 +22,22 @@ type config struct {
 	AppTerminal              string
 	AppBacklight             string
 	AppXrandr                string
-	AppSetxkbmap             string
-	AppPactl                 string
-	TerminalFont             string
-	TerminalFontSize         string
-	AppUsageDataDir          string
-	BackLightAC              int
-	BackLightBattery         int
-	LauncherHeight           int
-	LauncherWidth            int
-	LauncherIconsFolder      string
-	LauncherDefaultFinders   []string
-	Profiles                 map[string]interface{}
-	Keyboards                map[string]interface{}
-	AppUsageTrackEnable      bool
-	DisplayAutoConfigEnabled bool
-	ScreenSaverTimeoutSecs   int
+	AppSetxkbmap              string
+	AppPactl                  string
+	TerminalFont              string
+	TerminalFontSize          string
+	AppUsageDataDir           string
+	BackLightAC               int
+	BackLightBattery          int
+	LauncherHeight            int
+	LauncherWidth             int
+	LauncherIconsFolder       string
+	LauncherDefaultCategories []string
+	Profiles                  map[string]interface{}
+	Keyboards                 map[string]interface{}
+	AppUsageTrackEnable       bool
+	DisplayAutoConfigEnabled  bool
+	ScreenSaverTimeoutSecs    int
 }
 
 var Config config
@@ -74,24 +74,24 @@ func loadConfig() {
 		AppPolkitAgent:           viper.GetString("apps.polkit-agent"),
 		AppTmux:                  viper.GetString("apps.tmux"),
 		AppTerminal:              viper.GetString("apps.terminal"),
-		AppBacklight:             viper.GetString("apps.xbacklight"),
-		AppXrandr:                viper.GetString("apps.xrandr"),
-		AppSetxkbmap:             viper.GetString("apps.setxkbmap"),
-		AppPactl:                 viper.GetString("apps.pactl"),
-		TerminalFont:             viper.GetString("terminal.font"),
-		TerminalFontSize:         viper.GetString("terminal.font_size"),
-		AppUsageDataDir:          viper.GetString("app_usage.data_dir"),
-		AppUsageTrackEnable:      viper.GetBool("app_usage.enabled"),
-		LauncherWidth:            viper.GetInt("launcher.width"),
-		LauncherHeight:           viper.GetInt("launcher.height"),
-		LauncherDefaultFinders:   viper.GetStringSlice("launcher.default_categories"),
-		Profiles:                 viper.GetStringMap("display.profiles"),
-		WallpaperDir:             viper.GetString("display.wallpapers_dir"),
-		DisplayAutoConfigEnabled: viper.GetBool("display.autoconfig_enabled"),
-		ScreenSaverTimeoutSecs:   viper.GetInt("display.screensaver_timeout_secs"),
-		BackLightAC:              viper.GetInt("display.brightness.ac"),
-		BackLightBattery:         viper.GetInt("display.brightness.battery"),
-		Keyboards:                viper.GetStringMap("input.keyboards"),
+		AppBacklight:              viper.GetString("apps.xbacklight"),
+		AppXrandr:                 viper.GetString("apps.xrandr"),
+		AppSetxkbmap:              viper.GetString("apps.setxkbmap"),
+		AppPactl:                  viper.GetString("apps.pactl"),
+		TerminalFont:              viper.GetString("terminal.font"),
+		TerminalFontSize:          viper.GetString("terminal.font_size"),
+		AppUsageDataDir:           viper.GetString("app_usage.data_dir"),
+		AppUsageTrackEnable:       viper.GetBool("app_usage.enabled"),
+		LauncherWidth:             viper.GetInt("launcher.width"),
+		LauncherHeight:            viper.GetInt("launcher.height"),
+		LauncherDefaultCategories: viper.GetStringSlice("launcher.default_categories"),
+		Profiles:                  viper.GetStringMap("display.profiles"),
+		WallpaperDir:              viper.GetString("display.wallpapers_dir"),
+		DisplayAutoConfigEnabled:  viper.GetBool("display.autoconfig_enabled"),
+		ScreenSaverTimeoutSecs:    viper.GetInt("display.screensaver_timeout_secs"),
+		BackLightAC:               viper.GetInt("display.brightness.ac"),
+		BackLightBattery:          viper.GetInt("display.brightness.battery"),
+		Keyboards:                 viper.GetStringMap("input.keyboards"),
 	}
 }
 

@@ -3,6 +3,7 @@ package laucher
 // View
 type View interface {
 	UpdateOptions(options []ActionMeta, keyword string)
+	SetStatusMessage(message string)
 	ShowUI()
 	HideUI()
 	Destroy()
