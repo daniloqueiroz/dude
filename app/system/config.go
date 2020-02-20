@@ -10,18 +10,18 @@ import (
 type config struct {
 	DudeIcon string
 
-	WallpaperDir             string
-	AppFeh                   string
-	AppCompton               string
-	AppXset                  string
-	AppXssLock               string
-	AppXsecurelock           string
-	AppAcpi                  string
-	AppPolkitAgent           string
-	AppTmux                  string
-	AppTerminal              string
-	AppBacklight             string
-	AppXrandr                string
+	WallpaperDir              string
+	AppFeh                    string
+	AppCompositor             string
+	AppXset                   string
+	AppXssLock                string
+	AppXsecurelock            string
+	AppAcpi                   string
+	AppPolkitAgent            string
+	AppTmux                   string
+	AppTerminal               string
+	AppBacklight              string
+	AppXrandr                 string
 	AppSetxkbmap              string
 	AppPactl                  string
 	TerminalFont              string
@@ -63,17 +63,17 @@ func loadFromFile() {
 
 func loadConfig() {
 	Config = config{
-		DudeIcon:                 viper.GetString("icon"),
-		LauncherIconsFolder:      viper.GetString("launcher.icons_folder"),
-		AppFeh:                   viper.GetString("apps.feh"),
-		AppCompton:               viper.GetString("apps.compton"),
-		AppXset:                  viper.GetString("apps.xset"),
-		AppXssLock:               viper.GetString("apps.xss_lock"),
-		AppXsecurelock:           viper.GetString("apps.xsecurelock"),
-		AppAcpi:                  viper.GetString("apps.acpi"),
-		AppPolkitAgent:           viper.GetString("apps.polkit-agent"),
-		AppTmux:                  viper.GetString("apps.tmux"),
-		AppTerminal:              viper.GetString("apps.terminal"),
+		DudeIcon:                  viper.GetString("icon"),
+		LauncherIconsFolder:       viper.GetString("launcher.icons_folder"),
+		AppFeh:                    viper.GetString("apps.feh"),
+		AppCompositor:             viper.GetString("apps.picom"),
+		AppXset:                   viper.GetString("apps.xset"),
+		AppXssLock:                viper.GetString("apps.xss_lock"),
+		AppXsecurelock:            viper.GetString("apps.xsecurelock"),
+		AppAcpi:                   viper.GetString("apps.acpi"),
+		AppPolkitAgent:            viper.GetString("apps.polkit-agent"),
+		AppTmux:                   viper.GetString("apps.tmux"),
+		AppTerminal:               viper.GetString("apps.terminal"),
 		AppBacklight:              viper.GetString("apps.xbacklight"),
 		AppXrandr:                 viper.GetString("apps.xrandr"),
 		AppSetxkbmap:              viper.GetString("apps.setxkbmap"),
@@ -98,7 +98,7 @@ func loadConfig() {
 func loadDefaults() {
 	viper.SetDefault("icon", "/usr/share/dude/dude.png")
 	viper.SetDefault("apps.feh", "/usr/bin/feh")
-	viper.SetDefault("apps.compton", "/usr/bin/compton")
+	viper.SetDefault("apps.picom", "/usr/bin/picom")
 	viper.SetDefault("apps.xset", "/usr/bin/xset")
 	viper.SetDefault("apps.xss_lock", "/usr/bin/xss-lock")
 	viper.SetDefault("apps.xsecurelock", "/usr/bin/xsecurelock")

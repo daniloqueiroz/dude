@@ -14,6 +14,6 @@ func SetWallpaper() {
 
 func StartCompositor(wd *proc.Watchdog) {
 	logger.Info("Starting compton compositor")
-	cmd := proc.NewProcess(system.Config.AppCompton, "-d", ":0")
+	cmd := proc.NewProcess(system.Config.AppCompositor, "--backend", "glx", "--vsync", "-d", ":0")
 	wd.Supervise(cmd)
 }
