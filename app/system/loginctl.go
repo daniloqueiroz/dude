@@ -32,3 +32,20 @@ func Suspend() {
 	}
 	conn.Suspend(false)
 }
+
+func Reboot() {
+	conn, err := login1.New()
+	if err != nil {
+		logger.Error("Unable to connect to DBUS", err)
+	}
+	conn.Reboot(false)
+}
+
+
+func Shutdown() {
+	conn, err := login1.New()
+	if err != nil {
+		logger.Error("Unable to connect to DBUS", err)
+	}
+	conn.PowerOff(false)
+}

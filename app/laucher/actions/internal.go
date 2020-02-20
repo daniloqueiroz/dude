@@ -9,10 +9,12 @@ import (
 )
 
 const (
-	LOCK_SCREEN     = "lock-screen"
-	SUSPEND         = "suspend"
-	TERMINAL        = "terminal"
-	DISPLAY         = "display"
+	LOCK_SCREEN = "lock-screen"
+	SUSPEND     = "suspend"
+	REBOOT      = "reboot"
+	SHUTDOWN    = "shutdown"
+	TERMINAL    = "terminal"
+	DISPLAY     = "display"
 )
 
 type Internal struct {
@@ -42,41 +44,61 @@ func (i *Internal) loadInternalActions() {
 	i.internalCmds = laucher.Actions{
 		{
 			Details: laucher.ActionMeta{
-				Name:       LOCK_SCREEN,
+				Name:        LOCK_SCREEN,
 				Description: "Locks the screen",
 				Category:    laucher.System,
 			},
-			Exec:  func() {
+			Exec: func() {
 				system.LockScreen()
 			},
 		},
 		{
 			Details: laucher.ActionMeta{
-				Name:       SUSPEND,
+				Name:        SUSPEND,
 				Description: "Suspends the computer",
 				Category:    laucher.System,
 			},
-			Exec:  func() {
+			Exec: func() {
 				system.Suspend()
 			},
 		},
 		{
 			Details: laucher.ActionMeta{
-				Name:       TERMINAL,
+				Name:        REBOOT,
+				Description: "Reboots the computer",
+				Category:    laucher.System,
+			},
+			Exec: func() {
+				system.Reboot()
+			},
+		},
+		{
+			Details: laucher.ActionMeta{
+				Name:        SHUTDOWN,
+				Description: "Turns off the computer",
+				Category:    laucher.System,
+			},
+			Exec: func() {
+				system.Shutdown()
+			},
+		},
+		{
+			Details: laucher.ActionMeta{
+				Name:        TERMINAL,
 				Description: "Starts a new Terminal Window",
 				Category:    laucher.System,
 			},
-			Exec:  func() {
+			Exec: func() {
 				app.NewTmuxTerminal()
 			},
 		},
 		{
 			Details: laucher.ActionMeta{
-				Name:       DISPLAY,
+				Name:        DISPLAY,
 				Description: "Load display profile",
 				Category:    laucher.System,
 			},
-			Exec:  func() {
+			Exec: func() {
 				profile := display.AutoConfigureDisplay()
 				system.SimpleNotification(fmt.Sprintf("Profile %s applied", profile)).Show()
 			},
