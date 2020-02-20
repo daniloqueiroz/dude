@@ -114,7 +114,7 @@ func loadDefaults() {
 	viper.SetDefault("terminal.font_size", "12")
 	viper.SetDefault("app_usage.data_dir", "appusage")
 	viper.SetDefault("app_usage.enabled", "true")
-	viper.SetDefault("launcher.width", "600")
+	viper.SetDefault("launcher.width", "700")
 	viper.SetDefault("launcher.height", "250")
 	viper.SetDefault("launcher.icons_folder", "/usr/share/dude/launcher")
 	viper.SetDefault("launcher.default_categories", []string{"applications", "passwords", "system"})

@@ -96,20 +96,11 @@ func getIconFile(category laucher.Category) string {
 	return filepath.Join(system.Config.LauncherIconsFolder, icons[category])
 }
 
-func createLabel(option laucher.ActionMeta, keyword string) *gtk.Box {
-	labelWithImage, err := gtk.BoxNew(gtk.ORIENTATION_HORIZONTAL, 2)
-
-	icon, err := gtk.ImageNewFromFile(getIconFile(option.Category))
-	if err != nil {
-		logger.Fatalf("Unable to load image: %#v", err)
-	}
-	labelWithImage.PackStart(icon, false, false, 5)
-
+func createLabel(option laucher.ActionMeta, keyword string) *gtk.Label {
 	label, err := gtk.LabelNew("")
 	if err != nil {
 		logger.Fatalf("Unable to create label: %v", err)
 	}
-	labelWithImage.PackStart(label, false, false, 0)
 
 	name := option.Name
 	startIdx := strings.Index(name, keyword)
@@ -120,8 +111,9 @@ func createLabel(option laucher.ActionMeta, keyword string) *gtk.Box {
 	}
 
 	title := fmt.Sprintf(
-		"<tt><big>%s</big></tt> <small>%s</small>", name, option.Description)
+		"<tt><span size=\"small\" fgalpha=\"75%%\">%15v</span> <span size=\"x-large\">%s</span></tt>  %s",
+		option.Category, name, option.Description)
 	label.SetMarkup(title)
 	label.SetHAlign(gtk.ALIGN_START)
-	return labelWithImage
+	return label
 }
