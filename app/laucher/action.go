@@ -12,7 +12,7 @@ const (
 	File              Category = "files"
 	PersonalAssistant Category = "assistant"
 	System            Category = "system"
-	ShellCommand      Category = "shellCmds"
+	ShellCommand      Category = "shell"
 	// ...
 )
 
