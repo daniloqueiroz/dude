@@ -32,7 +32,7 @@ func init() {
 
 	system.InitConfig()
 
-	rootCmd.AddCommand(daemonCmd)
+	rootCmd.AddCommand(sessionCmd)
 	rootCmd.AddCommand(lockCmd)
 	rootCmd.AddCommand(suspendCmd)
 	rootCmd.AddCommand(terminalCmd)

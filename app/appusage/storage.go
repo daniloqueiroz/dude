@@ -80,7 +80,7 @@ func (j *Journal) Read(receiver chan interface{}) error {
 	}
 	go func() {
 		logger.Infof("Reading journal file %v", file)
-		defer system.OnPanic("Journal:Read")
+		defer system.OnPanic("Journal:Read", make(chan error))
 		scanner := bufio.NewScanner(file)
 		for scanner.Scan() {
 			data := scanner.Bytes()
@@ -89,7 +89,6 @@ func (j *Journal) Read(receiver chan interface{}) error {
 				logger.Errorf("Error deserializing entry: %v", err)
 				continue
 			}
-			logger.Infof("Entry: %v", file)
 			receiver <- entry
 		}
 		close(receiver)

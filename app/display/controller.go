@@ -2,6 +2,7 @@ package display
 
 import (
 	"errors"
+	"github.com/daniloqueiroz/dude/app"
 	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/daniloqueiroz/dude/app/system/proc"
 	"github.com/google/logger"
@@ -9,7 +10,7 @@ import (
 )
 
 func ApplyProfile(profileName string) error {
-	screens := DetectOutputs()
+	screens := system.NewXorg(nil).DetectOutputs()
 	profile := LoadProfiles(system.Config.Profiles).GetProfile(profileName)
 	if profile == nil {
 		return errors.New("no profile found")
@@ -19,7 +20,7 @@ func ApplyProfile(profileName string) error {
 }
 
 func AutoConfigureDisplay() string {
-	screens := DetectOutputs()
+	screens := system.NewXorg(nil).DetectOutputs()
 	var screenNames []string
 	for _, s := range screens {
 		if s.IsConnected {
@@ -32,7 +33,7 @@ func AutoConfigureDisplay() string {
 	return selected.Name
 }
 
-func applyProfile(selected *Profile, screens []*Screen) {
+func applyProfile(selected *Profile, screens []*system.Screen) {
 	var params []string
 	for _, screen := range screens {
 		params = append(params, "--output", screen.Name)
@@ -56,5 +57,5 @@ func applyProfile(selected *Profile, screens []*Screen) {
 	if err != nil {
 		logger.Errorf("Error applying profile %s: %v", selected.Name, err)
 	}
-	SetWallpaper()
+	app.FehProc().FireAndForget()
 }

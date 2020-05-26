@@ -4,20 +4,11 @@ package appusage
 import (
 	"bytes"
 	"errors"
-	"log"
-	"time"
-
 	"github.com/BurntSushi/xgb"
 	"github.com/BurntSushi/xgb/screensaver"
 	"github.com/BurntSushi/xgb/xproto"
+	"log"
 )
-
-type WindowTracker interface {
-	Snooze()
-	Wakeup()
-	Update(w Window)
-}
-
 
 type Xorg struct {
 	conn        *xgb.Conn
@@ -145,50 +136,12 @@ func Connect(display string) Xorg {
 	return x
 }
 
-func (x Xorg) waitForEvent(events chan<- xgb.Event) {
+func (x Xorg) Subscribe(events chan<- xgb.Event) {
 	for {
 		ev, err := x.conn.WaitForEvent()
 		if err != nil {
 			log.Println("wait for event:", err)
 		}
 		events <- ev
-	}
-}
-
-func (x Xorg) queryIdle() time.Duration {
-	info, err := screensaver.QueryInfo(x.conn, xproto.Drawable(x.root)).Reply()
-	if err != nil {
-		log.Println("query idle:", err)
-		return 0
-	}
-	return time.Duration(info.MsSinceUserInput) * time.Millisecond
-}
-
-func (x Xorg) Collect(t WindowTracker, timeout time.Duration) {
-	if win, ok := x.window(); ok {
-		t.Update(win)
-	}
-	events := make(chan xgb.Event, 1)
-	go x.waitForEvent(events)
-	for {
-		select {
-		case event := <-events:
-			switch e := event.(type) {
-			case xproto.PropertyNotifyEvent:
-				if win, ok := x.window(); ok {
-					t.Wakeup()
-					t.Update(win)
-				}
-			case screensaver.NotifyEvent:
-				switch e.State {
-				case screensaver.StateOn:
-					t.Snooze()
-				default:
-					t.Wakeup()
-				}
-			}
-		case <-time.After(timeout):
-			t.Snooze()
-		}
 	}
 }

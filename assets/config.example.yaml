@@ -1,9 +1,10 @@
+# Display related configuration, such as
+# wallpaper, screensaver, screens resolutions/profiles
 display:
+  autoconfig_enabled: true ## ??
   wallpapers_dir: .config/dude/wallpapers/
   screensaver_timeout_secs: 300
-  brightness:
-    ac: 100
-    battery: 20
+  # display profiles
   profiles:
     home-office:
       eDP1:
@@ -14,6 +15,13 @@ display:
     single:
       eDP1:
         resolution: auto
+# Power saving adjustments
+power:
+  brightness:
+    # Define screen brightness for AC and Battery modes
+    ac: 100
+    battery: 20
+# Input devices config
 input:
   keyboards:
     CM Storm QuickFire Rapid keyboard:
@@ -24,7 +32,7 @@ input:
       layout: br
   mouse:
     natural_scrolling: true
-terminal:
-  font: Source Code Pro
-  font_size: 12
-
+# App Usage Time
+app_usage:
+  data_dir: app_usage
+  enabled: true

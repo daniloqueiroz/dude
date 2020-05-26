@@ -1,40 +1,41 @@
-package daemons
+package session
 
 import (
+	"context"
 	"github.com/daniloqueiroz/dude/app"
 	"github.com/daniloqueiroz/dude/app/display"
 	"github.com/daniloqueiroz/dude/app/system"
-	"github.com/daniloqueiroz/dude/app/system/proc"
+	"github.com/daniloqueiroz/dude/app/system/supervisor"
 	"github.com/google/logger"
-	"syscall"
 	"time"
 )
 
-func Powerd() {
-	proc.CreatePidFile("powerd")
-	daemon := proc.NewDaemon(monitorBattery)
-	daemon.Start(syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
-}
+func batteryMonitorSupervisor(supervisor *supervisor.Supervisor) {
+	supervisor.AddTask("BatteryMonitor", func(ctx context.Context) error {
+		var notifiedLow = false
+		var stateChanged = false
+		var state = app.CheckBattery()
+		var timeout = nextCheckDelay(state)
 
-func monitorBattery() {
-	logger.Info("Powerd is running")
-	var notifiedLow = false
-	var stateChanged = false
-	var state = app.CheckBattery()
-
-	for {
-		newstate := app.CheckBattery()
-		if state != app.AC_ONLINE && state != app.DISCHARGING {
-			notify(state, &notifiedLow)
+		for {
+			select {
+			case <-ctx.Done():
+				return nil
+			case <-time.After(timeout):
+				newstate := app.CheckBattery()
+				if state != app.AC_ONLINE && state != app.DISCHARGING {
+					notify(state, &notifiedLow)
+				}
+				stateChanged = newstate != state
+				if stateChanged {
+					logger.Infof("Power state changed to %#v", newstate)
+					adjustBacklight(newstate)
+				}
+				state = app.CheckBattery()
+				timeout = nextCheckDelay(state)
+			}
 		}
-		stateChanged = newstate != state
-		if stateChanged {
-			logger.Infof("Power state changed to %#v", newstate)
-			adjustBacklight(newstate)
-		}
-		state = app.CheckBattery()
-		time.Sleep(nextCheckDelay(state))
-	}
+	})
 }
 
 func adjustBacklight(newState app.PowerState) {

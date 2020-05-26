@@ -25,7 +25,7 @@ Dude is based on the following principals:
 - pass
 - lxpolkit
 - tmux
-- st
+- alacritty
 - xbacklight
 
 # Credits

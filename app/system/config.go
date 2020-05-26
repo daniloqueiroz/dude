@@ -24,8 +24,6 @@ type config struct {
 	AppXrandr                 string
 	AppSetxkbmap              string
 	AppPactl                  string
-	TerminalFont              string
-	TerminalFontSize          string
 	AppUsageDataDir           string
 	BackLightAC               int
 	BackLightBattery          int
@@ -78,8 +76,6 @@ func loadConfig() {
 		AppXrandr:                 viper.GetString("apps.xrandr"),
 		AppSetxkbmap:              viper.GetString("apps.setxkbmap"),
 		AppPactl:                  viper.GetString("apps.pactl"),
-		TerminalFont:              viper.GetString("terminal.font"),
-		TerminalFontSize:          viper.GetString("terminal.font_size"),
 		AppUsageDataDir:           viper.GetString("app_usage.data_dir"),
 		AppUsageTrackEnable:       viper.GetBool("app_usage.enabled"),
 		LauncherWidth:             viper.GetInt("launcher.width"),
@@ -105,13 +101,11 @@ func loadDefaults() {
 	viper.SetDefault("apps.acpi", "/usr/bin/acpi")
 	viper.SetDefault("apps.polkit-agent", "/usr/bin/lxpolkit")
 	viper.SetDefault("apps.tmux", "/usr/bin/tmux")
-	viper.SetDefault("apps.terminal", "/usr/bin/st")
+	viper.SetDefault("apps.terminal", "/usr/bin/alacritty")
 	viper.SetDefault("apps.xbacklight", "/usr/bin/xbacklight")
 	viper.SetDefault("apps.xrandr", "/usr/bin/xrandr")
 	viper.SetDefault("apps.setxkbmap", "/usr/bin/setxkbmap")
 	viper.SetDefault("apps.pactl", "/usr/bin/pactl")
-	viper.SetDefault("terminal.font", "Source Code Pro")
-	viper.SetDefault("terminal.font_size", "12")
 	viper.SetDefault("app_usage.data_dir", "appusage")
 	viper.SetDefault("app_usage.enabled", "true")
 	viper.SetDefault("launcher.width", "700")

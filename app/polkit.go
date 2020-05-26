@@ -3,9 +3,10 @@ package app
 import (
 	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/daniloqueiroz/dude/app/system/proc"
+	"github.com/google/logger"
 )
 
-func StartPolkit(wd *proc.Watchdog) {
-	cmd := proc.NewProcess(system.Config.AppPolkitAgent)
-	wd.Supervise(cmd)
+func PolkitProc() *proc.Process {
+	logger.Info("Starting PolKit agent")
+	return proc.NewProcess(system.Config.AppPolkitAgent)
 }

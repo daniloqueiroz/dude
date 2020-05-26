@@ -23,7 +23,7 @@ const (
 )
 
 type Process struct {
-	cmd   string
+	Cmd   string
 	args  []string
 	goCmd *exec.Cmd
 	state State
@@ -31,7 +31,7 @@ type Process struct {
 
 func NewProcess(cmd string, args ...string) *Process {
 	return &Process{
-		cmd:   cmd,
+		Cmd:   cmd,
 		args:  args,
 		goCmd: nil,
 		state: NotStarted,
@@ -49,16 +49,16 @@ func (p *Process) updateState(newState State) {
 func (p *Process) Stop() {
 	if p.State() == Running {
 		if err := p.goCmd.Process.Kill(); err != nil {
-			logger.Errorf("Error killing process %: %v", p.cmd, err)
+			logger.Errorf("Error killing process %: %v", p.Cmd, err)
 		}
 	}
 }
 
 func (p *Process) FireAndForget() error {
 	if p.State() != NotStarted {
-		return errors.New(fmt.Sprintf("Process %s is already started", p.cmd))
+		return errors.New(fmt.Sprintf("Process %s is already started", p.Cmd))
 	}
-	p.goCmd = exec.Command(p.cmd, p.args...)
+	p.goCmd = exec.Command(p.Cmd, p.args...)
 	p.updateState(Running)
 	return p.goCmd.Start()
 }
@@ -70,10 +70,10 @@ func (p *Process) FireAndWait() error {
 
 func (p *Process) FireAndWaitForOutput() (string, error) {
 	if p.State() == Running {
-		logger.Errorf("Process %s is already running", p.cmd)
-		return "", errors.New(fmt.Sprintf("process %s is already running", p.cmd))
+		logger.Errorf("Process %s is already running", p.Cmd)
+		return "", errors.New(fmt.Sprintf("process %s is already running", p.Cmd))
 	} else {
-		p.goCmd = exec.Command(p.cmd, p.args...)
+		p.goCmd = exec.Command(p.Cmd, p.args...)
 		p.updateState(Running)
 	}
 

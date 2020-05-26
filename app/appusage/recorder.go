@@ -2,7 +2,9 @@
 package appusage
 
 import (
-	"github.com/daniloqueiroz/dude/app/system"
+	"github.com/BurntSushi/xgb"
+	"github.com/BurntSushi/xgb/screensaver"
+	"github.com/BurntSushi/xgb/xproto"
 	"github.com/google/logger"
 	"time"
 )
@@ -52,23 +54,50 @@ func (r *Recorder) Wakeup() {
 	}
 }
 
-func (r *Recorder) flushTask() {
-	go func() {
-		defer system.OnPanic("Recorder:flushTask")
-		logger.Info("FlushTask started")
-		cTick := time.NewTicker(120 * time.Second)
-		defer cTick.Stop()
-		for range cTick.C {
-			logger.Info("Flush active window usage")
-			r.Update(r.active.Window)
+func (r *Recorder) Flush() {
+	logger.Info("Flush active window usage")
+	r.Update(r.active.Window)
+}
+
+func (r *Recorder) RegisterListener(events chan xgb.Event) {
+	defer r.x.Close()
+	defer close(events)
+	r.x.Subscribe(events)
+}
+
+func (r *Recorder) HandleEvents(events chan xgb.Event) {
+	if win, ok := r.x.window(); ok {
+		r.Update(win)
+	}
+
+	timeout := time.Minute*5
+	for {
+		select {
+		case event := <-events:
+			switch e := event.(type) {
+			case xproto.PropertyNotifyEvent:
+				if win, ok := r.x.window(); ok {
+					r.Wakeup()
+					r.Update(win)
+				}
+			case screensaver.NotifyEvent:
+				switch e.State {
+				case screensaver.StateOn:
+					r.Snooze()
+				default:
+					r.Wakeup()
+				}
+			}
+		case <-time.After(timeout):
+			r.Snooze()
 		}
-	}()
+	}
 }
 
 func (r *Recorder) Start() {
-	defer r.x.Close()
-	r.flushTask()
-	r.x.Collect(r, time.Minute*5)
+	events := make(chan xgb.Event, 1)
+	go r.RegisterListener(events)
+	go r.HandleEvents(events)
 }
 
 func NewRecorder(display string, store *Journal) (*Recorder, error) {

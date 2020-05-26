@@ -15,7 +15,7 @@ var appUsageCmd = &cobra.Command{
 	Use:   "app-usage",
 	Short: "Show app usage report",
 	Run: func(cmd *cobra.Command, args []string) {
-		report, err := appusage.LoadReport()
+		report, err := appusage.NewReport(journalStore())
 		if err != nil {
 			logger.Fatalf("Unable to load report: %v", err)
 		}
