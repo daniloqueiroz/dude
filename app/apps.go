@@ -10,7 +10,7 @@ func FehProc() *proc.Process {
 }
 
 func CompositorProc() *proc.Process {
-	return proc.NewProcess(system.Config.AppCompositor, "--backend", "glx", "--vsync", "-d", ":0")
+	return proc.NewProcess(system.Config.AppCompositor, "--backend", "glx", "--vsync")
 }
 
 func XSetScreensaverTimeProc() *proc.Process {
