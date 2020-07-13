@@ -1,4 +1,4 @@
-Dan's Ultimate Desktop Environment
+D's Ultimate Desktop Environment
 
 # About it
 
@@ -12,7 +12,6 @@ Dude is based on the following principals:
   - Display profiles
   - Pass integration
   - Time tracking
-  - Google assistant?
   - Notification history?
 
 # Dependencies
