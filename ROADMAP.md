@@ -24,14 +24,14 @@
     * pass store
     * internal
       * suspend
-      * !shutdown
+      * shutdown
       * ?display
-      * !brightness
+      * brightness
       * lock-screen
       * !volume
       * !input/keyboard
+      * !!config (xdg-open ~/.config/dude/config.yml)
 # v2
-  * Google assistant
   * NetworkManager/connman ?
   * File search
   * launcher xdg-open
