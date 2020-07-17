@@ -5,12 +5,10 @@ INSTALL_MODE=$1
 SOURCE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 TARGET_DIR=/usr/share/dude
 TARGET_BINARY=/usr/bin/dude
-TARGET_XSESSION=/usr/share/xsessions/dude.desktop
 
 function dev_install() {
   ln -s ${SOURCE_DIR}/assets ${TARGET_DIR}
   ln -s ${SOURCE_DIR}/dude ${TARGET_BINARY}
-#  ln -s ${SOURCE_DIR}/assets/dude.desktop  ${TARGET_XSESSION}
 }
 
 function system_install() {
