@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-var backlightCmd = &cobra.Command{
+var brightnessCmd = &cobra.Command{
 	Use:   "brightness",
 	Short: "Change brightness",
 	Args: func(cmd *cobra.Command, args []string) error {
@@ -34,12 +34,12 @@ var backlightCmd = &cobra.Command{
 		if err != nil {
 			logger.Fatalf("Unable to adjust brightness %v", err)
 		} else {
-			backlight, err := display.GetBrightness()
+			brightness, err := display.GetBrightness()
 			if err != nil {
-				logger.Errorf("Unable to get backlight info")
+				logger.Errorf("Unable to get brightness info", err)
 			} else {
-				value, _ := strconv.ParseFloat(strings.TrimSpace(backlight), 64)
-				system.SimpleNotification(fmt.Sprintf("Backlight set to %.0f%%", value)).Show()
+				value, _ := strconv.ParseFloat(strings.TrimSpace(brightness), 64)
+				system.SimpleNotification(fmt.Sprintf("Brightness set to %.0f%%", value)).Show()
 			}
 		}
 	},

@@ -40,9 +40,9 @@ func batteryMonitorSupervisor(supervisor *supervisor.Supervisor) {
 
 func adjustBacklight(newState app.PowerState) {
 	if newState == app.AC_ONLINE {
-		display.SetBrightness(system.Config.BackLightAC)
+		display.SetBrightness(system.Config.BrightnessAC)
 	} else {
-		display.SetBrightness(system.Config.BackLightBattery)
+		display.SetBrightness(system.Config.BrightnessBattery)
 	}
 }
 

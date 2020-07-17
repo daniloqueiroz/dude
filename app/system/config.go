@@ -20,13 +20,13 @@ type config struct {
 	AppPolkitAgent            string
 	AppTmux                   string
 	AppTerminal               string
-	AppBacklight              string
+	AppBrightness             string
 	AppXrandr                 string
 	AppSetxkbmap              string
 	AppPactl                  string
 	AppUsageDataDir           string
-	BackLightAC               int
-	BackLightBattery          int
+	BrightnessAC              int
+	BrightnessBattery         int
 	LauncherHeight            int
 	LauncherWidth             int
 	LauncherIconsFolder       string
@@ -72,7 +72,7 @@ func loadConfig() {
 		AppPolkitAgent:            viper.GetString("apps.polkit-agent"),
 		AppTmux:                   viper.GetString("apps.tmux"),
 		AppTerminal:               viper.GetString("apps.terminal"),
-		AppBacklight:              viper.GetString("apps.xbacklight"),
+		AppBrightness:             viper.GetString("apps.brightness"),
 		AppXrandr:                 viper.GetString("apps.xrandr"),
 		AppSetxkbmap:              viper.GetString("apps.setxkbmap"),
 		AppPactl:                  viper.GetString("apps.pactl"),
@@ -85,8 +85,8 @@ func loadConfig() {
 		WallpaperDir:              viper.GetString("display.wallpapers_dir"),
 		DisplayAutoConfigEnabled:  viper.GetBool("display.autoconfig_enabled"),
 		ScreenSaverTimeoutSecs:    viper.GetInt("display.screensaver_timeout_secs"),
-		BackLightAC:               viper.GetInt("display.brightness.ac"),
-		BackLightBattery:          viper.GetInt("display.brightness.battery"),
+		BrightnessAC:              viper.GetInt("display.brightness.ac"),
+		BrightnessBattery:         viper.GetInt("display.brightness.battery"),
 		Keyboards:                 viper.GetStringMap("input.keyboards"),
 	}
 }
@@ -102,7 +102,7 @@ func loadDefaults() {
 	viper.SetDefault("apps.polkit-agent", "/usr/bin/lxpolkit")
 	viper.SetDefault("apps.tmux", "/usr/bin/tmux")
 	viper.SetDefault("apps.terminal", "/usr/bin/alacritty")
-	viper.SetDefault("apps.xbacklight", "/usr/bin/xbacklight")
+	viper.SetDefault("apps.brightness", "/usr/bin/brightnessctl")
 	viper.SetDefault("apps.xrandr", "/usr/bin/xrandr")
 	viper.SetDefault("apps.setxkbmap", "/usr/bin/setxkbmap")
 	viper.SetDefault("apps.pactl", "/usr/bin/pactl")

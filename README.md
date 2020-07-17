@@ -1,31 +1,56 @@
 D's Ultimate Desktop Environment
 
 # About it
-
-Dude is based on the following principals:
+Dude's principles:
 
 * For X11, WM agnostic
 * Plain text file (yaml) configurable
 * Simple consistent UX - cli & GTK3 launcher
 * Modular Monolith
-- Cool features
+
+# Features
+  - GTK Launcher
+  - Brightness control - with AC/Battery brightness auto adjust
+  - Startup apps support (~/.config/autostart/)
   - Display profiles
   - Pass integration
-  - Time tracking
-  - Notification history?
+  - App Time tracking
 
 # Dependencies
-- feh
-- compton
-- xss-lock
-- xsecurelock
-- acpi
-- xdotool
-- pass
-- lxpolkit
+- feh - for background image
+- picom - compositor for x11
+- xss-lock - bridges an x screensaver to systemd's login manager
+- xsecurelock - X11 screen lock utility designed for security
+- acpi - for battery info and AC/Battery adjustments
+- pass - password manager
+- xdotool - command-line X11 automation tool - pass dependency for auto fill 
+- lxpolkit - gtk polkit-agent for lxde 
+- brightnessctl - brightness control for X/wayland and driver agnostic
 - tmux
 - alacritty
-- xbacklight
+
+# Using dude with i3
+
+Add the lines below to your `~/.config/i3/config`:
+
+```
+set $dude /usr/bin/dude
+
+## Start dude session
+exec --no-startup-id $dude session
+# Keybinds
+bindsym $mod+space exec --no-startup-id $dude launcher
+bindsym $mod+Return exec $dude terminal
+bindsym $mod+l exec $dude lock-screen
+
+bindsym XF86MonBrightnessUp exec $dude brightness up
+bindsym XF86MonBrightnessDown exec $dude brightness down
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id $dude audio vol-up
+bindsym XF86AudioLowerVolume exec --no-startup-id $dude audio vol-down
+bindsym XF86AudioMute exec --no-startup-id $dude audio vol-mute
+bindsym XF86AudioMicMute exec --no-startup-id $dude audio mic-mute
+```
 
 # Credits
 - Dude uses a modified verion of [Gone](https://github.com/dim13/gone)

@@ -36,7 +36,7 @@ func init() {
 	rootCmd.AddCommand(lockCmd)
 	rootCmd.AddCommand(suspendCmd)
 	rootCmd.AddCommand(terminalCmd)
-	rootCmd.AddCommand(backlightCmd)
+	rootCmd.AddCommand(brightnessCmd)
 	rootCmd.AddCommand(launcherCmd)
 	rootCmd.AddCommand(appUsageCmd)
 
