@@ -47,9 +47,9 @@ func InitConfig() {
 }
 
 func loadFromFile() {
-	viper.SetConfigName("config.yaml")
+	viper.SetConfigName("dude.yaml")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath(path.Join(basedir.ConfigHome, "dude"))
+	viper.AddConfigPath(basedir.ConfigHome)
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 			logger.Info("config file not found...")
@@ -112,7 +112,7 @@ func loadDefaults() {
 	viper.SetDefault("launcher.height", "250")
 	viper.SetDefault("launcher.icons_folder", "/usr/share/dude/launcher")
 	viper.SetDefault("launcher.default_categories", []string{"applications", "passwords", "system"})
-	viper.SetDefault("display.wallpapers_dir", path.Join(basedir.ConfigHome, "/dude/wallpapers"))
+	viper.SetDefault("display.wallpapers_dir", path.Join(basedir.ConfigHome, "/wallpapers"))
 	viper.SetDefault("display.autoconfig_enabled", "true")
 	viper.SetDefault("display.screensaver_timeout_secs", "300")
 	viper.SetDefault("display.brightness.ac", "100")

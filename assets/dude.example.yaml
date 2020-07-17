@@ -2,7 +2,7 @@
 # wallpaper, screensaver, screens resolutions/profiles
 display:
   autoconfig_enabled: true ## ??
-  wallpapers_dir: .config/dude/wallpapers/
+  wallpapers_dir: .config/wallpapers/
   screensaver_timeout_secs: 300
   # display profiles
   profiles:

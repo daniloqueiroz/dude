@@ -24,4 +24,3 @@ require (
 	golang.org/x/text v0.3.2 // indirect
 )
 
-replace github.com/daniloqueiroz/gone => ../gone

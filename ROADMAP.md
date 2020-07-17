@@ -1,6 +1,14 @@
-> dude: danilo's unique desktop environment
+# TODO
 
-# v1 
+- [x] Core: Move config file to ~/.config/dude.yml
+- [ ] Launcher: system action "config" -> xdg-open ~/.config/dude.yml
+- [ ] Launcher: Refactor to decouple UI/Controler/Results
+- [ ] Launcher: Refactor results to multiple types
+- [ ] Launcher: Refactor make Action Finders to break into subtokens when it's the case 
+- [ ] Enable/Disable some integrations (such as pass)
+
+# ROADMAP
+## v1 
   * Session
       * wallpaper
       * compositor
@@ -31,8 +39,8 @@
       * !volume
       * !input/keyboard
       * !!config (xdg-open ~/.config/dude/config.yml)
-# v2
-  * NetworkManager/connman ?
+## v2
+  * iwctl/bluetooth ?
   * File search
   * launcher xdg-open
 # v3
