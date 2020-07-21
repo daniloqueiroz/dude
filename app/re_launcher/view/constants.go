@@ -1,11 +1,11 @@
 package view
 
 const (
-	LAUNCHER_CSS        = "assets/ui/launcher.css"
-	LAUNCHER_UI        = "assets/ui/launcher.glade"
-	LIST_VIEW          = "assets/ui/list.glade"
-	LIST_ENTRY_VIEW    = "assets/ui/list_entry.glade"
-	CATEGORY_VIEW      = "assets/ui/category_separator.glade"
+	LAUNCHER_CSS       = "launcher.css"
+	LAUNCHER_UI_SPEC   = "launcher.glade"
+	LIST_UI_SPEC       = "list.glade"
+	LIST_ENTRY_UI_SPEC = "list_entry.glade"
+	CATEGORY_UI_SPEC   = "category_separator.glade"
 	WINDOW_NAME        = "LauncherWindow"
 	RESULT_WINDOW      = "ResultWindow"
 	SEARCH_NAME        = "SearchBar"

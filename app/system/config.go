@@ -8,8 +8,7 @@ import (
 )
 
 type config struct {
-	DudeIcon string
-
+	DudeIcon                  string
 	WallpaperDir              string
 	AppFeh                    string
 	AppCompositor             string
@@ -29,7 +28,7 @@ type config struct {
 	BrightnessBattery         int
 	LauncherHeight            int
 	LauncherWidth             int
-	LauncherIconsFolder       string
+	LauncherUIFolder          string
 	LauncherDefaultCategories []string
 	Profiles                  map[string]interface{}
 	Keyboards                 map[string]interface{}
@@ -62,7 +61,7 @@ func loadFromFile() {
 func loadConfig() {
 	Config = config{
 		DudeIcon:                  viper.GetString("icon"),
-		LauncherIconsFolder:       viper.GetString("launcher.icons_folder"),
+		LauncherUIFolder:          viper.GetString("launcher.ui_folder"),
 		AppFeh:                    viper.GetString("apps.feh"),
 		AppCompositor:             viper.GetString("apps.picom"),
 		AppXset:                   viper.GetString("apps.xset"),
@@ -110,7 +109,7 @@ func loadDefaults() {
 	viper.SetDefault("app_usage.enabled", "true")
 	viper.SetDefault("launcher.width", "700")
 	viper.SetDefault("launcher.height", "250")
-	viper.SetDefault("launcher.icons_folder", "/usr/share/dude/launcher")
+	viper.SetDefault("launcher.ui_folder", "/usr/share/dude/ui")
 	viper.SetDefault("launcher.default_categories", []string{"applications", "passwords", "system"})
 	viper.SetDefault("display.wallpapers_dir", path.Join(basedir.ConfigHome, "/wallpapers"))
 	viper.SetDefault("display.autoconfig_enabled", "true")

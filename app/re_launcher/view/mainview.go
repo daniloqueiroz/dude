@@ -7,6 +7,7 @@ import (
 	"github.com/gotk3/gotk3/gdk"
 	"github.com/gotk3/gotk3/glib"
 	"github.com/gotk3/gotk3/gtk"
+	"path"
 )
 
 type MainView struct {
@@ -89,7 +90,7 @@ func (v MainView) OnEvent(handler func(interface{})) {
 
 func (v MainView) ShowUI() {
 	stock, _ := gtk.CssProviderNew()
-	if err := stock.LoadFromPath(LAUNCHER_CSS); err != nil {
+	if err := stock.LoadFromPath(getUISpec(LAUNCHER_CSS)); err != nil {
 		logger.Fatalf("Failed to load CSS", err)
 	}
 	screen, _ := gdk.ScreenGetDefault()
@@ -163,7 +164,7 @@ func ViewNew() View {
 		logger.Fatalf("Unable to load view", err)
 	}
 
-	err = builder.AddFromFile(LAUNCHER_UI)
+	err = builder.AddFromFile(getUISpec(LAUNCHER_UI_SPEC))
 	if err != nil {
 		logger.Fatalf("Unable to load view", err)
 	}
@@ -172,4 +173,8 @@ func ViewNew() View {
 		builder: builder,
 		EvChan:  make(chan interface{}),
 	}
+}
+
+func getUISpec(uiFile string) string {
+	return path.Join(system.Config.LauncherUIFolder, uiFile)
 }

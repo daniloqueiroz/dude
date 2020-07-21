@@ -5,7 +5,6 @@ import (
 	"github.com/google/logger"
 	"github.com/spf13/cobra"
 	"io/ioutil"
-
 	//"github.com/spf13/viper"
 )
 
@@ -38,7 +37,6 @@ func init() {
 	rootCmd.AddCommand(terminalCmd)
 	rootCmd.AddCommand(brightnessCmd)
 	rootCmd.AddCommand(launcherCmd)
-	rootCmd.AddCommand(relauncherCmd)
 	rootCmd.AddCommand(appUsageCmd)
 
 	displayCmd.Flags().StringVarP(&selectedProfile, "profile", "p", "", "Display profile to activate")

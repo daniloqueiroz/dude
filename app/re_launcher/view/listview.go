@@ -36,7 +36,7 @@ func (lv *ListView) list() *gtk.ListBox {
 
 	return list
 }
-func wrapHandler(pos int, handler EventHandler) (func(row *gtk.ListBoxRow)) {
+func wrapHandler(pos int, handler EventHandler) func(row *gtk.ListBoxRow) {
 	return func(row *gtk.ListBoxRow) {
 		handler(pos)
 	}
@@ -57,7 +57,7 @@ func (lv *ListView) loadList(actions []plugins.Action, handler EventHandler) {
 			logger.Fatalf("unable to load view")
 		}
 		row.Add(newListEntry(action.Name(), action.Description()))
-		row.Connect("activate",  wrapHandler(pos, handler))
+		row.Connect("activate", wrapHandler(pos, handler))
 		list.Add(row)
 		pos++
 	}
@@ -75,7 +75,7 @@ func ListViewNew() *ListView {
 	if err != nil {
 		logger.Fatalf("Unable to load view", err)
 	}
-	err = listBuilder.AddFromFile(LIST_VIEW)
+	err = listBuilder.AddFromFile(getUISpec(LIST_UI_SPEC))
 	if err != nil {
 		logger.Fatalf("Unable to load view", err)
 	}
@@ -90,7 +90,7 @@ func newListEntry(name, description string) *gtk.Box {
 	if err != nil {
 		logger.Fatalf("Unable to load view", err)
 	}
-	err = builder.AddFromFile(LIST_ENTRY_VIEW)
+	err = builder.AddFromFile(getUISpec(LIST_ENTRY_UI_SPEC))
 	if err != nil {
 		logger.Fatalf("Unable to load view", err)
 	}
@@ -132,7 +132,7 @@ func newSeparator(category string) *gtk.Box {
 	if err != nil {
 		logger.Fatalf("Unable to load view", err)
 	}
-	err = builder.AddFromFile(CATEGORY_VIEW)
+	err = builder.AddFromFile(getUISpec(CATEGORY_UI_SPEC))
 	if err != nil {
 		logger.Fatalf("Unable to load view", err)
 	}
