@@ -50,7 +50,7 @@ func LauncherNew() *Launcher {
 		plugins.Application:  plugins.ApplicationsPluginNew(),
 		plugins.Password:     plugins.PassPluginNew(),
 		plugins.ShellCommand: plugins.ShellPluginNew(),
-		//System:       &Internal{},
+		plugins.System:       plugins.InternalPluginNew(),
 	}
 
 	return &Launcher{
