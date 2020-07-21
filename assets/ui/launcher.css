@@ -1,0 +1,19 @@
+#list-entry-name {
+    font-weight: bold;
+    font-size: 1.3em;
+    font-variant: small-caps;
+    padding-right: 5px;
+}
+#list-entry-description {
+    /*font-weight: lighter;*/
+    font-size: 1.2em;
+    opacity: 0.5;
+}
+
+#category {
+    font-size: 0.9em;
+    font-style: italic;
+    opacity: 0.5;
+}
+
+

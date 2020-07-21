@@ -38,6 +38,7 @@ func init() {
 	rootCmd.AddCommand(terminalCmd)
 	rootCmd.AddCommand(brightnessCmd)
 	rootCmd.AddCommand(launcherCmd)
+	rootCmd.AddCommand(relauncherCmd)
 	rootCmd.AddCommand(appUsageCmd)
 
 	displayCmd.Flags().StringVarP(&selectedProfile, "profile", "p", "", "Display profile to activate")
