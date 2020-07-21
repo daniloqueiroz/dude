@@ -39,15 +39,16 @@ func PresenterNew(view view.View) *Presenter {
 	}
 }
 
-func (p *Presenter) onEvent(ev view.ViewEvent) {
-	logger.Infof("Event %s received", ev.Type())
-	if ev.Type() == view.Quit {
+func (p *Presenter) onEvent(viewEvent interface{}) {
+	logger.Infof("Event %s received", viewEvent)
+	switch ev := viewEvent.(type) {
+	case view.QuitEvent:
 		p.view.Quit()
-	} else if ev.Type() == view.SearchInputChanged {
-		p.onSearchInputChanged(ev.(view.SearchEvent).Input)
-	} else if ev.Type() == view.ActionSelected {
+	case view.SearchChangedEvent:
+		p.onSearchInputChanged(ev.Input)
+	case view.ActionSelectedEvent:
 		// TODO get result and process
-		p.launcher.ExecuteOption(ev.(view.ActionSelectedEvent).Position)
+		p.launcher.ExecuteOption(ev.Position)
 		// TODO handle the result
 		p.view.Quit()
 	}

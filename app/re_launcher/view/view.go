@@ -3,11 +3,11 @@ package view
 import "github.com/daniloqueiroz/dude/app/re_launcher/plugins"
 
 type View interface {
-	OnEvent(func(ev ViewEvent))
+	OnEvent(func(interface{}))
 	ShowUI()
 	HideUI()
 	Quit()
-	SetStatusMessage( string)
+	SetStatusMessage(string)
 	ShowActions([]plugins.Action)
 	ClearResults()
 }

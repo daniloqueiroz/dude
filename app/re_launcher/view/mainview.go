@@ -11,7 +11,7 @@ import (
 
 type MainView struct {
 	builder *gtk.Builder
-	EvChan  chan ViewEvent
+	EvChan  chan interface{}
 }
 
 func (v *MainView) scrollWindow() *gtk.ScrolledWindow {
@@ -72,18 +72,14 @@ func (v *MainView) keyPressed(keyVal uint) {
 }
 
 func (v MainView) searchBarChanged(input string) {
-	v.EvChan <- SearchEvent{
-		Input: input,
-	}
+	v.EvChan <- SearchChangedEvent{input}
 }
 
 func (v MainView) listEntrySelected(position int) {
-	v.EvChan <- ActionSelectedEvent{
-		Position: position,
-	}
+	v.EvChan <- ActionSelectedEvent{position}
 }
 
-func (v MainView) OnEvent(handler func(ev ViewEvent)) {
+func (v MainView) OnEvent(handler func(interface{})) {
 	go func() {
 		for ev := range v.EvChan {
 			handler(ev)
@@ -174,6 +170,6 @@ func ViewNew() View {
 
 	return MainView{
 		builder: builder,
-		EvChan:  make(chan ViewEvent),
+		EvChan:  make(chan interface{}),
 	}
 }
