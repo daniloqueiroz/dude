@@ -48,7 +48,7 @@ func LauncherNew() *Launcher {
 	// TODO make it configurable
 	launcherPlugins := map[plugins.Category]plugins.LauncherPlugin{
 		plugins.Application: plugins.ApplicationsPluginNew(),
-		//Password:     &Pass{},
+		plugins.Password:    plugins.PassPluginNew(),
 		//System:       &Internal{},
 		//ShellCommand: &Shell{},
 	}

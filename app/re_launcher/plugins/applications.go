@@ -9,22 +9,22 @@ import (
 )
 
 type AppAction struct {
-	cmd string
-	name string
+	cmd         string
+	name        string
 	description string
 }
 
-func (ac AppAction) Category() Category {
+func (ac *AppAction) Category() Category {
 	return Application
 }
-func (ac AppAction) Name() string {
+func (ac *AppAction) Name() string {
 	return ac.name
 }
-func (ac AppAction) Description() string {
+func (ac *AppAction) Description() string {
 	return ac.description
 }
 
-func (ac AppAction) Execute() Result {
+func (ac *AppAction) Execute() Result {
 	command := strings.Fields(ac.cmd)
 	proc.NewProcess(command[0], command[1:]...).FireAndForget()
 	return Result("la")
@@ -34,15 +34,15 @@ type Applications struct {
 	desktopApps Actions
 }
 
-func (a Applications) Category() Category {
+func (a *Applications) Category() Category {
 	return Application
 }
 
-func (a Applications) FindActions(input string) Actions {
-		return FilterAction(input, a.desktopApps)
+func (a *Applications) FindActions(input string) Actions {
+	return FilterAction(input, a.desktopApps)
 }
 
-func ApplicationsPluginNew() Applications {
+func ApplicationsPluginNew() LauncherPlugin {
 	dirs := append([]string(nil), basedir.DataDirs...)
 	dirs = append(dirs, basedir.DataHome)
 	var apps Actions
@@ -51,15 +51,15 @@ func ApplicationsPluginNew() Applications {
 		dir = path.Join(dir, "applications")
 		share_apps := system.LoadDesktopEntries(dir)
 		for _, app := range share_apps {
-			action := AppAction{
-				name: strings.ToLower(app.Name),
+			action := &AppAction{
+				name:        strings.ToLower(app.Name),
 				description: strings.TrimSpace(app.GenericName),
-				cmd: app.Exec,
+				cmd:         app.Exec,
 			}
 			apps = append(apps, action)
 		}
 	}
-	return Applications{
+	return &Applications{
 		desktopApps: apps,
 	}
 }
