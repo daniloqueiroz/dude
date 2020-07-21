@@ -47,10 +47,10 @@ func (l *Launcher) ExecuteOption(position int) {
 func LauncherNew() *Launcher {
 	// TODO make it configurable
 	launcherPlugins := map[plugins.Category]plugins.LauncherPlugin{
-		plugins.Application: plugins.ApplicationsPluginNew(),
-		plugins.Password:    plugins.PassPluginNew(),
+		plugins.Application:  plugins.ApplicationsPluginNew(),
+		plugins.Password:     plugins.PassPluginNew(),
+		plugins.ShellCommand: plugins.ShellPluginNew(),
 		//System:       &Internal{},
-		//ShellCommand: &Shell{},
 	}
 
 	return &Launcher{
