@@ -16,21 +16,21 @@ const (
 	PASS_SCRIPT = "/usr/share/dude/scripts/passtype.sh"
 )
 
-type PassAction struct {
+type passAction struct {
 	pass string
 }
 
-func (pa *PassAction) Category() Category {
+func (pa *passAction) Category() Category {
 	return Password
 }
-func (pa *PassAction) Name() string {
+func (pa *passAction) Name() string {
 	return pa.pass
 }
-func (pa *PassAction) Description() string {
+func (pa *passAction) Description() string {
 	return fmt.Sprintf("Password for %s", pa.pass)
 }
 
-func (pa *PassAction) Execute() Result {
+func (pa *passAction) Execute() Result {
 	err := proc.NewProcess(PASS_SCRIPT, pa.pass).FireAndForget()
 	if err != nil {
 		logger.Errorf("Error launching passtype")
@@ -38,21 +38,21 @@ func (pa *PassAction) Execute() Result {
 	return Result("la")
 }
 
-type Pass struct {
+type passPlugin struct {
 	passwords Actions
 }
 
-func (p *Pass) Category() Category {
+func (p *passPlugin) Category() Category {
 	return Password
 }
 
-func (p *Pass) FindActions(input string) Actions {
+func (p *passPlugin) FindActions(input string) Actions {
 	return FilterAction(input, p.passwords)
 }
 
 func PassPluginNew() LauncherPlugin {
 	dirname := filepath.Join(system.HomeDir(), PASS_DIR)
-	return &Pass{
+	return &passPlugin{
 		passwords: loadPassFromDir(dirname, true),
 	}
 
@@ -78,7 +78,7 @@ func loadPassFromDir(dirname string, isRootDir bool) Actions {
 				if !isRootDir {
 					pass = filepath.Join(path.Base(dirname), pass)
 				}
-				entries = append(entries, &PassAction{pass: pass})
+				entries = append(entries, &passAction{pass: pass})
 			}
 		}
 	}
