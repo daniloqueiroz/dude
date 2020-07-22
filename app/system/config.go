@@ -23,6 +23,7 @@ type config struct {
 	AppXrandr                 string
 	AppSetxkbmap              string
 	AppPactl                  string
+	AppXdgOpen                string
 	AppUsageDataDir           string
 	BrightnessAC              int
 	BrightnessBattery         int
@@ -75,6 +76,7 @@ func loadConfig() {
 		AppXrandr:                 viper.GetString("apps.xrandr"),
 		AppSetxkbmap:              viper.GetString("apps.setxkbmap"),
 		AppPactl:                  viper.GetString("apps.pactl"),
+		AppXdgOpen:                viper.GetString("apps.xdg_open"),
 		AppUsageDataDir:           viper.GetString("app_usage.data_dir"),
 		AppUsageTrackEnable:       viper.GetBool("app_usage.enabled"),
 		LauncherWidth:             viper.GetInt("launcher.width"),
@@ -105,6 +107,7 @@ func loadDefaults() {
 	viper.SetDefault("apps.xrandr", "/usr/bin/xrandr")
 	viper.SetDefault("apps.setxkbmap", "/usr/bin/setxkbmap")
 	viper.SetDefault("apps.pactl", "/usr/bin/pactl")
+	viper.SetDefault("apps.xdg_open", "/usr/bin/xdg-open")
 	viper.SetDefault("app_usage.data_dir", "appusage")
 	viper.SetDefault("app_usage.enabled", "true")
 	viper.SetDefault("launcher.width", "700")

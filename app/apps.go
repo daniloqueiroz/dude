@@ -20,3 +20,7 @@ func XSetScreensaverTimeProc() *proc.Process {
 func XSSLockProc() *proc.Process {
 	return proc.NewProcess(system.Config.AppXssLock, system.Config.AppXsecurelock)
 }
+
+func XDGOpen(target string) *proc.Process {
+	return proc.NewProcess(system.Config.AppXdgOpen, target)
+}
