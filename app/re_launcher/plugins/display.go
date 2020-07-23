@@ -3,8 +3,9 @@ package plugins
 import (
 	"fmt"
 	"github.com/daniloqueiroz/dude/app/display"
-	"github.com/google/logger"
 )
+
+const DISPLAY = "display"
 
 type displayAction struct {
 }
@@ -16,11 +17,10 @@ func (da *displayAction) Name() string {
 	return DISPLAY
 }
 func (da *displayAction) Description() string {
-	return "Select display profile"
+	return "Display system settings"
 }
 
-func (ia *displayAction) Execute() Result {
-	logger.Infof("Display option selected")
+func (da *displayAction) Execute() Result {
 	profiles := display.LoadProfiles()
 	var subActions Actions
 	subActions = append(subActions, &internalAction{

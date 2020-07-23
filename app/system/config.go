@@ -24,6 +24,8 @@ type config struct {
 	AppSetxkbmap              string
 	AppPactl                  string
 	AppXdgOpen                string
+	AppBluetoothCtl           string
+	AppWifiCtl                string
 	AppUsageDataDir           string
 	BrightnessAC              int
 	BrightnessBattery         int
@@ -76,6 +78,8 @@ func loadConfig() {
 		AppXrandr:                 viper.GetString("apps.xrandr"),
 		AppSetxkbmap:              viper.GetString("apps.setxkbmap"),
 		AppPactl:                  viper.GetString("apps.pactl"),
+		AppBluetoothCtl:           viper.GetString("apps.bluetoothctl"),
+		AppWifiCtl:                viper.GetString("apps.iwctl"),
 		AppXdgOpen:                viper.GetString("apps.xdg_open"),
 		AppUsageDataDir:           viper.GetString("app_usage.data_dir"),
 		AppUsageTrackEnable:       viper.GetBool("app_usage.enabled"),
@@ -107,6 +111,8 @@ func loadDefaults() {
 	viper.SetDefault("apps.xrandr", "/usr/bin/xrandr")
 	viper.SetDefault("apps.setxkbmap", "/usr/bin/setxkbmap")
 	viper.SetDefault("apps.pactl", "/usr/bin/pactl")
+	viper.SetDefault("apps.bluetoothctl", "/usr/bin/bluetoothctl")
+	viper.SetDefault("apps.iwctl", "/usr/bin/iwctl")
 	viper.SetDefault("apps.xdg_open", "/usr/bin/xdg-open")
 	viper.SetDefault("app_usage.data_dir", "appusage")
 	viper.SetDefault("app_usage.enabled", "true")

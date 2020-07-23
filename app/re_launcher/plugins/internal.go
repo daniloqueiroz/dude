@@ -13,7 +13,7 @@ const (
 	REBOOT      = "reboot"
 	SHUTDOWN    = "shutdown"
 	TERMINAL    = "terminal"
-	DISPLAY     = "display"
+	DUDE_CONFIG = "dude config"
 )
 
 type internalAction struct {
@@ -92,13 +92,15 @@ func loadInternalActions() Actions {
 				app.NewTmuxTerminal()
 			},
 		},
-		&displayAction{},
 		&internalAction{
-			name:        "dude config",
+			name:        DUDE_CONFIG,
 			description: "Edit dude config",
 			handler: func() {
 				app.XDGOpen(path.Join(basedir.ConfigHome, "dude.yaml")).FireAndForget()
 			},
 		},
+		&displayAction{},
+		&bluetoothAction{},
+		&wifiAction{},
 	}
 }
