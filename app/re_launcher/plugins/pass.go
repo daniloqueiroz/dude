@@ -35,7 +35,7 @@ func (pa *passAction) Execute() Result {
 	if err != nil {
 		logger.Errorf("Error launching passtype")
 	}
-	return Result("la")
+	return Empty{}
 }
 
 type passPlugin struct {

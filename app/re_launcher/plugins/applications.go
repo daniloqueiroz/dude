@@ -27,7 +27,7 @@ func (ac *appAction) Description() string {
 func (ac *appAction) Execute() Result {
 	command := strings.Fields(ac.cmd)
 	proc.NewProcess(command[0], command[1:]...).FireAndForget()
-	return Result("la")
+	return Empty{}
 }
 
 type appPlugin struct {

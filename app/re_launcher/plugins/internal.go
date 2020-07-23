@@ -1,10 +1,10 @@
 package plugins
 
 import (
-	"fmt"
 	"github.com/daniloqueiroz/dude/app"
-	"github.com/daniloqueiroz/dude/app/display"
 	"github.com/daniloqueiroz/dude/app/system"
+	"github.com/rkoesters/xdg/basedir"
+	"path"
 )
 
 const (
@@ -34,7 +34,7 @@ func (ia *internalAction) Description() string {
 
 func (ia *internalAction) Execute() Result {
 	ia.handler()
-	return Result("la")
+	return Empty{}
 }
 
 type internalPlugin struct {
@@ -92,12 +92,12 @@ func loadInternalActions() Actions {
 				app.NewTmuxTerminal()
 			},
 		},
+		&displayAction{},
 		&internalAction{
-			name:        DISPLAY,
-			description: "Load display profile",
+			name:        "dude config",
+			description: "Edit dude config",
 			handler: func() {
-				profile := display.AutoConfigureDisplay()
-				system.SimpleNotification(fmt.Sprintf("Profile %s applied", profile)).Show()
+				app.XDGOpen(path.Join(basedir.ConfigHome, "dude.yaml")).FireAndForget()
 			},
 		},
 	}

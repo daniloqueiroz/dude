@@ -5,24 +5,49 @@ import (
 	"github.com/google/logger"
 )
 
+const (
+	MainMenu Mode = "main_menu"
+	SubMenu  Mode = "sub_menu"
+)
+
 type Launcher struct {
-	plugins          map[plugins.Category]plugins.LauncherPlugin
-	availableActions plugins.Actions
+	plugins            map[plugins.Category]plugins.LauncherPlugin
+	selectedCategories []plugins.Category
+	availableActions   plugins.Actions
+	mode               Mode
 }
 
-func (l *Launcher) RefreshOptions(input string, categories []plugins.Category) {
-	logger.Infof("Refreshing Launcher options: %s", input)
-	var options plugins.Actions
+func (l *Launcher) GetSelectedCategories() []plugins.Category {
+	return l.selectedCategories
+}
 
-	for _, name := range categories {
-		plugin := l.plugins[name]
-		if plugin != nil {
-			suggested := plugin.FindActions(input)
-			options = append(options, suggested...)
-		}
+func (l *Launcher) GetMode() Mode {
+	return l.mode
+}
+
+func (l *Launcher) SelectCategories(categories []plugins.Category) {
+	if l.mode == MainMenu {
+		l.selectedCategories = categories
 	}
+}
 
-	l.availableActions = options
+func (l *Launcher) RefreshOptions(input string) {
+	logger.Infof("Refreshing Launcher options: %s", input)
+	if l.mode == MainMenu {
+		var options plugins.Actions
+
+		for _, name := range l.selectedCategories {
+			plugin := l.plugins[name]
+			if plugin != nil {
+				suggested := plugin.FindActions(input)
+				options = append(options, suggested...)
+			}
+		}
+
+		l.availableActions = options
+	} else {
+		l.availableActions = plugins.FilterAction(input, l.availableActions)
+	}
 }
 
 func (l *Launcher) AvailableActions() []plugins.Action {
@@ -33,15 +58,19 @@ func (l *Launcher) AvailableActions() []plugins.Action {
 	return actions
 }
 
-func (l *Launcher) ExecuteOption(position int) {
+func (l *Launcher) ExecuteOption(position int) plugins.Result {
 	selected := l.availableActions[position]
+	l.selectedCategories = []plugins.Category{selected.Category()}
 	logger.Infof("Selected action: %s::%s", selected.Category(), selected.Name())
-	selected.Execute()
-	// Get the option at that position
-	// Clear current options
-	// Execute option
-	// It result is options, update the current options
-	// Returns the result
+	result := selected.Execute()
+	switch res := result.(type) {
+	case *plugins.SubActions:
+		l.mode = SubMenu
+		l.availableActions = res.SubActions
+	default:
+		l.mode = MainMenu
+	}
+	return result
 }
 
 func LauncherNew() *Launcher {
@@ -56,5 +85,6 @@ func LauncherNew() *Launcher {
 	return &Launcher{
 		plugins:          launcherPlugins,
 		availableActions: nil,
+		mode:             MainMenu,
 	}
 }

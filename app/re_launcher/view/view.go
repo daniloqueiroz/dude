@@ -10,4 +10,5 @@ type View interface {
 	SetStatusMessage(string)
 	ShowActions([]plugins.Action)
 	ClearResults()
+	ClearSearch()
 }

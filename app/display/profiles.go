@@ -1,6 +1,7 @@
 package display
 
 import (
+	"github.com/daniloqueiroz/dude/app/system"
 	"sort"
 	"strings"
 )
@@ -28,7 +29,7 @@ func (p Profile) IsEnabled(displayName string) bool {
 
 func (p Profile) GetDisplay(displayName string) *DisplayConf {
 	entry, found := p.displays[strings.ToLower(displayName)]
-	if ! found {
+	if !found {
 		return nil
 	}
 	return &entry
@@ -56,9 +57,10 @@ func (p Profiles) GetProfile(profileName string) *Profile {
 	return nil
 }
 
-func LoadProfiles(config map[string]interface{}) Profiles {
+func LoadProfiles() Profiles {
+	profilesConfig := system.Config.Profiles
 	profiles := make([]Profile, 0)
-	for profileName, s := range config {
+	for profileName, s := range profilesConfig {
 		ss := s.(map[string]interface{})
 
 		displays := make(map[string]DisplayConf)

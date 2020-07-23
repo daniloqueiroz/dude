@@ -11,7 +11,7 @@ import (
 
 func ApplyProfile(profileName string) error {
 	screens := system.NewXorg(nil).DetectOutputs()
-	profile := LoadProfiles(system.Config.Profiles).GetProfile(profileName)
+	profile := LoadProfiles().GetProfile(profileName)
 	if profile == nil {
 		return errors.New("no profile found")
 	}
@@ -27,7 +27,7 @@ func AutoConfigureDisplay() string {
 			screenNames = append(screenNames, s.Name)
 		}
 	}
-	profiles := LoadProfiles(system.Config.Profiles)
+	profiles := LoadProfiles()
 	selected := profiles.SelectProfile(screenNames...)
 	applyProfile(selected, screens)
 	return selected.Name

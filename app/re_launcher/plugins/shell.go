@@ -25,7 +25,7 @@ func (sa *shellAction) Description() string {
 
 func (sa *shellAction) Execute() Result {
 	app.NewTerminalApp(sa.cmd)
-	return Result("la")
+	return Empty{}
 }
 
 type shellPlugin struct {

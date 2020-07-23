@@ -5,10 +5,9 @@ import (
 	"github.com/daniloqueiroz/dude/app/re_launcher/plugins"
 	"github.com/daniloqueiroz/dude/app/re_launcher/view"
 	"github.com/daniloqueiroz/dude/app/system"
-	"github.com/google/logger"
 )
 
-var modes = map[rune]plugins.Category{
+var filter = map[rune]plugins.Category{
 	':': plugins.System,
 	'!': plugins.ShellCommand,
 	'/': plugins.File,
@@ -20,6 +19,8 @@ const (
 	DEFAULT_STATUS  = "Type : for system mode, ! for shell command mode and @ for password mode"
 	CATEGORY_STATUS = "Active mode: %s"
 )
+
+type Mode string
 
 type Presenter struct {
 	view              view.View
@@ -39,44 +40,49 @@ func PresenterNew(view view.View) *Presenter {
 	}
 }
 
+func (p *Presenter) processResult(result plugins.Result) {
+	switch result.(type) {
+	case *plugins.SubActions:
+		p.view.ClearSearch()
+		p.view.SetStatusMessage(fmt.Sprintf(CATEGORY_STATUS, p.launcher.GetSelectedCategories()[0]))
+		p.view.ShowActions(p.launcher.AvailableActions())
+	default:
+		p.view.Quit()
+	}
+
+}
+
 func (p *Presenter) onEvent(viewEvent interface{}) {
-	logger.Infof("Event %s received", viewEvent)
 	switch ev := viewEvent.(type) {
 	case view.QuitEvent:
 		p.view.Quit()
 	case view.SearchChangedEvent:
 		p.onSearchInputChanged(ev.Input)
 	case view.ActionSelectedEvent:
-		// TODO get result and process
-		p.launcher.ExecuteOption(ev.Position)
-		// TODO handle the result
-		p.view.Quit()
+		result := p.launcher.ExecuteOption(ev.Position)
+		p.processResult(result)
 	}
 }
 
 func (p *Presenter) onSearchInputChanged(keyword string) {
-	// TODO check mode - sub menu
-	if len(keyword) == 0 {
+	if p.launcher.GetMode() == MainMenu {
+		p.launcher.SelectCategories(p.defaultCategories)
 		p.view.SetStatusMessage(DEFAULT_STATUS)
-		p.view.ClearResults()
-		return
-	}
 
-	var status_msg string
-	var categories []plugins.Category
-	chars := []rune(keyword)
-	category, exists := modes[chars[0]]
-	if exists {
-		// Filter by category
-		keyword = string(chars[1:len(keyword)])
-		categories = append(categories, category)
-		status_msg = fmt.Sprintf(CATEGORY_STATUS, category)
-	} else {
-		// No category filter
-		categories = p.defaultCategories
-		status_msg = DEFAULT_STATUS
+		if len(keyword) == 0 {
+			p.view.ClearResults()
+			return
+		} else {
+			chars := []rune(keyword)
+			category, exists := filter[chars[0]]
+			if exists {
+				// Filter by category
+				keyword = string(chars[1:len(keyword)])
+				p.launcher.SelectCategories([]plugins.Category{category})
+				p.view.SetStatusMessage(fmt.Sprintf(CATEGORY_STATUS, category))
+			}
+		}
 	}
-	p.view.SetStatusMessage(status_msg)
 
 	if len(keyword) == 0 {
 		// keyword len might have changed after removing category selector char
@@ -84,7 +90,7 @@ func (p *Presenter) onSearchInputChanged(keyword string) {
 		return
 	}
 
-	p.launcher.RefreshOptions(keyword, categories)
+	p.launcher.RefreshOptions(keyword)
 	p.view.ShowActions(p.launcher.AvailableActions())
 }
 
