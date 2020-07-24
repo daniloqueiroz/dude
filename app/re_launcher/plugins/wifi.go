@@ -5,8 +5,10 @@ import (
 	"github.com/daniloqueiroz/dude/app"
 	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/daniloqueiroz/dude/app/system/iwd"
-	dbus5 "github.com/godbus/dbus/v5"
+	"github.com/godbus/dbus/v5"
 	"github.com/google/logger"
+	"github.com/xeonx/timeago"
+	"time"
 )
 
 const WIFI = "wifi"
@@ -24,7 +26,7 @@ func (wa *wifiAction) Description() string {
 	return "Wifi system settings"
 }
 
-func wrapWifi(dbus *dbus5.Conn, network *iwd.Network) func() {
+func wrapWifi(dbus *dbus.Conn, network *iwd.Network) func() {
 	return func() {
 		defer system.OnPanic("wrapwifi", make(chan error))
 		err := network.Connect(dbus)
@@ -46,7 +48,7 @@ func (wa *wifiAction) Execute() Result {
 	})
 	// TODO disconnect
 
-	dbus, err := dbus5.SystemBus()
+	dbus, err := dbus.SystemBus()
 	if err != nil {
 		logger.Errorf("Unable to load wifi info:", err)
 		return &SubActions{SubActions: subActions}
@@ -60,9 +62,17 @@ func (wa *wifiAction) Execute() Result {
 
 	for _, knownNetwork := range iwdObj.KnownNetworks {
 		if network, ok := networks[knownNetwork.Name]; ok {
+			var lastUsed string
+			timeUsed, err := time.Parse(time.RFC3339, knownNetwork.LastConnectedTime)
+			if err != nil {
+				logger.Errorf("Error formating time", err)
+				lastUsed = ""
+			} else {
+				lastUsed = fmt.Sprintf("(Last used %s)", timeago.English.Format(timeUsed))
+			}
 			subActions = append(subActions, &internalAction{
 				name:        knownNetwork.Name,
-				description: fmt.Sprintf("Connect to %s", knownNetwork.Name),
+				description: fmt.Sprintf("Connect to %s %s", knownNetwork.Name, lastUsed),
 				handler:     wrapWifi(dbus, network),
 			})
 		}
