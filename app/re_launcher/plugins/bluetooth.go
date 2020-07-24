@@ -38,7 +38,7 @@ func (ba *bluetoothAction) Execute() Result {
 		name:        "bluetoothctl",
 		description: "Bluetooth manager",
 		handler: func() {
-			app.NewTerminalApp(system.Config.AppBluetoothCtl)
+			app.NewTerminalApp(system.ExternalAppPath(system.BLUETOOTHCTL))
 		},
 	})
 	btAdapter, err := adapter.GetDefaultAdapter()

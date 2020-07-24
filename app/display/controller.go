@@ -53,7 +53,7 @@ func applyProfile(selected *Profile, screens []*system.Screen) {
 	}
 
 	logger.Infof("Applying profile %s -> xrandr params %v", selected.Name, params)
-	err := proc.NewProcess(system.Config.AppXrandr, params...).FireAndWait()
+	err := proc.NewProcess(system.ExternalAppPath(system.XRANDR), params...).FireAndWait()
 	if err != nil {
 		logger.Errorf("Error applying profile %s: %v", selected.Name, err)
 	}

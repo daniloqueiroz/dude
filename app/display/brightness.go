@@ -9,12 +9,12 @@ import (
 )
 
 func GetBrightness() (string, error) {
-	process := proc.NewProcess(system.Config.AppBrightness, "get")
+	process := proc.NewProcess(system.ExternalAppPath(system.BRIGHTNESSCTL), "get")
 	currentBrightness, err := process.FireAndWaitForOutput()
 	if err != nil {
 		return "", err
 	}
-	process = proc.NewProcess(system.Config.AppBrightness, "max")
+	process = proc.NewProcess(system.ExternalAppPath(system.BRIGHTNESSCTL), "max")
 	maxBrightness, err := process.FireAndWaitForOutput()
 	if err != nil {
 		return "", err
@@ -34,7 +34,7 @@ func GetBrightness() (string, error) {
 
 func SetBrightness(value int) error {
 	percentage := strconv.Itoa(value) + "%"
-	process := proc.NewProcess(system.Config.AppBrightness, "set", percentage)
+	process := proc.NewProcess(system.ExternalAppPath(system.BRIGHTNESSCTL), "set", percentage)
 	return process.FireAndWait()
 }
 
@@ -45,6 +45,6 @@ func AdjustBrightness(delta int, inc bool) error {
 	} else {
 		param = strconv.Itoa(delta) + "-%"
 	}
-	process := proc.NewProcess(system.Config.AppBrightness, "set", param)
+	process := proc.NewProcess(system.ExternalAppPath(system.BRIGHTNESSCTL), "set", param)
 	return process.FireAndWait()
 }

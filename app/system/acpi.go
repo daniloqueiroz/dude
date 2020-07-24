@@ -31,7 +31,7 @@ func (b Battery) String() string {
 }
 
 func GetBatteries() []Battery {
-	output, err := proc.NewProcess(Config.AppAcpi, "-b").FireAndWaitForOutput()
+	output, err := proc.NewProcess(ExternalAppPath(ACPI), "-b").FireAndWaitForOutput()
 	if err != nil {
 		logger.Errorf("Unable get battery status using acpi: %v", err)
 		return nil
@@ -57,7 +57,7 @@ func GetBatteries() []Battery {
 }
 
 func IsOnAC() bool {
-	output, err := proc.NewProcess(Config.AppAcpi, "-a").FireAndWaitForOutput()
+	output, err := proc.NewProcess(ExternalAppPath(ACPI), "-a").FireAndWaitForOutput()
 	if err != nil {
 		logger.Error("Unable to get ac-adapter status", err)
 		return false

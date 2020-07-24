@@ -6,21 +6,21 @@ import (
 )
 
 func FehProc() *proc.Process {
-	return proc.NewProcess(system.Config.AppFeh, "--bg-fill", "--randomize", system.Config.WallpaperDir)
+	return proc.NewProcess(system.ExternalAppPath(system.FEH), "--bg-fill", "--randomize", system.Config.WallpaperDir)
 }
 
 func CompositorProc() *proc.Process {
-	return proc.NewProcess(system.Config.AppCompositor, "--backend", "glx", "--vsync")
+	return proc.NewProcess(system.ExternalAppPath(system.PICOM), "--backend", "glx", "--vsync")
 }
 
 func XSetScreensaverTimeProc() *proc.Process {
-	return proc.NewProcess(system.Config.AppXset, "s", string(system.Config.ScreenSaverTimeoutSecs))
+	return proc.NewProcess(system.ExternalAppPath(system.XSET), "s", string(system.Config.ScreenSaverTimeoutSecs))
 }
 
 func XSSLockProc() *proc.Process {
-	return proc.NewProcess(system.Config.AppXssLock, system.Config.AppXsecurelock)
+	return proc.NewProcess(system.ExternalAppPath(system.XSS_LOCK), system.ExternalAppPath(system.XSECURELOCK))
 }
 
 func XDGOpen(target string) *proc.Process {
-	return proc.NewProcess(system.Config.AppXdgOpen, target)
+	return proc.NewProcess(system.ExternalAppPath(system.XDG_OPEN), target)
 }

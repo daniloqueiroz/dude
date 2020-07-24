@@ -96,5 +96,5 @@ func SetDefaultKeyboard() (*Keyboard, error) {
 }
 
 func setxkbmap(kb *Keyboard) error {
-	return proc.NewProcess(system.Config.AppSetxkbmap, kb.setxkbmapParams()...).FireAndWait()
+	return proc.NewProcess(system.ExternalAppPath(system.SETXKBMAP), kb.setxkbmapParams()...).FireAndWait()
 }

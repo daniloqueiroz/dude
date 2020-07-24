@@ -10,22 +10,6 @@ import (
 type config struct {
 	DudeIcon                  string
 	WallpaperDir              string
-	AppFeh                    string
-	AppCompositor             string
-	AppXset                   string
-	AppXssLock                string
-	AppXsecurelock            string
-	AppAcpi                   string
-	AppPolkitAgent            string
-	AppTmux                   string
-	AppTerminal               string
-	AppBrightness             string
-	AppXrandr                 string
-	AppSetxkbmap              string
-	AppPactl                  string
-	AppXdgOpen                string
-	AppBluetoothCtl           string
-	AppWifiCtl                string
 	AppUsageDataDir           string
 	BrightnessAC              int
 	BrightnessBattery         int
@@ -65,22 +49,6 @@ func loadConfig() {
 	Config = config{
 		DudeIcon:                  viper.GetString("icon"),
 		LauncherUIFolder:          viper.GetString("launcher.ui_folder"),
-		AppFeh:                    viper.GetString("apps.feh"),
-		AppCompositor:             viper.GetString("apps.picom"),
-		AppXset:                   viper.GetString("apps.xset"),
-		AppXssLock:                viper.GetString("apps.xss_lock"),
-		AppXsecurelock:            viper.GetString("apps.xsecurelock"),
-		AppAcpi:                   viper.GetString("apps.acpi"),
-		AppPolkitAgent:            viper.GetString("apps.polkit-agent"),
-		AppTmux:                   viper.GetString("apps.tmux"),
-		AppTerminal:               viper.GetString("apps.terminal"),
-		AppBrightness:             viper.GetString("apps.brightness"),
-		AppXrandr:                 viper.GetString("apps.xrandr"),
-		AppSetxkbmap:              viper.GetString("apps.setxkbmap"),
-		AppPactl:                  viper.GetString("apps.pactl"),
-		AppBluetoothCtl:           viper.GetString("apps.bluetoothctl"),
-		AppWifiCtl:                viper.GetString("apps.iwctl"),
-		AppXdgOpen:                viper.GetString("apps.xdg_open"),
 		AppUsageDataDir:           viper.GetString("app_usage.data_dir"),
 		AppUsageTrackEnable:       viper.GetBool("app_usage.enabled"),
 		LauncherWidth:             viper.GetInt("launcher.width"),
@@ -98,22 +66,6 @@ func loadConfig() {
 
 func loadDefaults() {
 	viper.SetDefault("icon", "/usr/share/dude/dude.png")
-	viper.SetDefault("apps.feh", "/usr/bin/feh")
-	viper.SetDefault("apps.picom", "/usr/bin/picom")
-	viper.SetDefault("apps.xset", "/usr/bin/xset")
-	viper.SetDefault("apps.xss_lock", "/usr/bin/xss-lock")
-	viper.SetDefault("apps.xsecurelock", "/usr/bin/xsecurelock")
-	viper.SetDefault("apps.acpi", "/usr/bin/acpi")
-	viper.SetDefault("apps.polkit-agent", "/usr/bin/lxpolkit")
-	viper.SetDefault("apps.tmux", "/usr/bin/tmux")
-	viper.SetDefault("apps.terminal", "/usr/bin/alacritty")
-	viper.SetDefault("apps.brightness", "/usr/bin/brightnessctl")
-	viper.SetDefault("apps.xrandr", "/usr/bin/xrandr")
-	viper.SetDefault("apps.setxkbmap", "/usr/bin/setxkbmap")
-	viper.SetDefault("apps.pactl", "/usr/bin/pactl")
-	viper.SetDefault("apps.bluetoothctl", "/usr/bin/bluetoothctl")
-	viper.SetDefault("apps.iwctl", "/usr/bin/iwctl")
-	viper.SetDefault("apps.xdg_open", "/usr/bin/xdg-open")
 	viper.SetDefault("app_usage.data_dir", "appusage")
 	viper.SetDefault("app_usage.enabled", "true")
 	viper.SetDefault("launcher.width", "700")
@@ -125,5 +77,4 @@ func loadDefaults() {
 	viper.SetDefault("display.screensaver_timeout_secs", "300")
 	viper.SetDefault("display.brightness.ac", "100")
 	viper.SetDefault("display.brightness.battery", "45")
-
 }

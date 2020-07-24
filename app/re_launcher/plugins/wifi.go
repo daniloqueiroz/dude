@@ -43,7 +43,7 @@ func (wa *wifiAction) Execute() Result {
 		name:        "iwctl",
 		description: "Wifi manager",
 		handler: func() {
-			app.NewTerminalApp(system.Config.AppWifiCtl)
+			app.NewTerminalApp(system.ExternalAppPath(system.IWCTL))
 		},
 	})
 	// TODO disconnect

@@ -8,5 +8,5 @@ import (
 
 func PolkitProc() *proc.Process {
 	logger.Info("Starting PolKit agent")
-	return proc.NewProcess(system.Config.AppPolkitAgent)
+	return proc.NewProcess(system.ExternalAppPath(system.POLKIT_AGENT))
 }

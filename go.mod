@@ -8,6 +8,7 @@ require (
 	github.com/godbus/dbus/v5 v5.0.3
 	github.com/google/logger v1.0.1
 	github.com/gotk3/gotk3 v0.0.0-20191204062422-9d4abcb16021
+	github.com/hairyhenderson/go-which v0.1.0
 	github.com/hako/durafmt v0.0.0-20191009132224-3f39dc1ed9f4
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/muka/go-bluetooth v0.0.0-20200619025933-f6113f7141c5
