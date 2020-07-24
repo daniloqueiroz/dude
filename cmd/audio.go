@@ -13,12 +13,12 @@ import (
 var audioCmd = &cobra.Command{
 	Use:   "audio [vol-up, vol-down, vol-mute, mic-mute]",
 	Short: "Adjust audio",
-	Args: cobra.ExactArgs(1),
+	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 
 		var notification system.NotificationEvent
 		var err error
-		switch op :=  strings.ToLower(args[0]); op {
+		switch op := strings.ToLower(args[0]); op {
 		case "vol-up":
 			notification = system.SimpleNotification("Volume Up")
 			err = app.VolumeUp()
@@ -32,7 +32,7 @@ var audioCmd = &cobra.Command{
 			notification = system.SimpleNotification("Mic mute toggled")
 			err = app.MicMuteToggle()
 		default:
-			err =  errors.New(fmt.Sprintf("invalid operation %s", op))
+			err = errors.New(fmt.Sprintf("invalid operation %s", op))
 		}
 
 		if err != nil {

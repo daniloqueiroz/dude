@@ -52,12 +52,11 @@ func (k Keyboards) GetDefaultKeyboard() *Keyboard {
 	return nil
 }
 
-
 func LoadKeyboards(config map[string]interface{}) Keyboards {
 	keyboards := make([]Keyboard, 0)
 	for keyName, s := range config {
 		var keyboard = Keyboard{
-			Name: keyName,
+			Name:      keyName,
 			isDefault: false,
 		}
 		ss := s.(map[string]interface{})

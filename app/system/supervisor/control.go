@@ -62,7 +62,7 @@ func supervise(ctl *control, task *Child) {
 		case err := <-chn:
 			task.IsRunning = false
 			logger.Errorf("Task %v failed and will be restarted soon: %v", task.Name, err)
-			time.Sleep(5 * time.Second)  // TODO backoff and max_retries
+			time.Sleep(5 * time.Second) // TODO backoff and max_retries
 		case <-ctl.DoneSig():
 			logger.Infof("Supervisor is done: %v", task.Name)
 			ctl.Down()

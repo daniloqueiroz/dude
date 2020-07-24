@@ -8,8 +8,6 @@ import (
 	"path/filepath"
 )
 
-
-
 func AutostartApps() {
 	entries := system.LoadDesktopEntries(filepath.Join(system.HomeDir(), "/.config/autostart"))
 	for _, entry := range entries {

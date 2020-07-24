@@ -29,7 +29,7 @@ func GetBrightness() (string, error) {
 	}
 	// [VALUE]^[K] * [MAX] * 100^-[K]
 	// where default K is 4
-	return fmt.Sprintf("%.2f", currentBrightnessInt * 100 / maxBrightnessInt), nil
+	return fmt.Sprintf("%.2f", currentBrightnessInt*100/maxBrightnessInt), nil
 }
 
 func SetBrightness(value int) error {

@@ -70,7 +70,7 @@ func (r *Recorder) HandleEvents(events chan xgb.Event) {
 		r.Update(win)
 	}
 
-	timeout := time.Minute*5
+	timeout := time.Minute * 5
 	for {
 		select {
 		case event := <-events:

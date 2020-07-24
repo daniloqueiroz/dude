@@ -20,5 +20,3 @@ func VolumeMuteToggle() error {
 func MicMuteToggle() error {
 	return proc.NewProcess(system.Config.AppPactl, "set-source-mute", "@DEFAULT_SOURCE@", "toggle").FireAndWait()
 }
-
-

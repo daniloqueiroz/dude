@@ -17,8 +17,8 @@ type Session struct {
 
 func NewSession(r *appusage.Recorder) *Session {
 	return &Session{
-		supervisor : supervisor.NewSupervisor(),
-		recorder: r,
+		supervisor: supervisor.NewSupervisor(),
+		recorder:   r,
 	}
 }
 

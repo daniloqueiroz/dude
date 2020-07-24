@@ -41,7 +41,6 @@ func Reboot() {
 	conn.Reboot(false)
 }
 
-
 func Shutdown() {
 	conn, err := login1.New()
 	if err != nil {

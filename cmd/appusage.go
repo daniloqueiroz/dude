@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"github.com/daniloqueiroz/dude/app/appusage"
 	"github.com/google/logger"
+	"github.com/hako/durafmt"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
-	"github.com/hako/durafmt"
 	"os"
 	"strconv"
 )
