@@ -15,6 +15,7 @@ Dude's principles:
   - Display profiles
   - Pass integration
   - App Time tracking
+  - bluetooth and wifi (iwd) support
 
 # Dependencies
 - feh - for background image
@@ -28,6 +29,8 @@ Dude's principles:
 - brightnessctl - brightness control for X/wayland and driver agnostic
 - tmux
 - alacritty
+- bluez
+- iwd
 
 # Using dude with i3
 

@@ -1,11 +1,15 @@
 # TODO
 
 - [x] Core: Move config file to ~/.config/dude.yml
-- [ ] Launcher: system action "config" -> xdg-open ~/.config/dude.yml
+- [x] Launcher: system action "config" -> xdg-open ~/.config/dude.yml
 - [x] Launcher: Refactor to decouple UI/Controler/Results
-- [ ] Launcher: Refactor results to multiple types
-- [ ] Launcher: Refactor make Action Finders to break into subtokens when it's the case 
-- [ ] Enable/Disable some integrations (such as pass)
+- [x] Launcher: Refactor results to multiple types
+- [ ] Launcher: Refactor make Action Finders to break into subtokens when it's the case (support params for commands) 
+- [ ] Launcher: Open url
+- [ ] Launcher: File search support
+- [ ] Launcher: Show app usage
+- [ ] Enable/Disable some integrations (such as pass, possibly some bluetooth and wifi as well)
+- [ ] Improve bluetooth and wifi integration (bluetooth pair, wifi disconnect, wifi connect unknown) 
 
 # ROADMAP
 ## v1 
