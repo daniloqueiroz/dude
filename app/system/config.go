@@ -73,7 +73,7 @@ func loadDefaults() {
 	viper.SetDefault("launcher.width", "700")
 	viper.SetDefault("launcher.height", "250")
 	viper.SetDefault("launcher.ui_folder", "/usr/share/dude/ui")
-	viper.SetDefault("launcher.default_categories", []string{"applications", "passwords", "system", "web"})
+	viper.SetDefault("launcher.default_categories", []string{"applications", "passwords", "system"})
 	viper.SetDefault("launcher.plugins.web_search_url", "https://www.google.com/search")
 	viper.SetDefault("display.wallpapers_dir", path.Join(basedir.ConfigHome, "/wallpapers"))
 	viper.SetDefault("display.autoconfig_enabled", "true")

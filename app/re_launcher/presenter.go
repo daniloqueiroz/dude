@@ -11,11 +11,11 @@ var filter = map[rune]plugins.Category{
 	':': plugins.System,
 	'!': plugins.ShellCommand,
 	'@': plugins.Password,
-	'%': plugins.Web,
+	'-': plugins.Web,
 }
 
 const (
-	DEFAULT_STATUS  = "Type : for system mode, ! for shell command mode, @ for password mode and % for web mode"
+	DEFAULT_STATUS  = "Type : for system mode, ! for shell command mode, @ for password mode and - for web mode"
 	CATEGORY_STATUS = "Active mode: %s"
 )
 
