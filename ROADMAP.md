@@ -4,10 +4,11 @@
 - [x] Launcher: system action "config" -> xdg-open ~/.config/dude.yml
 - [x] Launcher: Refactor to decouple UI/Controler/Results
 - [x] Launcher: Refactor results to multiple types
-- [ ] Launcher: Refactor make Action Finders to break into subtokens when it's the case (support params for commands) 
-- [ ] Launcher: Open url
-- [ ] Launcher: File search support
+- [x] Launcher: Refactor make Action Finders to break into subtokens when it's the case (support params for commands) 
+- [x] Launcher: Open url
+- [ ] Launcher: File manager integration (pick file manager)
 - [ ] Launcher: Show app usage
+- [ ] Keyboard and Mouse/Touchpad config
 - [ ] Enable/Disable some integrations (such as pass, possibly some bluetooth and wifi as well)
 - [ ] Improve bluetooth and wifi integration (bluetooth pair, wifi disconnect, wifi connect unknown) 
 
@@ -42,11 +43,9 @@
       * lock-screen
       * !volume
       * !input/keyboard
-      * !!config (xdg-open ~/.config/dude/config.yml)
-## v2
-  * iwctl/bluetooth ?
-  * File search
-  * launcher xdg-open
-# v3
+      * config (xdg-open ~/.config/dude/config.yml)
+      * iwctl/bluetooth ?
+# v2
   * Notification Server
   * Polkit
+  * 

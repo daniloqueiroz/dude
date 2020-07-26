@@ -14,3 +14,11 @@ func NewTmuxTerminal() error {
 func NewTerminalApp(cmd string) error {
 	return proc.NewProcess(system.ExternalAppPath(system.TERMINAL), "--command", cmd).FireAndForget()
 }
+
+func NewTerminalAppWithArgs(cmd string, params []string) error {
+	args := []string{"--command", cmd}
+	for _, arg := range params {
+		args = append(args, arg)
+	}
+	return proc.NewProcess(system.ExternalAppPath(system.TERMINAL), args...).FireAndForget()
+}
