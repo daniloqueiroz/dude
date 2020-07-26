@@ -17,6 +17,7 @@ var filter = map[rune]plugins.Category{
 const (
 	DEFAULT_STATUS  = "Type : for system mode, ! for shell command mode, @ for password mode and - for web mode"
 	CATEGORY_STATUS = "Active mode: %s"
+	SUBMENU_STATUS  = "Press ESC to go back"
 )
 
 type Mode string
@@ -25,6 +26,7 @@ type Presenter struct {
 	view              view.View
 	launcher          *Launcher
 	defaultCategories []plugins.Category
+	lastInput         string
 }
 
 func PresenterNew(view view.View) *Presenter {
@@ -43,7 +45,7 @@ func (p *Presenter) processResult(result plugins.Result) {
 	switch result.(type) {
 	case *plugins.SubActions:
 		p.view.ClearSearch()
-		p.view.SetStatusMessage(fmt.Sprintf(CATEGORY_STATUS, p.launcher.GetSelectedCategories()[0]))
+		p.view.SetStatusMessage(SUBMENU_STATUS)
 		p.view.ShowActions(p.launcher.AvailableActions())
 	default:
 		p.view.Quit()
@@ -54,7 +56,13 @@ func (p *Presenter) processResult(result plugins.Result) {
 func (p *Presenter) onEvent(viewEvent interface{}) {
 	switch ev := viewEvent.(type) {
 	case view.QuitEvent:
-		p.view.Quit()
+		if p.launcher.GetMode() == MainMenu {
+			p.view.Quit()
+		} else {
+			p.launcher.Reset()
+			p.view.ClearResults()
+			p.view.SetSearch(p.lastInput)
+		}
 	case view.SearchChangedEvent:
 		p.onSearchInputChanged(ev.Input)
 	case view.ActionSelectedEvent:
@@ -68,14 +76,15 @@ func (p *Presenter) onSearchInputChanged(keyword string) {
 		p.launcher.SelectCategories(p.defaultCategories)
 		p.view.SetStatusMessage(DEFAULT_STATUS)
 
+		p.lastInput = keyword
 		if len(keyword) == 0 {
 			p.view.ClearResults()
 			return
 		} else {
+			// Filter by category
 			chars := []rune(keyword)
 			category, exists := filter[chars[0]]
 			if exists {
-				// Filter by category
 				keyword = string(chars[1:len(keyword)])
 				p.launcher.SelectCategories([]plugins.Category{category})
 				p.view.SetStatusMessage(fmt.Sprintf(CATEGORY_STATUS, category))

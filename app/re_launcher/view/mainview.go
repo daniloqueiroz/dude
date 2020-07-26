@@ -164,6 +164,13 @@ func (v MainView) ClearSearch() {
 	})
 }
 
+func (v MainView) SetSearch(search string) {
+	s := v.search()
+	glib.IdleAdd(func() {
+		s.SetText(search)
+	})
+}
+
 func ViewNew() View {
 	gtk.Init(nil)
 	builder, err := gtk.BuilderNew()

@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const WIFI = "wifi"
+const WIFI Category = "wifi"
 
 type wifiAction struct {
 }
@@ -20,7 +20,7 @@ func (wa *wifiAction) Category() Category {
 	return System
 }
 func (wa *wifiAction) Name() string {
-	return WIFI
+	return string(WIFI)
 }
 func (wa *wifiAction) Description() string {
 	return "Wifi system settings"
@@ -45,6 +45,7 @@ func (wa *wifiAction) Execute() Result {
 		handler: func() {
 			app.NewTerminalApp(system.ExternalAppPath(system.IWCTL))
 		},
+		category: WIFI,
 	})
 	// TODO disconnect
 
@@ -74,6 +75,7 @@ func (wa *wifiAction) Execute() Result {
 				name:        knownNetwork.Name,
 				description: fmt.Sprintf("Connect to %s %s", knownNetwork.Name, lastUsed),
 				handler:     wrapWifi(dbus, network),
+				category:    WIFI,
 			})
 		}
 	}

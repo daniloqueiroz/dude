@@ -11,4 +11,5 @@ type View interface {
 	ShowActions([]plugins.Action)
 	ClearResults()
 	ClearSearch()
+	SetSearch(search string)
 }

@@ -17,6 +17,10 @@ type Launcher struct {
 	mode               Mode
 }
 
+func (l *Launcher) Reset() {
+	l.mode = MainMenu
+	l.availableActions = nil
+}
 func (l *Launcher) GetSelectedCategories() []plugins.Category {
 	return l.selectedCategories
 }

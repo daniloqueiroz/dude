@@ -20,10 +20,15 @@ type internalAction struct {
 	name        string
 	description string
 	handler     func()
+	category    Category
 }
 
 func (ia *internalAction) Category() Category {
-	return System
+	if ia.category != "" {
+		return ia.category
+	} else {
+		return System
+	}
 }
 func (ia *internalAction) Name() string {
 	return ia.name

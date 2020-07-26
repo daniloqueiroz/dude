@@ -8,7 +8,7 @@ import (
 	"github.com/muka/go-bluetooth/bluez/profile/adapter"
 )
 
-const BLUETOOTH = "bluetooth"
+const BLUETOOTH Category = "bluetooth"
 
 type bluetoothAction struct {
 }
@@ -17,7 +17,7 @@ func (ba *bluetoothAction) Category() Category {
 	return System
 }
 func (ba *bluetoothAction) Name() string {
-	return BLUETOOTH
+	return string(BLUETOOTH)
 }
 func (ba *bluetoothAction) Description() string {
 	return "Bluetooth system settings"
@@ -40,6 +40,7 @@ func (ba *bluetoothAction) Execute() Result {
 		handler: func() {
 			app.NewTerminalApp(system.ExternalAppPath(system.BLUETOOTHCTL))
 		},
+		category: BLUETOOTH,
 	})
 	btAdapter, err := adapter.GetDefaultAdapter()
 	if err != nil {
@@ -66,6 +67,7 @@ func (ba *bluetoothAction) Execute() Result {
 			name:        device.Properties.Name,
 			description: desc,
 			handler:     wrapBluetooth(fn),
+			category:    BLUETOOTH,
 		})
 	}
 

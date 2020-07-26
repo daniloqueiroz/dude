@@ -46,7 +46,7 @@ func (w *webPlugin) FindActions(input string) Actions {
 	return Actions{
 		&webAction{
 			name: "Web search",
-			desc: fmt.Sprintf("Search at google for '%s'", input),
+			desc: fmt.Sprintf("Search for '%s'", input),
 			url:  fmt.Sprintf("%s?q=%s", system.Config.LauncherWebQueryURL, url.QueryEscape(input)),
 		},
 		&webAction{
