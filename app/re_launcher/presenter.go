@@ -10,13 +10,12 @@ import (
 var filter = map[rune]plugins.Category{
 	':': plugins.System,
 	'!': plugins.ShellCommand,
-	'/': plugins.File,
-	'+': plugins.PersonalAssistant,
 	'@': plugins.Password,
+	'%': plugins.Web,
 }
 
 const (
-	DEFAULT_STATUS  = "Type : for system mode, ! for shell command mode and @ for password mode"
+	DEFAULT_STATUS  = "Type : for system mode, ! for shell command mode, @ for password mode and % for web mode"
 	CATEGORY_STATUS = "Active mode: %s"
 )
 

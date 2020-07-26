@@ -1,7 +1,6 @@
 package system
 
 import (
-	"github.com/google/logger"
 	"github.com/hairyhenderson/go-which"
 )
 
@@ -28,6 +27,5 @@ const (
 
 func ExternalAppPath(app external_app) string {
 	path := which.Which(string(app))
-	logger.Infof("which %s: %s", app, path)
 	return path
 }

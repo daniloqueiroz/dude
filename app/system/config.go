@@ -11,15 +11,16 @@ type config struct {
 	DudeIcon                  string
 	WallpaperDir              string
 	AppUsageDataDir           string
+	AppUsageTrackEnable       bool
 	BrightnessAC              int
 	BrightnessBattery         int
 	LauncherHeight            int
 	LauncherWidth             int
 	LauncherUIFolder          string
 	LauncherDefaultCategories []string
+	LauncherWebQueryURL       string
 	Profiles                  map[string]interface{}
 	Keyboards                 map[string]interface{}
-	AppUsageTrackEnable       bool
 	DisplayAutoConfigEnabled  bool
 	ScreenSaverTimeoutSecs    int
 }
@@ -54,6 +55,7 @@ func loadConfig() {
 		LauncherWidth:             viper.GetInt("launcher.width"),
 		LauncherHeight:            viper.GetInt("launcher.height"),
 		LauncherDefaultCategories: viper.GetStringSlice("launcher.default_categories"),
+		LauncherWebQueryURL:       viper.GetString("launcher.plugins.web_search_url"),
 		Profiles:                  viper.GetStringMap("display.profiles"),
 		WallpaperDir:              viper.GetString("display.wallpapers_dir"),
 		DisplayAutoConfigEnabled:  viper.GetBool("display.autoconfig_enabled"),
@@ -71,7 +73,8 @@ func loadDefaults() {
 	viper.SetDefault("launcher.width", "700")
 	viper.SetDefault("launcher.height", "250")
 	viper.SetDefault("launcher.ui_folder", "/usr/share/dude/ui")
-	viper.SetDefault("launcher.default_categories", []string{"applications", "passwords", "system"})
+	viper.SetDefault("launcher.default_categories", []string{"applications", "passwords", "system", "web"})
+	viper.SetDefault("launcher.plugins.web_search_url", "https://www.google.com/search")
 	viper.SetDefault("display.wallpapers_dir", path.Join(basedir.ConfigHome, "/wallpapers"))
 	viper.SetDefault("display.autoconfig_enabled", "true")
 	viper.SetDefault("display.screensaver_timeout_secs", "300")

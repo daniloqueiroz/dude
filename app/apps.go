@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/daniloqueiroz/dude/app/system/proc"
+	"github.com/google/logger"
 )
 
 func FehProc() *proc.Process {
@@ -22,5 +23,6 @@ func XSSLockProc() *proc.Process {
 }
 
 func XDGOpen(target string) *proc.Process {
+	logger.Infof("xdg-open %s", target)
 	return proc.NewProcess(system.ExternalAppPath(system.XDG_OPEN), target)
 }
