@@ -13,7 +13,6 @@ const (
 	XSS_LOCK      external_app = "xss-lock"
 	XSECURELOCK   external_app = "xsecurelock"
 	ACPI          external_app = "acpi"
-	POLKIT_AGENT  external_app = "lxpolkit"
 	TMUX          external_app = "tmux"
 	TERMINAL      external_app = "alacritty"
 	BRIGHTNESSCTL external_app = "brightnessctl"

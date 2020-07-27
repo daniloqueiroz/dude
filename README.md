@@ -24,7 +24,7 @@ Dude's principles:
 - acpi - for battery info and AC/Battery adjustments
 - pass - password manager
 - xdotool - command-line X11 automation tool - pass dependency for auto fill 
-- lxpolkit - gtk polkit-agent for lxde 
+- polkit-gnome - gtk polkit-agent
 - brightnessctl - brightness control for X/wayland and driver agnostic
 - tmux
 - alacritty
