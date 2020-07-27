@@ -7,7 +7,6 @@
 - [x] Launcher: Refactor make Action Finders to break into subtokens when it's the case (support params for commands) 
 - [x] Launcher: Open url
 - [ ] Launcher: File manager integration (pick file manager)
-- [ ] Launcher: Show app usage
 - [ ] Keyboard and Mouse/Touchpad config
 - [ ] Enable/Disable some integrations (such as pass, possibly some bluetooth and wifi as well)
 - [ ] Improve bluetooth and wifi integration (bluetooth pair, wifi disconnect, wifi connect unknown) 
@@ -48,4 +47,3 @@
 # v2
   * Notification Server
   * Polkit
-  * 

@@ -3,7 +3,6 @@ package session
 import (
 	"context"
 	"github.com/daniloqueiroz/dude/app"
-	"github.com/daniloqueiroz/dude/app/appusage"
 	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/daniloqueiroz/dude/app/system/supervisor"
 	"os"
@@ -12,13 +11,11 @@ import (
 
 type Session struct {
 	supervisor *supervisor.Supervisor
-	recorder   *appusage.Recorder
 }
 
-func NewSession(r *appusage.Recorder) *Session {
+func NewSession() *Session {
 	return &Session{
 		supervisor: supervisor.NewSupervisor(),
-		recorder:   r,
 	}
 }
 
@@ -34,7 +31,6 @@ func (s *Session) Start() {
 	s.supervisor.AddTask("autostart-apps", s.autostartApps)
 	displayMonitorSupervisor(s.supervisor)
 	batteryMonitorSupervisor(s.supervisor)
-	appUsageMonitorSupervisor(s.recorder, s.supervisor)
 
 	s.supervisor.Start()
 	_ = system.SimpleNotification("Session started").Show()

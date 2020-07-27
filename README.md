@@ -14,8 +14,7 @@ Dude's principles:
   - Startup apps support (~/.config/autostart/)
   - Display profiles
   - Pass integration
-  - App Time tracking
-  - bluetooth and wifi (iwd) support
+  - Bluetooth and WIFI (iwd) support
 
 # Dependencies
 - feh - for background image
@@ -56,6 +55,6 @@ bindsym XF86AudioMicMute exec --no-startup-id $dude audio mic-mute
 ```
 
 # Credits
-- Dude uses a modified verion of [Gone](https://github.com/dim13/gone) and [iwd](https://github.com/shibumi/iwd) go lib.
+- Dude uses a modified version [iwd](https://github.com/shibumi/iwd).
 - Icons made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com/](https://www.flaticon.com/)
 - Icons used on Launcher are from [FontAwesome](https://fontawesome.com/license/free) and are under [CC BY 4.0 License](https://creativecommons.org/licenses/by/4.0/)
