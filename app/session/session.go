@@ -22,13 +22,13 @@ func NewSession() *Session {
 func (s *Session) Start() {
 	// PID file
 
-	app.FehProc().FireAndForget()
-
 	s.supervisor.AddSigHandler(s.Stop, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
+	s.supervisor.AddTask("wallpaper", wallpaper)
 	s.supervisor.AddProc(app.CompositorProc())
 	s.supervisor.AddProc(app.PolkitProc())
 	s.supervisor.AddProc(app.XSSLockProc())
-	s.supervisor.AddTask("autostart-apps", s.autostartApps)
+	s.supervisor.AddProc(app.Udiskie())
+	s.supervisor.AddTask("autostart-apps", autostartApps)
 	displayMonitorSupervisor(s.supervisor)
 	batteryMonitorSupervisor(s.supervisor)
 
@@ -42,7 +42,13 @@ func (s *Session) Stop() {
 	s.supervisor.Stop()
 }
 
-func (s *Session) autostartApps(ctx context.Context) error {
+func wallpaper(ctx context.Context) error {
+	app.FehProc().FireAndForget()
+	<-ctx.Done()
+	return nil
+}
+
+func autostartApps(ctx context.Context) error {
 	app.AutostartApps()
 	<-ctx.Done()
 	return nil

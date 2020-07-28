@@ -28,8 +28,9 @@ Dude's principles:
 - brightnessctl - brightness control for X/wayland and driver agnostic
 - tmux
 - alacritty
-- bluez
-- iwd
+- bluez/bluez-utils - bluetooth management
+- iwd - wifi management
+- udiskie/udisk2 - auto mount of removable media
 
 # Using dude with i3
 

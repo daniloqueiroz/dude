@@ -22,6 +22,7 @@ const (
 	BLUETOOTHCTL  external_app = "bluetoothctl"
 	IWCTL         external_app = "iwctl"
 	XDG_OPEN      external_app = "xdg-open"
+	UDISKIE       external_app = "udiskie"
 )
 
 func ExternalAppPath(app external_app) string {
