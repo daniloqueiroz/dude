@@ -47,6 +47,11 @@ func (ba *bluetoothAction) Execute() Result {
 		logger.Errorf("Unable to load bt devices:", err)
 		return &SubActions{SubActions: subActions}
 	}
+	err = btAdapter.SetPowered(true)
+	if err != nil {
+		logger.Errorf("Unable to power on btadapter:", err)
+		return &SubActions{SubActions: subActions}
+	}
 	devices, err := btAdapter.GetDevices()
 	if err != nil {
 		logger.Errorf("Unable to load bt devices:", err)
