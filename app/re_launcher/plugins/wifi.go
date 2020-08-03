@@ -36,6 +36,16 @@ func wrapWifi(dbus *dbus.Conn, network *iwd.Network) func() {
 	}
 }
 
+func toggleWifi(device iwd.Device, powerOn bool) func() {
+	return func() {
+		err := device.SetPowered(powerOn)
+		if err != nil {
+			logger.Fatalf("Error changing wifi device %t: %+v", powerOn, err)
+		}
+		logger.Infof("Wifi device power %t", powerOn)
+	}
+}
+
 func (wa *wifiAction) Execute() Result {
 	defer system.OnPanic("wifi:Execute", make(chan error))
 	var subActions Actions
@@ -55,6 +65,22 @@ func (wa *wifiAction) Execute() Result {
 		return &SubActions{SubActions: subActions}
 	}
 	iwdObj := iwd.New(dbus)
+
+	for _, device := range iwdObj.Devices {
+		isOn := device.Powered
+		var desc string
+		if isOn {
+			desc = fmt.Sprintf("Turn %s off", device.Name)
+		} else {
+			desc = fmt.Sprintf("Turn %s on", device.Name)
+		}
+		subActions = append(subActions, &internalAction{
+			name:        fmt.Sprintf("toggle %s", device.Name),
+			description: desc,
+			handler:     toggleWifi(device, !isOn),
+			category:    WIFI,
+		})
+	}
 
 	networks := make(map[string]*iwd.Network)
 	for _, network := range iwdObj.Networks {

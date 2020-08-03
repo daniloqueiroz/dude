@@ -32,6 +32,15 @@ func wrapBluetooth(fn func() error) func() {
 	}
 }
 
+func toggleBluetooth(bt *adapter.Adapter1, powerOn bool) func() {
+	return func() {
+		err := bt.SetPowered(powerOn)
+		if err != nil {
+			logger.Errorf("Error changing bluetooth power", err)
+		}
+	}
+}
+
 func (ba *bluetoothAction) Execute() Result {
 	var subActions Actions
 	subActions = append(subActions, &internalAction{
@@ -47,11 +56,25 @@ func (ba *bluetoothAction) Execute() Result {
 		logger.Errorf("Unable to load bt devices:", err)
 		return &SubActions{SubActions: subActions}
 	}
-	err = btAdapter.SetPowered(true)
+	isOn, err := btAdapter.GetPowered()
 	if err != nil {
 		logger.Errorf("Unable to power on btadapter:", err)
 		return &SubActions{SubActions: subActions}
+	} else {
+		var desc string
+		if isOn {
+			desc = fmt.Sprintf("Turn bluetooth off")
+		} else {
+			desc = fmt.Sprintf("Turn bluetooth on")
+		}
+		subActions = append(subActions, &internalAction{
+			name:        "toggle bluetooth",
+			description: desc,
+			handler:     toggleBluetooth(btAdapter, !isOn),
+			category:    BLUETOOTH,
+		})
 	}
+
 	devices, err := btAdapter.GetDevices()
 	if err != nil {
 		logger.Errorf("Unable to load bt devices:", err)
@@ -61,15 +84,19 @@ func (ba *bluetoothAction) Execute() Result {
 	for _, device := range devices {
 		var desc string
 		var fn func() error
+		devName := device.Properties.Name
+		if devName == "" {
+			continue
+		}
 		if device.Properties.Connected {
-			desc = fmt.Sprintf("Disconnect from %s", device.Properties.Name)
+			desc = fmt.Sprintf("Disconnect from %s", devName)
 			fn = device.Disconnect
 		} else {
-			desc = fmt.Sprintf("Connect to %s", device.Properties.Name)
+			desc = fmt.Sprintf("Connect to %s", devName)
 			fn = device.Connect
 		}
 		subActions = append(subActions, &internalAction{
-			name:        device.Properties.Name,
+			name:        devName,
 			description: desc,
 			handler:     wrapBluetooth(fn),
 			category:    BLUETOOTH,

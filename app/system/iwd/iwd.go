@@ -12,6 +12,7 @@ const (
 type Iwd struct {
 	KnownNetworks []KnownNetwork
 	Networks      []Network
+	Devices       []Device
 }
 
 // New parses the net.connman.iwd object index and initializes an iwd object
@@ -22,6 +23,7 @@ func New(conn *dbus.Conn) Iwd {
 	i := Iwd{
 		make([]KnownNetwork, 0),
 		make([]Network, 0),
+		make([]Device, 0),
 	}
 	for k, v := range objects {
 		for resource, obj := range v {
@@ -41,6 +43,16 @@ func New(conn *dbus.Conn) Iwd {
 					Connected: obj["Connected"].Value().(bool),
 					Name:      obj["Name"].Value().(string),
 					Type:      obj["Type"].Value().(string),
+				})
+			case objectDevice:
+				i.Devices = append(i.Devices, Device{
+					Path:    k,
+					Adapter: obj["Adapter"].Value().(dbus.ObjectPath),
+					Address: obj["Address"].Value().(string),
+					Mode:    obj["Mode"].Value().(string),
+					Name:    obj["Name"].Value().(string),
+					Powered: obj["Powered"].Value().(bool),
+					conn:    conn,
 				})
 			}
 		}
