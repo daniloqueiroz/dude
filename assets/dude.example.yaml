@@ -32,7 +32,3 @@ input:
       layout: br
   mouse:
     natural_scrolling: true
-# App Usage Time
-app_usage:
-  data_dir: app_usage
-  enabled: true

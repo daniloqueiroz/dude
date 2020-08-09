@@ -21,6 +21,7 @@ type config struct {
 	LauncherWebQueryURL       string
 	Profiles                  map[string]interface{}
 	Keyboards                 map[string]interface{}
+	BatteryMonitorEnabled     bool
 	DisplayAutoConfigEnabled  bool
 	ScreenSaverTimeoutSecs    int
 }
@@ -34,7 +35,7 @@ func InitConfig() {
 }
 
 func loadFromFile() {
-	viper.SetConfigName("dude.yaml")
+	viper.SetConfigName("dude.yml")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(basedir.ConfigHome)
 	if err := viper.ReadInConfig(); err != nil {
@@ -58,6 +59,7 @@ func loadConfig() {
 		LauncherWebQueryURL:       viper.GetString("launcher.plugins.web_search_url"),
 		Profiles:                  viper.GetStringMap("display.profiles"),
 		WallpaperDir:              viper.GetString("display.wallpapers_dir"),
+		BatteryMonitorEnabled:     viper.GetBool("power.monitor_enabled"),
 		DisplayAutoConfigEnabled:  viper.GetBool("display.autoconfig_enabled"),
 		ScreenSaverTimeoutSecs:    viper.GetInt("display.screensaver_timeout_secs"),
 		BrightnessAC:              viper.GetInt("display.brightness.ac"),
@@ -76,6 +78,7 @@ func loadDefaults() {
 	viper.SetDefault("launcher.default_categories", []string{"applications", "passwords", "system"})
 	viper.SetDefault("launcher.plugins.web_search_url", "https://www.google.com/search")
 	viper.SetDefault("display.wallpapers_dir", path.Join(basedir.ConfigHome, "/wallpapers"))
+	viper.SetDefault("power.monitor_enabled", "true")
 	viper.SetDefault("display.autoconfig_enabled", "true")
 	viper.SetDefault("display.screensaver_timeout_secs", "300")
 	viper.SetDefault("display.brightness.ac", "100")

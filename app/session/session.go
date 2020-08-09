@@ -29,8 +29,12 @@ func (s *Session) Start() {
 	s.supervisor.AddProc(app.XSSLockProc())
 	s.supervisor.AddProc(app.Udiskie())
 	s.supervisor.AddTask("autostart-apps", autostartApps)
-	displayMonitorSupervisor(s.supervisor)
-	batteryMonitorSupervisor(s.supervisor)
+	if system.Config.DisplayAutoConfigEnabled {
+		displayMonitorSupervisor(s.supervisor)
+	}
+	if system.Config.BatteryMonitorEnabled {
+		batteryMonitorSupervisor(s.supervisor)
+	}
 
 	s.supervisor.Start()
 	_ = system.SimpleNotification("Session started").Show()
