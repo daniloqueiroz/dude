@@ -10,8 +10,6 @@ import (
 type config struct {
 	DudeIcon                  string
 	WallpaperDir              string
-	AppUsageDataDir           string
-	AppUsageTrackEnable       bool
 	BrightnessAC              int
 	BrightnessBattery         int
 	LauncherHeight            int
@@ -51,8 +49,6 @@ func loadConfig() {
 	Config = config{
 		DudeIcon:                  viper.GetString("icon"),
 		LauncherUIFolder:          viper.GetString("launcher.ui_folder"),
-		AppUsageDataDir:           viper.GetString("app_usage.data_dir"),
-		AppUsageTrackEnable:       viper.GetBool("app_usage.enabled"),
 		LauncherWidth:             viper.GetInt("launcher.width"),
 		LauncherHeight:            viper.GetInt("launcher.height"),
 		LauncherDefaultCategories: viper.GetStringSlice("launcher.default_categories"),
@@ -70,8 +66,6 @@ func loadConfig() {
 
 func loadDefaults() {
 	viper.SetDefault("icon", "/usr/share/dude/dude.png")
-	viper.SetDefault("app_usage.data_dir", "appusage")
-	viper.SetDefault("app_usage.enabled", "true")
 	viper.SetDefault("launcher.width", "700")
 	viper.SetDefault("launcher.height", "250")
 	viper.SetDefault("launcher.ui_folder", "/usr/share/dude/ui")
