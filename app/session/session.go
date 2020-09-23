@@ -3,6 +3,7 @@ package session
 import (
 	"context"
 	"github.com/daniloqueiroz/dude/app"
+	"github.com/daniloqueiroz/dude/app/display"
 	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/daniloqueiroz/dude/app/system/supervisor"
 	"os"
@@ -20,14 +21,12 @@ func NewSession() *Session {
 }
 
 func (s *Session) Start() {
-	// PID file
-
 	s.supervisor.AddSigHandler(s.Stop, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
 	s.supervisor.AddTask("wallpaper", wallpaper)
 	s.supervisor.AddProc(app.CompositorProc())
 	s.supervisor.AddProc(app.PolkitProc())
-	s.supervisor.AddProc(app.XSSLockProc())
 	s.supervisor.AddProc(app.Udiskie())
+	s.supervisor.AddProc(display.StartScreensaver())
 	s.supervisor.AddTask("autostart-apps", autostartApps)
 	if system.Config.DisplayAutoConfigEnabled {
 		displayMonitorSupervisor(s.supervisor)

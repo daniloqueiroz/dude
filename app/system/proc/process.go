@@ -65,7 +65,7 @@ func (p *Process) FireAndForget() error {
 
 func (p *Process) FireAndWait() error {
 	out, err := p.FireAndWaitForOutput()
-	logger.Infof("%s output: %s", p.Cmd, out)
+	logger.Infof("%s %v output: %s", p.Cmd, p.args, out)
 	return err
 }
 

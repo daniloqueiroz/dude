@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/daniloqueiroz/dude/app/system"
 	"github.com/daniloqueiroz/dude/app/system/proc"
+	"strconv"
 )
 
 func FehProc() *proc.Process {
@@ -14,7 +15,9 @@ func CompositorProc() *proc.Process {
 }
 
 func XSetScreensaverTimeProc() *proc.Process {
-	return proc.NewProcess(system.ExternalAppPath(system.XSET), "s", string(system.Config.ScreenSaverTimeoutSecs))
+	return proc.NewProcess(
+		system.ExternalAppPath(system.XSET), "s", strconv.Itoa(system.Config.ScreenSaverTimeoutSecs),
+		"0", "s", "noblank", "-dpms")
 }
 
 func XSSLockProc() *proc.Process {
