@@ -22,6 +22,7 @@ type config struct {
 	BatteryMonitorEnabled     bool
 	DisplayAutoConfigEnabled  bool
 	ScreenSaverTimeoutSecs    int
+	PolkitAgent               string
 }
 
 var Config config
@@ -61,6 +62,7 @@ func loadConfig() {
 		BrightnessAC:              viper.GetInt("display.brightness.ac"),
 		BrightnessBattery:         viper.GetInt("display.brightness.battery"),
 		Keyboards:                 viper.GetStringMap("input.keyboards"),
+		PolkitAgent:               viper.GetString("polkit.agent"),
 	}
 }
 
@@ -77,4 +79,6 @@ func loadDefaults() {
 	viper.SetDefault("display.screensaver_timeout_secs", "300")
 	viper.SetDefault("display.brightness.ac", "100")
 	viper.SetDefault("display.brightness.battery", "45")
+	viper.SetDefault("polkit.agent", "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
+
 }
